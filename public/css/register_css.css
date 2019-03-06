@@ -1,0 +1,117 @@
+body{
+    background-image: url(/images/registerBg.jpg);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+}
+.main{
+    min-width: 600px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin: 10% 30%;
+    /*background-color: aliceblue;*/
+}
+.titles_tile{
+    text-align: center;
+    font-size: 45px;
+    margin: 0, 0, 10%;
+}
+.titles_subtitle{
+    position: relative;
+    font-size: 30px;
+    left: 5%;
+    margin:0;
+}
+
+#confirmMsg{
+    position: absolute;
+    top: 30%;
+    left: 25%;
+    font-size: 18px;
+    text-align: initial;
+    padding: 5px;
+}
+#form1, #form2{
+    line-height: 2em;
+    width: 300px;
+    /* margin: 0px auto;  */
+    position: relative;
+    top: 20%;
+    left: 25%;
+}
+.step{
+    min-width: 600px;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    margin: 10px;
+    justify-content: center;
+    font-weight: bolder;
+}
+.step>.step1{
+    font-size: 18px;
+    width: 33%;
+    height: 50px;
+    border: 1px solid #888888;
+}
+.step>.step2{
+    font-size: 18px;
+    width: 33%;
+    height: 50px;
+    border: 1px solid #888888;
+}
+.step>.step3{
+    font-size: 18px;
+    width: 33%;
+    height: 50px;
+    border: 1px solid #888888;
+}
+
+#form1>span, #form2>span{
+    color: red;
+}
+#form1>input, #form2>input{
+    padding: 5px 20px;
+    border: 2px solid #888888;
+    border-radius: 5px;
+}
+#form1>.ok, #form2>.ok{
+    color: green;
+}
+#form1>input:valid+.ok, #form2>input:valid+.ok{
+    display: inline;
+}
+#form1>input:invalid+.ok, #form2>input:invalid+.ok{
+    display: none;
+}
+
+
+/* button next 1 */
+#form1>#nx1{
+    position: relative;
+    /* left: 45%; */
+}
+
+/* button on page2 */
+#form2>#nx2{
+    position: relative;
+    /* margin: 50px; */
+}
+/* button on page3 */
+#form3{
+    position: relative;
+    width: 600px;
+    height: 400px;
+    left: 5%;
+    /* border: 1px solid #888888; */
+}
+#form3>div{
+    font-size: 18px;
+    font-weight: bolder;
+}
+#form3>input{
+    padding: 5px 10px;
+}

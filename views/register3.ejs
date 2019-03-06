@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <link href="/css/register_css.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="/js/register3.js"></script>
+
+</head>
+<body>
+    <main class="main">
+        <article class = "main_titles titles">
+            <h3 class= "titles_tile">Join P2P Borrowing Platform</h3>
+            <h4 class= "titles_subtitle">Register</h4>
+        </article>
+        <div class="step">
+            <div id="step1" class="step1">
+                step1 : <br/>Set up your account
+            </div>
+            <div id="step2" class="step2">
+               step2 : <br/>Fill in your information
+            </div>
+            <div id="step3" class="step3">
+                step3 : <br/>Send E-mail to finish
+            </div>
+        </div>
+
+        <form id="form3" method="POST">
+            <div id="txt">Send a confirm mail to your e-mail address : <br/><br/></div>
+            <input id="from" type="hidden" name="From" placeholder="Your name">
+            <input id="mail" type="email" placeholder="Your email" required>
+            <input id="subject" type="hidden" name="Subject" />
+            <input id="msg" type="hidden" name="Message" />
+            <input id="url" type="hidden" name="URL" />
+            <input id="send" type="submit" value="Send" onclick="sendMail()">
+        </form>
+    </main>
+</body>
+</html
