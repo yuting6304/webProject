@@ -1,6 +1,5 @@
 var nodemailer = require('nodemailer');
 var xoauth2 = require('xoauth2');
-var credit = require('./credentials');
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
