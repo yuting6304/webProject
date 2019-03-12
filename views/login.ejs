@@ -6,7 +6,24 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link href="/css/login_css.css" rel="stylesheet" type="text/css" media="all" />
     <script type="text/javascript" src="/js/login.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
+<script>
+    $(document).ready(function(){
+        var acc,pass;
+        $("#submit").click(function(){
+          acc=$("#account").val();
+          pass=$("#password").val();
+          $.post("http://localhost:8080/login",{account: acc, password: pass}, function(data){
+            if(data==='done')
+              {
+                alert("login success");
+              }
+          });
+        });
+    });
+</script>
+
 <body>
     <main class="main">
         <article class = "main_titles titles">
@@ -18,10 +35,10 @@
             Account :<br/>
                 <input type="text" name="account" id="account" /><br/>
             Password :<br/>
-                <input type="password" name="password" id="password"><br/><br/>
-            <button id="login_btn" onclick="loginCheck()">login</button>
+                <input type="password" name="password" id="password" /><br/><br/>
+            <input type="button" id="submit" value="login" onclick="loginCheck()"/>
+            <!-- <button id="login_btn" onclick="loginCheck()">login</button> -->
         </div>
-
         
     </main>
 </body>

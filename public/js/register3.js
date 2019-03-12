@@ -16,13 +16,14 @@ window.onload = function(){
 }
 
 function sendMail(){
-    var addr = document.getElementById("mail").value;
+    // var addr = document.getElementById("mail").value;
+    // console.log(addr);
     // form3.setAttribute("action", "//formspree.io/" + addr);
                
-    document.getElementById("from").value = "P2P Borrowing Platform";
-    document.getElementById("subject").value = "Confirm your register";
-    document.getElementById("msg").value = "Go to the following website to start your account";
-    document.getElementById("url").value = "http://127.0.0.1:8080/frontend/hall.html";
+    // document.getElementById("from").value = "P2P Borrowing Platform";
+    // document.getElementById("subject").value = "Confirm your register";
+    // document.getElementById("msg").value = "Go to the following website to start your account";
+    // document.getElementById("url").value = "http://127.0.0.1:8080/frontend/hall.html";
 
 
     // console.log(addr);

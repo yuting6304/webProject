@@ -5,8 +5,22 @@
     <title>Login</title>
     <link href="/css/register_css.css" rel="stylesheet" type="text/css" media="all" />
     <script type="text/javascript" src="/js/register3.js"></script>
-
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
+<script>
+    $(document).ready(function(){
+        var mail;
+        $("#submit").click(function(){
+          mail=$("#mail").val();
+          $.post("http://localhost:8080/register3",{mailAddress: mail}, function(data){
+            if(data==='done')
+              {
+                alert("send mail success");
+              }
+          });
+        });
+    });
+</script>
 <body>
     <main class="main">
         <article class = "main_titles titles">
@@ -28,11 +42,11 @@
         <form id="form3" method="POST">
             <div id="txt">Send a confirm mail to your e-mail address : <br/><br/></div>
             <input id="from" type="hidden" name="From" placeholder="Your name">
-            <input id="mail" type="email" placeholder="Your email" required>
+            <input id="mail" name="mail" type="email" placeholder="Your email" required>
             <input id="subject" type="hidden" name="Subject" />
             <input id="msg" type="hidden" name="Message" />
             <input id="url" type="hidden" name="URL" />
-            <input id="send" type="submit" value="Send" onclick="sendMail()">
+            <input type="button" id="send" type="submit" value="Send" onclick="sendMail()">
         </form>
     </main>
 </body>

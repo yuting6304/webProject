@@ -5,7 +5,7 @@ var form1, form2, form3;
 var form1_val, form2_val;
 var confirmMsg;
 
-var name, account, password, email, phone, fname, lname, date, credit;
+var name, account, password;
 
 
 
@@ -26,29 +26,25 @@ window.onload = function(){
     step3.style.color = "grey";
 
     // used to get input value
-    form1_val = document.forms["form1"];  
+    name = document.getElementById("name");
+    form1_val = document.forms["form1"]; 
 }
 
 function checkInfo(){
-    if(name == ""){
-        name.focus();
-        return false;
-    }
-    else if(account == ""){
-        account.focus();
-        return false;
-    }
-    else if(password == ""){
-        password.focus();
-        return false;
-    }
-    else if(email == ""){
-        email.focus();
-        return false;
-    }
-    else if(phone == ""){
-        phone.focus();
-        return false;
-    }
-    return true;
+    // if(name.value() == ""){
+    //     name.focus();
+    //     return false;
+    // }
+    // else if(account == ""){
+    //     account.focus();
+    //     return false;
+    // }
+    // else if(password == ""){
+    //     password.focus();
+    //     return false;
+    // }
+   
+    // window.location.href = "/register2";
+
+    // return true;
 }

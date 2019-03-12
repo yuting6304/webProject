@@ -3,6 +3,7 @@ window.onload = function(){
     account = document.getElementById("account");
     password = document.getElementById("password");
     login_btn = document.getElementById("login_btn");
+
 }
 function loginCheck(){
     var acc, psw;
@@ -13,7 +14,7 @@ function loginCheck(){
     }
     else if(acc == "qweszxc6304"){
         if(psw == "qweszxc6304"){
-            window.location.href = "./frontend/hall.html";
+            window.location.href = "/";
         }
         else{
             alert("Login failed : password error");

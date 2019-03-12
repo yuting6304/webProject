@@ -45,6 +45,7 @@ function checkInfo(){
         credit.focus();
         return false;
     }
+    window.location.href = "/register3";
 
     return true;
 }
