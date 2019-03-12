@@ -10,9 +10,9 @@
 <script>
     $(document).ready(function(){
         var mail;
-        $("#submit").click(function(){
+        $("#send").click(function(){
           mail=$("#mail").val();
-          $.post("http://localhost:8080/register3",{mailAddress: mail}, function(data){
+          $.post("http://localhost:8080/register3",{mail: mail}, function(data){
             if(data==='done')
               {
                 alert("send mail success");

@@ -16,6 +16,8 @@ window.onload = function(){
 }
 
 function sendMail(){
+    window.location.href = "/";
+
     // var addr = document.getElementById("mail").value;
     // console.log(addr);
     // form3.setAttribute("action", "//formspree.io/" + addr);
