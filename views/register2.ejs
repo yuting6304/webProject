@@ -5,8 +5,27 @@
     <title>Login</title>
     <link href="/css/register_css.css" rel="stylesheet" type="text/css" media="all" />
     <script type="text/javascript" src="/js/register2.js"></script>
-    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
+<script>
+    $(document).ready(function(){
+        var fname, lname, date, phone, credit, gender;
+        $("#nx2").click(function(){
+            fname=$("#fname").val();
+            lname=$("#lname").val();
+            date=$("#date").val();
+            phone=$("#phone").val();
+            credit=$("#credit").val();
+            
+            gender=$("input[name='gender']:checked").val();
+            $.post("http://localhost:8080/register2",{fname: fname, lname: lname, gender: gender, date: date, phone: phone, credit: credit}, function(data){
+                // if(data==='done'){
+                //     alert("send mail success");
+                // }
+            });
+        });
+    });
+</script>
 <body>
     <main class="main">
         <article class = "main_titles titles">
@@ -26,11 +45,7 @@
         </div>
 
         <form onsubmit="return checkInfo()" method="GET" action="/register3">
-
-
             <div id = "confirmMsg"></div>
-
-            
             <!-- Page 2 -->
             <div name="form2" id="form2">
                 First name <span>*</span><br/>

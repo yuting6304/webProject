@@ -11,13 +11,12 @@
     $(document).ready(function(){
         var mail;
         $("#send").click(function(){
-          mail=$("#mail").val();
-          $.post("http://localhost:8080/register3",{mail: mail}, function(data){
-            if(data==='done')
-              {
-                alert("send mail success");
-              }
-          });
+            mail=$("#mail").val();
+            $.post("http://localhost:8080/register3",{mail: mail}, function(data){
+                // if(data==='done'){
+                //     alert("send mail success");
+                // }
+            });
         });
     });
 </script>
@@ -39,7 +38,7 @@
             </div>
         </div>
 
-        <form id="form3" method="POST">
+        <form id="form3">
             <div id="txt">Send a confirm mail to your e-mail address : <br/><br/></div>
             <input id="from" type="hidden" name="From" placeholder="Your name">
             <input id="mail" name="mail" type="email" placeholder="Your email" required>

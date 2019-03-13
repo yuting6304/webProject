@@ -5,7 +5,23 @@
     <title>Login</title>
     <link href="/css/register_css.css" rel="stylesheet" type="text/css" media="all" />
     <script type="text/javascript" src="/js/register1.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
+<script>
+    $(document).ready(function(){
+        var name, account, password;
+        $("#nx1").click(function(){
+            name=$("#name").val();
+            account=$("#account").val();
+            password=$("#password").val();
+            $.post("http://localhost:8080/register1",{name: name, account: account, password: password}, function(data){
+                // if(data==='done'){
+                //     alert("send mail success");
+                // }
+            });
+        });
+    });
+</script>
 <body>
     <main class="main">
         <article class = "main_titles titles">
