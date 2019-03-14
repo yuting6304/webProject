@@ -2,6 +2,7 @@ var express = require("express");
 var http = require('http');
 var path = require('path');
 var bodyParser = require("body-parser");
+var mysql  = require('mysql'); 
 
 // var io = require('socket.io');
 
@@ -20,6 +21,8 @@ app.set('port', process.env.PORT || 8080);
 var indexRouter = require('./controllers/index');
 var loginRouter = require('./controllers/login');
 var introRouter = require('./controllers/intro');
+var registerRouter = require('./controllers/register');//*
+
 var register1Router = require('./controllers/register1');
 var register2Router = require('./controllers/register2');
 var register3Router = require('./controllers/register3');
@@ -32,6 +35,9 @@ app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/intro', introRouter);
+
+app.use('/register', registerRouter);//*
+
 app.use('/register1', register1Router);
 app.use('/register2', register2Router);
 app.use('/register3', register3Router);
@@ -44,6 +50,17 @@ var server = app.listen(8080, function () {
     // console.log("start login cloudDB.........");
 	
 		// console.log("finish login cloudDB.........");
+
+	var connection = mysql.createConnection({     
+			host     : 'localhost',       
+			user     : 'db',              
+			password : 'qweszxc6304',       
+			port: '3306',                   
+			database: 'bc_project' 
+	}); 
+
+	connection.connect();
+	console.log("mysql connected");
 
 		let host = server.address().address
 		let port = server.address().port
