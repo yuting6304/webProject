@@ -3,7 +3,7 @@ var http = require('http');
 var path = require('path');
 var bodyParser = require("body-parser");
 var mysql  = require('mysql'); 
-
+var dbConnection = require('./dbConnection');
 // var io = require('socket.io');
 
 
@@ -50,17 +50,7 @@ var server = app.listen(8080, function () {
     // console.log("start login cloudDB.........");
 	
 		// console.log("finish login cloudDB.........");
-
-	var connection = mysql.createConnection({     
-			host     : 'localhost',       
-			user     : 'db',              
-			password : 'qweszxc6304',       
-			port: '3306',                   
-			database: 'bc_project' 
-	}); 
-
-	connection.connect();
-	console.log("mysql connected");
+		dbConnection.connect();
 
 		let host = server.address().address
 		let port = server.address().port

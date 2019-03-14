@@ -3,6 +3,7 @@ var nodemailer = require('nodemailer');
 var xoauth2 = require('xoauth2');
 var mysql  = require('mysql');  
 var credit = require('../mailsecret');
+var dbConnection = require('../dbConnection');
 
 var router = express.Router();
 
@@ -64,18 +65,7 @@ router.post('/register', function(req, res, next){
             
         var  addSql = 'INSERT INTO users(name, account, password) VALUES(?,?,?)';
         var  addSqlParams = [name, account,password];
-
-        connection.query(addSql,addSqlParams,function (err, result) {
-        if(err){
-               console.log('[INSERT ERROR] - ',err.message);
-               return;
-              }        
-       
-             console.log('--------------------------INSERT----------------------------');
-             console.log('INSERT ID:',result);        
-             console.log('-----------------------------------------------------------------\n');  
-      });
-       
+       dbConnection.query(addSql, addSqlParams);
 });
 
 
