@@ -64,7 +64,6 @@ typings/
 mailsecret.js
 
 # unrelative file just test
-dbConnection.js
 db.js
 server.js
 index.html
