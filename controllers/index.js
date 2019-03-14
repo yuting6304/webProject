@@ -2,6 +2,8 @@ var express = require('express');
 var nodemailer = require('nodemailer');
 var xoauth2 = require('xoauth2');
 var mysql  = require('mysql');  
+var credit = require('../mailsecret');
+
 var router = express.Router();
 
 /* GET home page. */
@@ -71,12 +73,10 @@ router.post('/register3', function(req, res, next){
         service: 'gmail',
         auth: {
             type: 'OAuth2',
-            user: 'wac33567@gmail.com',
-            clientId: '700795934702-90gjpq9ocrkab5qlpognne35755bt7l1.apps.googleusercontent.com',
-            clientSecret: '6NSUEb4yIiAvZZGm7HaiUqU0',
-            refreshToken: '1/pr0j2siqwg8lZQQSvmLc5PHyW6v7QLg8BqxUTIyhN8U'
-            // user: credit.user,
-            // pass: credit.password
+            user: credit.user,
+            clientId: credit.clientId,
+            clientSecret: credit.clientSecret,
+            refreshToken: credit.refreshToken
         }
       });
       
