@@ -3,7 +3,7 @@ var http = require('http');
 var path = require('path');
 var bodyParser = require("body-parser");
 var mysql  = require('mysql'); 
-var dbConnection = require('./dbConnection');
+var dbConnection = require('./models/dbConnection');
 // var io = require('socket.io');
 
 

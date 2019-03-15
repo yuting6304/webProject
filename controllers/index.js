@@ -2,8 +2,8 @@ var express = require('express');
 var nodemailer = require('nodemailer');
 var xoauth2 = require('xoauth2');
 var mysql  = require('mysql');  
-var credit = require('../mailsecret');
-var dbConnection = require('../dbConnection');
+var credit = require('../models/mailsecret');
+var dbConnection = require('../models/dbConnection');
 
 var router = express.Router();
 
