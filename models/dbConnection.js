@@ -1,6 +1,6 @@
 var mysql  = require('mysql'); 
 var connection;
-function connect(){
+function connectDB(){
     connection = mysql.createConnection({     
         host     : 'localhost',       
         user     : 'db',              
@@ -9,23 +9,62 @@ function connect(){
         database: 'bc_project' 
     }); 
 
-    connection.connect();
-    console.log("mysql connected");
+    connection.connect(function(err){
+        if(err){
+            throw err;
+        }
+        console.log("mysql connected");
+        let createUsers = 'create table if not exists users(id int not null auto_increment, username varchar(30) not null, account varchar(30) not null, password varchar(30) not null, first_name varchar(30) not null, last_name varchar(30) not null, gender varchar(30) not null, birthday varchar(30) not null, phone_number varchar(30) not null, credit_card_number varchar(30) not null, Email varchar(30) not null, confirm int not null default 0, online int not null default 0, primary key(id))';
+        connection.query(createUsers, function(err, results, fields){
+            if(err){
+                console.log(err.message);
+            }
+            else{
+                console.log("Mysql(table): users has been created");
+            }
+        });
+    });
 }
 
-function query(addSql, addSqlParams){
-    connection.query(addSql,addSqlParams,function (err, result) {
+function setDBData(addSql, addSqlParams){
+    // var  addSql = 'INSERT INTO users(name, account, password) VALUES(?,?,?)';
+    // var  addSqlParams = [name, account,password];
+    connection.query(addSql,addSqlParams,function (err, results) {
         if(err){
             console.log('[INSERT ERROR] - ',err.message);
             return;
             }        
        
             console.log('--------------------------INSERT----------------------------');
-            console.log('INSERT ID:',result);        
+            console.log('INSERT ID:',results);        
             console.log('-----------------------------------------------------------------\n');  
     });
 }
 
-module.exports.connect = connect;
-module.exports.query = query;
+function getDBData(name, acc, pass){
+    connection.query('SELECT * FROM '+ name, function (err, results) {
+        if(err){
+            throw err;
+        }        
+        
+        let size = results.length;
+        for(let i = 0; i < size; i++){
+            if(results[i].account == acc && results[i].password == pass){
+                console.log("login successful! ");
+                return 1;
+            }
+        }
+        console.log("login fail! ");
+
+        return -1;
+
+    });
+}
+
+module.exports.connectDB = connectDB;
+module.exports.setDBData = setDBData;
+module.exports.getDBData = getDBData;
+
+// module.exports.initDatabase = initDatabase;
+
 // module.exports = dbConnection;

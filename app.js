@@ -50,10 +50,8 @@ var server = app.listen(8080, function () {
     // console.log("start login cloudDB.........");
 	
 		// console.log("finish login cloudDB.........");
-		dbConnection.connect();
-
-		let host = server.address().address
-		let port = server.address().port
+		dbConnection.connectDB();
+		
 		console.log("Server start http://127.0.0.1:8080");
 	
 

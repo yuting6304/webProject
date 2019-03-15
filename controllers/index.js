@@ -22,9 +22,17 @@ var transporter = nodemailer.createTransport({
 router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
 });
+
 router.post('/login', function(req, res, next){
     let account = req.body.account;
     let password = req.body.password;
+    let online = dbConnection.getData('users', account, password);
+    if(online == 1){
+        console.log("login successful! " + online);
+    }
+    else{
+        console.log("login fail! " + online);
+    }
     console.log("Account : " + account + ", Password : " + password);
 });
 
@@ -43,29 +51,28 @@ router.post('/register', function(req, res, next){
 
     let mailAddr = req.body.mail;
 
-    console.log("name : " + name + ", account : " + account + ", password : " + password);
+    console.log("username : " + name + ", account : " + account + ", password : " + password);
     console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
     console.log("Mail : " + mailAddr);
       
-      var mailOptions = {
-          from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
-          to: mailAddr,
-          subject: 'Confirm Email from P2P_Borrowing_Platform',
-          html: '<h1>Welcome</h1><p>http://127.0.0.1:8080/</p>'
-      };
+    var mailOptions = {
+        from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+        to: mailAddr,
+        subject: 'Confirm Email from P2P_Borrowing_Platform',
+        html: '<h1>Welcome</h1><p>http://127.0.0.1:8080/</p>'
+    };
       
-      transporter.sendMail(mailOptions, function(error, info){
-          if (error) {
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
             console.log(error);
-          } else {
+        } else {
             console.log('Email sent: ' + info.response);
-          }
-      });
+        }
+    });
 
-            
-        var  addSql = 'INSERT INTO users(name, account, password) VALUES(?,?,?)';
-        var  addSqlParams = [name, account,password];
-       dbConnection.query(addSql, addSqlParams);
+    var  addSql = 'INSERT INTO users(username, account, password, first_name, last_name, gender, birthday, phone_number, credit_card_number, Email) VALUES(?,?,?,?,?,?,?,?,?,?)';
+    var  addSqlParams = [name, account, password, fname, lname, gender, date, phone, credit, mailAddr];
+    dbConnection.setDBData(addSql, addSqlParams);
 });
 
 
