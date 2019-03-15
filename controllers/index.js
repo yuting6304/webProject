@@ -26,14 +26,15 @@ router.get('/', function(req, res, next) {
 router.post('/login', function(req, res, next){
     let account = req.body.account;
     let password = req.body.password;
-    let online = dbConnection.getData('users', account, password);
-    if(online == 1){
-        console.log("login successful! " + online);
-    }
-    else{
-        console.log("login fail! " + online);
-    }
-    console.log("Account : " + account + ", Password : " + password);
+    let online = dbConnection.getDBData('users', account, password);
+    console.log(online);
+    // if(online == 1){
+    //     console.log("login successful! " + online);
+    // }
+    // else{
+    //     console.log("login fail! " + online);
+    // }
+    // console.log("Account : " + account + ", Password : " + password);
 });
 
 

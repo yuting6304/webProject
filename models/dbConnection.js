@@ -1,5 +1,6 @@
 var mysql  = require('mysql'); 
 var connection;
+var onlineFlag = 0;
 function connectDB(){
     connection = mysql.createConnection({     
         host     : 'localhost',       
@@ -42,23 +43,25 @@ function setDBData(addSql, addSqlParams){
 }
 
 function getDBData(name, acc, pass){
-    connection.query('SELECT * FROM '+ name, function (err, results) {
-        if(err){
-            throw err;
-        }        
-        
-        let size = results.length;
-        for(let i = 0; i < size; i++){
-            if(results[i].account == acc && results[i].password == pass){
-                console.log("login successful! ");
-                return 1;
-            }
-        }
-        console.log("login fail! ");
+        connection.query('SELECT * FROM '+ name, function (err, results) {
+            if(err){
+                throw err;
+            }       
+        return results; 
+            
+        //     let size = results.length;
+        //     for(let i = 0; i < size; i++){
+        //         if(results[i].account == acc && results[i].password == pass){
+        //             console.log("login successful! ");
+        //             onlineFlag = 1;
+        //             return;
+        //         }
+        //     }
+        //     console.log("login fail! ");
+        //     onlineFlag = -1;
+        //     return -1;
 
-        return -1;
-
-    });
+        });    
 }
 
 module.exports.connectDB = connectDB;
