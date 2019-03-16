@@ -1,82 +1,64 @@
 var express = require('express');
-var nodemailer = require('nodemailer');
-var xoauth2 = require('xoauth2');
-var mysql  = require('mysql');  
-var credit = require('../models/mailsecret');
-var dbConnection = require('../models/dbConnection');
+// var mysql  = require('mysql');  
+// var credit = require('../models/mailsecret');
+// var dbConnection = require('../models/dbConnection');
+// var user = require('../models/user');
 
 var router = express.Router();
-
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        type: 'OAuth2',
-        user: credit.user,
-        clientId: credit.clientId,
-        clientSecret: credit.clientSecret,
-        refreshToken: credit.refreshToken
-    }
-});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
 });
 
-router.post('/login', function(req, res, next){
-    let account = req.body.account;
-    let password = req.body.password;
-    var online;
-    dbConnection.getDBData('users', account, password, function(err, data){
-        if(err){
-            console.log("Error : ", err);
-        }
-        else{
-            online = data;
-            console.log(online);
-        }
-    });
+// router.post('/login', function(req, res, next){
+//     let account = req.body.account;
+//     let password = req.body.password;
+//     var online;
+//     dbConnection.getDBData('users', account, password, function(err, data){
+//         if(err){
+//             console.log("Error : ", err);
+//         }
+//         else{
+//             online = data;
+//             console.log(online);
+
+//             if(online == 1){
+//                 return true;
+//             }
+//             else{
+//                 res.redirect('login');
+//                 return false;
+//             }
+//         }
+//     });
+    // res.redirect('../');
     // console.log("Account : " + account + ", Password : " + password);
-});
+// });
 
 
-router.post('/register', function(req, res, next){
-    let name = req.body.name;
-    let account = req.body.account;
-    let password = req.body.password;
+// router.post('/register', function(req, res, next){
+    // let name = req.body.name;
+    // let account = req.body.account;
+    // let password = req.body.password;
 
-    let fname = req.body.fname;
-    let lname = req.body.lname;
-    let date = req.body.date;
-    let phone = req.body.phone;
-    let credit = req.body.credit;
-    let gender = req.body.gender;
+    // let fname = req.body.fname;
+    // let lname = req.body.lname;
+    // let date = req.body.date;
+    // let phone = req.body.phone;
+    // let credit = req.body.credit;
+    // let gender = req.body.gender;
 
-    let mailAddr = req.body.mail;
+    // let mailAddr = req.body.mail;
 
-    console.log("username : " + name + ", account : " + account + ", password : " + password);
-    console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
-    console.log("Mail : " + mailAddr);
+    // console.log("username : " + name + ", account : " + account + ", password : " + password);
+    // console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
+    // console.log("Mail : " + mailAddr);
       
-    var mailOptions = {
-        from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
-        to: mailAddr,
-        subject: 'Confirm Email from P2P_Borrowing_Platform',
-        html: '<h1>Welcome</h1><p>http://127.0.0.1:8080/</p>'
-    };
-      
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
-
-    var  addSql = 'INSERT INTO users(username, account, password, first_name, last_name, gender, birthday, phone_number, credit_card_number, Email) VALUES(?,?,?,?,?,?,?,?,?,?)';
-    var  addSqlParams = [name, account, password, fname, lname, gender, date, phone, credit, mailAddr];
-    dbConnection.setDBData(addSql, addSqlParams);
-});
+    // user.confirmMail(mailAddr);
+    // user.reg(name, account, password, fname, lname, gender, date, phone, credit, mailAddr);
+    
+// });
 
 
 

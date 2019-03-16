@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link href="/css/login_css.css" rel="stylesheet" type="text/css" media="all" />
     <script type="text/javascript" src="/js/login.js"></script>
+    <script type="text/javascript" src="../models/mailsecret.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <script>
@@ -28,14 +29,14 @@
             <h4 class= "titles_subtitle">Login</h4>
         </article>
         
-        <div class="login_area">
+        <form class="login_area" onsubmit="loginStatus()" method="GET" action="/">
             Account :<br/>
                 <input type="text" name="account" id="account" /><br/>
             Password :<br/>
                 <input type="password" name="password" id="password" /><br/><br/>
-            <input type="button" id="login" value="login"/>
+            <input type="submit" id="login" value="login"/>
             <!-- <button id="login_btn" onclick="loginCheck()">login</button> -->
-        </div>
+        </form>
         
     </main>
 </body>

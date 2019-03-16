@@ -42,24 +42,15 @@ function setDBData(addSql, addSqlParams){
     });
 }
 
-function getDBData(name, acc, pass, callback){
-        connection.query('SELECT * FROM '+ name, function (err, results) {
-            if(err){
-                callback(err, null);
-            }                   
-            let size = results.length;
-            for(let i = 0; i < size; i++){
-                if(results[i].account == acc && results[i].password == pass){
-                    // console.log("login successful! ");
-                    callback(null, 1);
-                    return;
-                }
-            }
-            // console.log("login fail! ");
-            callback(null, -1);
-            return;
-
-        });    
+function getDBData(name, callback){
+    connection.query('SELECT * FROM '+ name, function (err, results) {
+        if(err){
+            callback(err, null);
+        } 
+        else{
+            callback(null, results);
+        }                  
+    });    
 }
 
 module.exports.connectDB = connectDB;
