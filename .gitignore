@@ -63,6 +63,9 @@ typings/
 # gmail secret token
 mailsecret.js
 
+# db secret password
+dbscret.js
+
 # unrelative file just test
 db.js
 server.js

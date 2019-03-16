@@ -1,13 +1,14 @@
 var mysql  = require('mysql'); 
+var dbcredit = require('./dbsecret');
 var connection;
 var onlineFlag = 0;
 function connectDB(){
     connection = mysql.createConnection({     
-        host     : 'localhost',       
-        user     : 'db',              
-        password : 'qweszxc6304',       
-        port: '3306',                   
-        database: 'bc_project' 
+        host     : dbcredit.host,       
+        user     : dbcredit.user,              
+        password : dbcredit.password,       
+        port     : dbcredit.port,                   
+        database : dbcredit.database 
     }); 
 
     connection.connect(function(err){
