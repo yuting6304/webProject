@@ -8,32 +8,11 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Express' });
+    res.render('index', { title: 'Sign in' });
 });
 
 // router.post('/login', function(req, res, next){
-//     let account = req.body.account;
-//     let password = req.body.password;
-//     var online;
-//     dbConnection.getDBData('users', account, password, function(err, data){
-//         if(err){
-//             console.log("Error : ", err);
-//         }
-//         else{
-//             online = data;
-//             console.log(online);
-
-//             if(online == 1){
-//                 return true;
-//             }
-//             else{
-//                 res.redirect('login');
-//                 return false;
-//             }
-//         }
-//     });
-    // res.redirect('../');
-    // console.log("Account : " + account + ", Password : " + password);
+//     res.render('index', { title: 'Logout' });
 // });
 
 

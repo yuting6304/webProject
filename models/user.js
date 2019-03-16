@@ -2,6 +2,7 @@ var express = require('express');
 var nodemailer = require('nodemailer');
 var xoauth2 = require('xoauth2');
 var mysql  = require('mysql');  
+var crypto = require('crypto');
 var mailcredit = require('../models/mailsecret');
 var dbConnection = require('../models/dbConnection');
 
@@ -46,8 +47,10 @@ function memberLogin(acc, pass, callback){
         }
         else{
             let size = data.length;
+            let md5 = crypto.createHash('md5');
             for(let i = 0; i < size; i++){
-                if(data[i].account == acc && data[i].password == pass){
+                if(data[i].account == acc && data[i].password == md5.update(pass).digest('hex')){
+                    
                     callback(null, 1);
                     return;
                 }

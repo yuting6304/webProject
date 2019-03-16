@@ -64,11 +64,4 @@ typings/
 mailsecret.js
 
 # db secret password
-dbscret.js
-
-# unrelative file just test
-db.js
-server.js
-index.html
-mail.js
-index.js
+dbsecret.js

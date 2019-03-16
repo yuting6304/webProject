@@ -1,13 +1,14 @@
 var app = require('../app')
 var express = require('express');
 var dbConnection = require('../models/dbConnection');
+var session = require('express-session');
 var user = require('../models/user');
 
 
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-    res.render('login', { title: 'Express' });
+    res.render('login', { title: 'Logout' });
 });
 
 router.post('/', function(req, res, next){
@@ -22,6 +23,14 @@ router.post('/', function(req, res, next){
         }
         else{
            console.log("login : " + data);
+           if(data == 1){
+                res.locals.username = username;
+                //設定session
+                req.session.username = res.locals.username; 
+                console.log(req.session.username);                       
+                res.redirect('../');
+                // res.render('index', { title: 'Logout' });
+           }
         }
     });
     
