@@ -4,8 +4,17 @@ var dbConnection = require('../models/dbConnection');
 var session = require('express-session');
 var user = require('../models/user');
 
-
+var app = express(); // 產生express application物件
 var router = express.Router();
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+app.use(cookieParser());
+app.use(session({
+	    secret: "fd34s@!@dfa453f3DF#$D&W",
+	    resave: true,
+	    saveUninitialized: true
+}));
+app.use(router);
 
 router.get('/', function(req, res, next) {
     res.render('login', { title: 'Logout' });
@@ -24,11 +33,11 @@ router.post('/', function(req, res, next){
         else{
            console.log("login : " + data);
            if(data == 1){
-                res.locals.username = username;
+                res.locals.username = account;
                 //設定session
-                req.session.username = res.locals.username; 
+                req.session.username = res.locals.username 
                 console.log(req.session.username);                       
-                res.redirect('../');
+                res.redirect('/');
                 // res.render('index', { title: 'Logout' });
            }
         }
@@ -38,3 +47,4 @@ router.post('/', function(req, res, next){
 
 });
 module.exports = router;
+module.exports = app;

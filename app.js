@@ -8,6 +8,17 @@ var dbConnection = require('./models/dbConnection');
 
 
 var app = express(); // 產生express application物件
+
+// var cookieParser = require('cookie-parser');
+// var session = require('express-session');
+// app.use(cookieParser());
+// app.use(session({
+// 	  secret: "fd34s@!@dfa453f3DF#$D&W",
+// 	  resave: true,
+// 		saveUninitialized: true
+// }));
+// app.use(router);
+
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
