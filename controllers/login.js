@@ -1,19 +1,11 @@
 var app = require('../app')
 var express = require('express');
-var dbConnection = require('../models/dbConnection');
-var session = require('express-session');
 var user = require('../models/user');
+var dbConnection = require('../models/dbConnection');
 
 var app = express(); // 產生express application物件
 var router = express.Router();
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-app.use(cookieParser());
-app.use(session({
-	    secret: "fd34s@!@dfa453f3DF#$D&W",
-	    resave: true,
-	    saveUninitialized: true
-}));
+
 app.use(router);
 
 router.get('/', function(req, res, next) {
@@ -31,14 +23,21 @@ router.post('/', function(req, res, next){
             callback(err, null);
         }
         else{
-           console.log("login : " + data);
-           if(data == 1){
+            console.log("login : " + data);
+            if(data == 1){
+                var modSql = 'users SET online = ? WHERE account = ?';
+                var modSqlParams = [1, account];
+                dbConnection.updateData(modSql, modSqlParams);
+                
                 res.locals.username = account;
                 //設定session
                 req.session.username = res.locals.username 
                 console.log(req.session.username);                       
                 res.redirect('/');
                 // res.render('index', { title: 'Logout' });
+           }
+           else{
+                res.redirect('/login');
            }
         }
     });

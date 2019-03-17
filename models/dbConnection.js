@@ -29,9 +29,9 @@ function connectDB(){
 }
 
 function setDBData(addSql, addSqlParams){
-    // var  addSql = 'INSERT INTO users(name, account, password) VALUES(?,?,?)';
+    // var  addSql = 'users(name, account, password) VALUES(?,?,?)';
     // var  addSqlParams = [name, account,password];
-    connection.query(addSql,addSqlParams,function (err, results) {
+    connection.query('INSERT INTO ' + addSql,addSqlParams,function (err, results) {
         if(err){
             console.log('[INSERT ERROR] - ',err.message);
             return;
@@ -45,7 +45,7 @@ function setDBData(addSql, addSqlParams){
 }
 
 function getDBData(name, callback){
-    connection.query('SELECT * FROM '+ name, function (err, results) {
+    connection.query('SELECT * FROM ' + name, function (err, results) {
         if(err){
             callback(err, null);
         } 
@@ -56,9 +56,22 @@ function getDBData(name, callback){
     // connection.release();
 }
 
+function updateData(modSql, modSqlParams){
+    connection.query('UPDATE ' + modSql,modSqlParams,function (err, result) {
+    if(err){
+        console.log('[UPDATE ERROR] - ',err.message);
+        return;
+   }        
+    console.log('--------------------------UPDATE----------------------------');
+    console.log('UPDATE affectedRows',result.affectedRows);
+    console.log('------------------------------------------------------------');
+});
+}
+
 module.exports.connectDB = connectDB;
 module.exports.setDBData = setDBData;
 module.exports.getDBData = getDBData;
+module.exports.updateData = updateData;
 
 // module.exports.initDatabase = initDatabase;
 

@@ -2,21 +2,23 @@ var express = require("express");
 var http = require('http');
 var path = require('path');
 var bodyParser = require("body-parser");
+var session = require('express-session');
 var mysql  = require('mysql'); 
 var dbConnection = require('./models/dbConnection');
+var user = require('./models/user');
 // var io = require('socket.io');
 
 
 var app = express(); // 產生express application物件
 
-// var cookieParser = require('cookie-parser');
-// var session = require('express-session');
-// app.use(cookieParser());
-// app.use(session({
-// 	  secret: "fd34s@!@dfa453f3DF#$D&W",
-// 	  resave: true,
-// 		saveUninitialized: true
-// }));
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+app.use(cookieParser());
+app.use(session({
+	  secret: "fd34s@!@dfa453f3DF#$D&W",
+	  resave: true,
+		saveUninitialized: true
+}));
 // app.use(router);
 
 app.use(express.static('public'));
@@ -55,17 +57,8 @@ app.use('/register3', register3Router);
 
 
 var server = app.listen(8080, function () {
-	// let host = server.address().address
-	// let port = server.address().port
-    // console.log("Server start http://%s:%s", host, port)
-    // console.log("start login cloudDB.........");
-	
-		// console.log("finish login cloudDB.........");
-		dbConnection.connectDB();
-		
-		console.log("Server start http://127.0.0.1:8080");
-	
-
-	// geth.unlockAdminAccount();
+	dbConnection.connectDB();
+	user.initUser();
+	console.log("Server start http://127.0.0.1:8080");			
 });
 module.exports = app;

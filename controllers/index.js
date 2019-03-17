@@ -2,9 +2,13 @@ var express = require('express');
 // var mysql  = require('mysql');  
 // var credit = require('../models/mailsecret');
 // var dbConnection = require('../models/dbConnection');
-// var user = require('../models/user');
+var user = require('../models/user');
 
+var app = express(); // 產生express application物件
 var router = express.Router();
+
+app.use(router);
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -12,7 +16,34 @@ router.get('/', function(req, res, next) {
 });
 
 // router.post('/login', function(req, res, next){
-//     res.render('index', { title: 'Logout' });
+//     let account = req.body.account;
+//     let password = req.body.password;
+    
+//     console.log("Account : " + account + ", Password : " + password);
+
+//     user.memberLogin(account, password, function(err, data){
+//         if(err){
+//             callback(err, null);
+//         }
+//         else{
+//            console.log("login : " + data);
+//            if(data == 1){
+//                 res.locals.username = account;
+//                 //設定session
+//                 req.session.username = res.locals.username 
+//                 console.log(req.session.username);                       
+//                 res.redirect('/');
+//                 res.render('index', { title: 'Logout' });
+//            }
+//            else{
+//                 res.redirect('/login');
+//            }
+//         }
+//     });
+    
+    
+//     // res.render('index', { title: 'Logout' });
+
 // });
 
 
@@ -134,3 +165,4 @@ router.get('/', function(req, res, next) {
     
 
 module.exports = router;
+module.exports = app;

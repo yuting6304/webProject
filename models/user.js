@@ -17,8 +17,29 @@ var transporter = nodemailer.createTransport({
     }
 });
 
+function initUser(){
+    dbConnection.getDBData('users', function(err, data){
+        if(err){
+            console.log(err);
+        }
+        else{
+            let size = data.length;
+            var modSql = 'users SET online = ? WHERE id = ?';
+            var modSqlParams;
+            for(let i = 1; i <= size; i++){
+                if(data[i-1].online != 0){
+                    modSqlParams = [0, i];
+                    dbConnection.updateData(modSql, modSqlParams);
+                }
+                
+            }
+            console.log("users is inited");
+        }
+    });
+}
+
 function reg(name, account, password, fname, lname, gender, date, phone, credit, mailAddr){
-    var  addSql = 'INSERT INTO users(username, account, password, first_name, last_name, gender, birthday, phone_number, credit_card_number, Email) VALUES(?,?,?,?,?,?,?,?,?,?)';
+    var  addSql = 'users(username, account, password, first_name, last_name, gender, birthday, phone_number, credit_card_number, Email) VALUES(?,?,?,?,?,?,?,?,?,?)';
     var  addSqlParams = [name, account, password, fname, lname, gender, date, phone, credit, mailAddr];
     dbConnection.setDBData(addSql, addSqlParams);
 }
@@ -64,3 +85,4 @@ function memberLogin(acc, pass, callback){
 module.exports.reg = reg;
 module.exports.confirmMail = confirmMail;
 module.exports.memberLogin = memberLogin;
+module.exports.initUser = initUser;
