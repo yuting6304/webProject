@@ -6,6 +6,8 @@ var crypto = require('crypto');
 var mailcredit = require('../models/mailsecret');
 var dbConnection = require('../models/dbConnection');
 
+var status = 0;
+
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -82,7 +84,17 @@ function memberLogin(acc, pass, callback){
     });
 }
 
+function setloginStatus(s){
+    status = s;
+}
+
+function getloginStatus(){
+    return status;
+}
+
 module.exports.reg = reg;
 module.exports.confirmMail = confirmMail;
 module.exports.memberLogin = memberLogin;
 module.exports.initUser = initUser;
+module.exports.setloginStatus = setloginStatus;
+module.exports.getloginStatus = getloginStatus;

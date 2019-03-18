@@ -15,9 +15,9 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 app.use(cookieParser());
 app.use(session({
-	  secret: "fd34s@!@dfa453f3DF#$D&W",
-	  resave: true,
-		saveUninitialized: true
+	secret: "fd34s@!@dfa453f3DF#$D&W",
+	resave: true,
+	saveUninitialized: true
 }));
 // app.use(router);
 
@@ -56,7 +56,7 @@ app.use('/register2', register2Router);
 app.use('/register3', register3Router);
 
 
-var server = app.listen(8080, function () {
+var server = app.listen(8080, function () {		
 	dbConnection.connectDB();
 	user.initUser();
 	console.log("Server start http://127.0.0.1:8080");			

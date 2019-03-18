@@ -26,6 +26,7 @@ function connectDB(){
             }
         });
     });
+    return 1;
 }
 
 function setDBData(addSql, addSqlParams){

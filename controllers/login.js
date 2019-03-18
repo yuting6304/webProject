@@ -29,6 +29,8 @@ router.post('/', function(req, res, next){
                 var modSqlParams = [1, account];
                 dbConnection.updateData(modSql, modSqlParams);
                 
+                user.setloginStatus(1);
+                
                 res.locals.username = account;
                 //設定session
                 req.session.username = res.locals.username 
@@ -37,6 +39,7 @@ router.post('/', function(req, res, next){
                 // res.render('index', { title: 'Logout' });
            }
            else{
+                user.setloginStatus(-1);
                 res.redirect('/login');
            }
         }
