@@ -35,12 +35,11 @@ var indexRouter = require('./controllers/index');
 var loginRouter = require('./controllers/login');
 var introRouter = require('./controllers/intro');
 var registerRouter = require('./controllers/register');//*
+var confirmRouter = require('./controllers/confirm');
 
-var register1Router = require('./controllers/register1');
-var register2Router = require('./controllers/register2');
-var register3Router = require('./controllers/register3');
-// var creatorsRouter = require('./controllers/creators');
-// var usersRouter = require('./controllers/users');
+// var register1Router = require('./controllers/register1');
+// var register2Router = require('./controllers/register2');
+// var register3Router = require('./controllers/register3');
 
 
 app.use('/', indexRouter);
@@ -50,10 +49,11 @@ app.use('/login', loginRouter);
 app.use('/intro', introRouter);
 
 app.use('/register', registerRouter);//*
+app.use('/confirm', confirmRouter);
 
-app.use('/register1', register1Router);
-app.use('/register2', register2Router);
-app.use('/register3', register3Router);
+// app.use('/register1', register1Router);
+// app.use('/register2', register2Router);
+// app.use('/register3', register3Router);
 
 
 var server = app.listen(8080, function () {		

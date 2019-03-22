@@ -26,8 +26,8 @@ function initUser(){
         }
         else{
             let size = data.length;
-            var modSql = 'users SET online = ? WHERE id = ?';
-            var modSqlParams;
+            let modSql = 'users SET online = ? WHERE id = ?';
+            let modSqlParams;
             for(let i = 1; i <= size; i++){
                 if(data[i-1].online != 0){
                     modSqlParams = [0, i];
@@ -41,8 +41,8 @@ function initUser(){
 }
 
 function reg(name, account, password, fname, lname, gender, date, phone, credit, mailAddr){
-    var  addSql = 'users(username, account, password, first_name, last_name, gender, birthday, phone_number, credit_card_number, Email) VALUES(?,?,?,?,?,?,?,?,?,?)';
-    var  addSqlParams = [name, account, password, fname, lname, gender, date, phone, credit, mailAddr];
+    let  addSql = 'users(username, account, password, first_name, last_name, gender, birthday, phone_number, credit_card_number, Email) VALUES(?,?,?,?,?,?,?,?,?,?)';
+    let  addSqlParams = [name, account, password, fname, lname, gender, date, phone, credit, mailAddr];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
@@ -51,7 +51,7 @@ function confirmMail(mailAddr){
         from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
         to: mailAddr,
         subject: 'Confirm Email from P2P_Borrowing_Platform',
-        html: '<h1>Welcome</h1><p>http://127.0.0.1:8080/</p>'
+        html: '<h1>Welcome to P2P_Borrowing_Platform</h1><li><a href="http://127.0.0.1:8080/confirm">Click Here to Start Your Account</a></li>'
     };
       
     transporter.sendMail(mailOptions, function(error, info){
@@ -73,9 +73,13 @@ function memberLogin(acc, pass, callback){
             let md5 = crypto.createHash('md5');
             for(let i = 0; i < size; i++){
                 if(data[i].account == acc && data[i].password == md5.update(pass).digest('hex')){
-                    
-                    callback(null, 1);
-                    return;
+                    if(data[i].confirm == 1){
+                        callback(null, 1);
+                        return;
+                    }
+                    else{
+                        break;
+                    }
                 }
             }
             callback(null, -1);

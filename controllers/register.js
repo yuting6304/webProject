@@ -34,7 +34,6 @@ router.post('/', function(req, res){
       
     user.confirmMail(mailAddr);
     user.reg(name, account, password, fname, lname, gender, date, phone, credit, mailAddr);
-    
 })
 
 module.exports = router;

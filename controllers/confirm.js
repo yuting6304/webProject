@@ -8,30 +8,35 @@ var router = express.Router();
 
 app.use(router);
 
+
 router.get('/', function(req, res, next) {
-    res.render('login', { title: 'Logout' });
+    res.render('confirm', { title: 'Express' });
 });
 
 router.post('/', function(req, res, next){
-    let account = req.body.account;
-    let password = req.body.password;
+    let Account = req.body.Account;
+    let Password = req.body.Password;
     
-    console.log("Account : " + account + ", Password : " + password);
+    console.log("Account : " + Account + ", Password : " + Password);
+    
+    let modSql = 'users SET confirm = ? WHERE account = ?';
+    let modSqlParams = [1, Account];
+    dbConnection.updateData(modSql, modSqlParams);
 
-    user.memberLogin(account, password, function(err, data){
+    user.memberLogin(Account, Password, function(err, data){
         if(err){
             callback(err, null);
         }
         else{
             console.log("login : " + data);
             if(data == 1){
-                let modSql = 'users SET online = ? WHERE account = ?';
-                let modSqlParams = [1, account];
-                dbConnection.updateData(modSql, modSqlParams);
+                let onlinemodSql = 'users SET online = ? WHERE account = ?';
+                let onlinemodSqlParams = [1, Account];
+                dbConnection.updateData(onlinemodSql, onlinemodSqlParams);
                 
                 user.setloginStatus(1);
                 
-                res.locals.username = account;
+                res.locals.username = Account;
                 //設定session
                 req.session.username = res.locals.username 
                 console.log(req.session.username);                       
@@ -40,13 +45,14 @@ router.post('/', function(req, res, next){
            }
            else{
                 user.setloginStatus(-1);
-                res.redirect('/login');
+                res.redirect('/confirm');
            }
         }
     });
-    
+
     // console.log("data :\n" + DBData);
+    // res.redirect('/');
 
 });
+
 module.exports = router;
-module.exports = app;
