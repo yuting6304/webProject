@@ -34,8 +34,10 @@ app.set('port', process.env.PORT || 8080);
 var indexRouter = require('./controllers/index');
 var loginRouter = require('./controllers/login');
 var introRouter = require('./controllers/intro');
-var registerRouter = require('./controllers/register');//*
+var registerRouter = require('./controllers/register');
 var confirmRouter = require('./controllers/confirm');
+var logoutRouter = require('./controllers/logout');
+
 
 // var register1Router = require('./controllers/register1');
 // var register2Router = require('./controllers/register2');
@@ -43,13 +45,12 @@ var confirmRouter = require('./controllers/confirm');
 
 
 app.use('/', indexRouter);
-// app.use('/creators', creatorsRouter);
-// app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/intro', introRouter);
 
-app.use('/register', registerRouter);//*
+app.use('/register', registerRouter);
 app.use('/confirm', confirmRouter);
+app.use('/logout', logoutRouter);
 
 // app.use('/register1', register1Router);
 // app.use('/register2', register2Router);
@@ -58,7 +59,7 @@ app.use('/confirm', confirmRouter);
 
 var server = app.listen(8080, function () {		
 	dbConnection.connectDB();
-	user.initUser();
+	// user.initUser();
 	console.log("Server start http://127.0.0.1:8080");			
 });
 module.exports = app;

@@ -58,7 +58,7 @@ function getDBData(name, callback){
 }
 
 function updateData(modSql, modSqlParams){
-    connection.query('UPDATE ' + modSql,modSqlParams,function (err, result) {
+    connection.query('UPDATE ' + modSql, modSqlParams,function (err, result) {
     if(err){
         console.log('[UPDATE ERROR] - ',err.message);
         return;

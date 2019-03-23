@@ -1,20 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>P2P Borrowing Platform</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/index.css " type="text/css" />
     <link rel="stylesheet" href="/css/header.css" type="text/css" />
 </head>
 
 <body>
-
     <header class="nav">
         <ul>
             <li><a class="active" href="/">Home</a></li>
             <li><a href="#news">News</a></li>
             <li><a href="#contact">Contact</a></li>
             <li><a href="/intro">About</a></li>
-            <li class="nav_signin"><a href="/login"><%= title %></a></li>
+
+            <!-- <div class="login">  -->
+
+            <% if(title == "Sign in") { %>
+                <li class="nav_signin"><a href="/login"><%= title%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/logout"><%= title%></a></li>
+            <% } %>
+ 
+         <!-- </div> -->
+
+            <!-- <li class="nav_signin"><a href="/login"><%= title %></a></li> -->
             <li class="nav_signup"><a href="/register"><%= account %></a></li>
         </ul>      
     </header>

@@ -20,7 +20,7 @@ router.post('/', function(req, res, next){
 
     user.memberLogin(account, password, function(err, data){
         if(err){
-            callback(err, null);
+            console.log(err);
         }
         else{
             console.log("login : " + data);

@@ -13,7 +13,7 @@ app.use(router);
 /* GET home page. */
 router.get('/', function(req, res, next) {
     if(user.getloginStatus()){
-        res.render('index', { title: 'Log out', account: 'User-center'});
+        res.render('index', { title: 'Log out', account: 'account'});
     }
     else{
         res.render('index', { title: 'Sign in', account: 'Sign up'});
