@@ -23,6 +23,26 @@
     });
 </script>
 <body>
+    <header class="nav">
+        <ul>
+            <li><a class="active" href="/">Home</a></li>
+            <li><a href="#news">News</a></li>
+             <li><a href="#contact">Contact</a></li>
+             <li><a href="/intro">About</a></li>
+                
+            <% if(title == "Sign in") { %>
+                <li class="nav_signin"><a href="/login"><%= title%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/logout"><%= title%></a></li>
+            <% } %>
+                        
+            <% if(account == "Sign up") { %>
+                <li class="nav_signin"><a href="/register"><%= account%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/member"><%= account%></a></li>
+            <% } %>
+        </ul>      
+    </header>
     <main class="main">
         <article class = "main_titles titles">
             <h3 class= "titles_tile">Confirm</h3>

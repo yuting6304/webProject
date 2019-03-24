@@ -10,8 +10,12 @@ app.use(router);
 
 
 router.get('/', function(req, res, next) {
-    res.render('confirm', { title: 'Express' });
-});
+    if(user.getloginStatus()){
+        res.render('confirm', { title: 'Log out', account: '會員中心'});
+    }
+    else{
+        res.render('confirm', { title: 'Sign in', account: 'Sign up'});
+    }});
 
 router.post('/', function(req, res, next){
     let Account = req.body.Account;
@@ -30,9 +34,9 @@ router.post('/', function(req, res, next){
         else{
             console.log("login : " + data);
             if(data == 1){
-                let onlinemodSql = 'users SET online = ? WHERE account = ?';
-                let onlinemodSqlParams = [1, Account];
-                dbConnection.updateData(onlinemodSql, onlinemodSqlParams);
+                // let onlinemodSql = 'users SET online = ? WHERE account = ?';
+                // let onlinemodSqlParams = [1, Account];
+                // dbConnection.updateData(onlinemodSql, onlinemodSqlParams);
                 
                 user.setloginStatus(1);
                 

@@ -13,8 +13,18 @@
             <li><a href="#news">News</a></li>
             <li><a href="#contact">Contact</a></li>
             <li><a href="/intro">About</a></li>
-            <li class="nav_signin"><a href="/login">Sign in</a></li>
-            <li class="nav_signup"><a href="/register">Sign up</a></li>
+
+            <% if(title == "Sign in") { %>
+                <li class="nav_signin"><a href="/login"><%= title%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/logout"><%= title%></a></li>
+            <% } %>
+
+            <% if(account == "Sign up") { %>
+                <li class="nav_signin"><a href="/register"><%= account%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/member"><%= account%></a></li>
+            <% } %>
         </ul>      
     </header>
 

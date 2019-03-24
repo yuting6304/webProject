@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Register</title>
+    <link rel="stylesheet" href="/css/header.css" type="text/css" />
     <link href="/css/register_css.css" rel="stylesheet" type="text/css" media="all" />
     <script type="text/javascript" src="/js/register.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -37,6 +38,26 @@
     });
 </script>
 <body>
+    <header class="nav">
+        <ul>
+            <li><a class="active" href="/">Home</a></li>
+            <li><a href="#news">News</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="/intro">About</a></li>
+            <% if(title == "Sign in") { %>
+                <li class="nav_signin"><a href="/login"><%= title%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/logout"><%= title%></a></li>
+            <% } %>
+
+            <% if(account == "Sign up") { %>
+                <li class="nav_signin"><a href="/register"><%= account%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/member"><%= account%></a></li>
+            <% } %>
+        </ul>      
+    </header>
+
     <main class="main">
         <article class = "main_titles titles">
             <h3 class= "titles_tile">Join P2P Borrowing Platform</h3>

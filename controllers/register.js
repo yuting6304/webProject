@@ -8,7 +8,12 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('register', { title: 'Express' });
+    if(user.getloginStatus()){
+        res.render('register', { title: 'Log out', account: '會員中心'});
+    }
+    else{
+        res.render('register', { title: 'Sign in', account: 'Sign up'});
+    }
 });
 
 router.post('/', function(req, res){

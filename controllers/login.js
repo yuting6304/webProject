@@ -2,6 +2,8 @@ var app = require('../app')
 var express = require('express');
 var user = require('../models/user');
 var dbConnection = require('../models/dbConnection');
+var user = require('../models/user');
+
 
 var app = express(); // 產生express application物件
 var router = express.Router();
@@ -9,7 +11,12 @@ var router = express.Router();
 app.use(router);
 
 router.get('/', function(req, res, next) {
-    res.render('login', { title: 'Logout' });
+    if(user.getloginStatus()){
+        res.render('login', { title: 'Log out', account: '會員中心'});
+    }
+    else{
+        res.render('login', { title: 'Sign in', account: 'Sign up'});
+    }
 });
 
 router.post('/', function(req, res, next){
@@ -25,9 +32,9 @@ router.post('/', function(req, res, next){
         else{
             console.log("login : " + data);
             if(data == 1){
-                let modSql = 'users SET online = ? WHERE account = ?';
-                let modSqlParams = [1, account];
-                dbConnection.updateData(modSql, modSqlParams);
+                // let modSql = 'users SET online = ? WHERE account = ?';
+                // let modSqlParams = [1, account];
+                // dbConnection.updateData(modSql, modSqlParams);
                 
                 user.setloginStatus(1);
                 

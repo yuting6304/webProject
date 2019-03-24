@@ -34,6 +34,7 @@ app.set('port', process.env.PORT || 8080);
 var indexRouter = require('./controllers/index');
 var loginRouter = require('./controllers/login');
 var introRouter = require('./controllers/intro');
+var memberRouter = require('./controllers/member');
 var registerRouter = require('./controllers/register');
 var confirmRouter = require('./controllers/confirm');
 var logoutRouter = require('./controllers/logout');
@@ -47,6 +48,7 @@ var logoutRouter = require('./controllers/logout');
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/intro', introRouter);
+app.use('/member', memberRouter);
 
 app.use('/register', registerRouter);
 app.use('/confirm', confirmRouter);

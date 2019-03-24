@@ -4,16 +4,13 @@ var express = require('express');
 // var dbConnection = require('../models/dbConnection');
 var user = require('../models/user');
 
-var app = express(); // 產生express application物件
 var router = express.Router();
-
-app.use(router);
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
     if(user.getloginStatus()){
-        res.render('index', { title: 'Log out', account: 'account'});
+        res.render('index', { title: 'Log out', account: '會員中心'});
     }
     else{
         res.render('index', { title: 'Sign in', account: 'Sign up'});
@@ -171,4 +168,3 @@ router.get('/', function(req, res, next) {
     
 
 module.exports = router;
-module.exports = app;

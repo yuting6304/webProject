@@ -19,26 +19,26 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-function initUser(){
-    dbConnection.getDBData('users', function(err, data){
-        if(err){
-            console.log(err);
-        }
-        else{
-            let size = data.length;
-            let modSql = 'users SET online = ? WHERE id = ?';
-            let modSqlParams;
-            for(let i = 1; i <= size; i++){
-                if(data[i-1].online != 0){
-                    modSqlParams = [0, i];
-                    dbConnection.updateData(modSql, modSqlParams);
-                }
+// function initUser(){
+//     dbConnection.getDBData('users', function(err, data){
+//         if(err){
+//             console.log(err);
+//         }
+//         else{
+//             let size = data.length;
+//             let modSql = 'users SET online = ? WHERE id = ?';
+//             let modSqlParams;
+//             for(let i = 1; i <= size; i++){
+//                 if(data[i-1].online != 0){
+//                     modSqlParams = [0, i];
+//                     dbConnection.updateData(modSql, modSqlParams);
+//                 }
                 
-            }
-            console.log("users is inited");
-        }
-    });
-}
+//             }
+//             console.log("users is inited");
+//         }
+//     });
+// }
 
 function reg(name, account, password, fname, lname, gender, date, phone, credit, mailAddr){
     let  addSql = 'users(username, account, password, first_name, last_name, gender, birthday, phone_number, credit_card_number, Email) VALUES(?,?,?,?,?,?,?,?,?,?)';
@@ -99,6 +99,6 @@ function getloginStatus(){
 module.exports.reg = reg;
 module.exports.confirmMail = confirmMail;
 module.exports.memberLogin = memberLogin;
-module.exports.initUser = initUser;
+// module.exports.initUser = initUser;
 module.exports.setloginStatus = setloginStatus;
 module.exports.getloginStatus = getloginStatus;

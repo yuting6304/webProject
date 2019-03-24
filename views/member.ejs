@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>P2P Borrowing Platform</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/index.css " type="text/css" />
+    <title>Introduction</title>
+    <link rel="stylesheet" href="/css/intro.css" type="text/css" />
     <link rel="stylesheet" href="/css/header.css" type="text/css" />
 </head>
 
@@ -15,14 +14,12 @@
             <li><a href="#contact">Contact</a></li>
             <li><a href="/intro">About</a></li>
 
-            <!-- <div class="login">  -->
-
             <% if(title == "Sign in") { %>
                 <li class="nav_signin"><a href="/login"><%= title%></a></li>
             <% } else { %>
                 <li class="nav_signin"><a href="/logout"><%= title%></a></li>
             <% } %>
-                
+
             <% if(account == "Sign up") { %>
                 <li class="nav_signin"><a href="/register"><%= account%></a></li>
             <% } else { %>
@@ -31,16 +28,11 @@
         </ul>      
     </header>
 
-    <main class="entrance">
-        <div class="enterance_word word">
-            <h1 class="word_title">Send and rent is a free website</h1>
-            <h2 class="word_subtitle">It is great</h2>
-            <div class="word_buttons buttons">
-                <button type="button" class="buttons_button"> Investigate </button>
-                <button type="button" class="buttons_button"> Borrow </button>
-            </div>
-        </div>
-    </main>
+    <div class="start">
+        <h1 class="start_topic">會員中心</h1>
+    </div>
+    </article>
+
 
 </body>
 </html>
