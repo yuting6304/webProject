@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
 <html>
 <head>
     <meta charset="utf-8" />
     <title>Register</title>
     <link rel="stylesheet" href="/css/header.css" type="text/css" />
-    <link href="/css/register_css.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/css/register_css.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="/js/register.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
@@ -14,6 +13,7 @@
         var name, account, password;
         var fname, lname, date, phone, credit, gender;
         var mail;
+
         $("#send").click(function(){
             name=$("#name").val();
             account=$("#account").val();
@@ -29,8 +29,9 @@
             mail=$("#mail").val();
 
             $.post("http://localhost:8080/register",{name: name, account: account, password: password, fname: fname, lname: lname, gender: gender, date: date, phone: phone, credit: credit, mail: mail}, function(data){
+                // window.location.assign('/');
                 // if(data==='done'){
-                //     alert("send mail success");
+                //     alert("register success");
                 // }
             });
         
@@ -76,7 +77,7 @@
         </div>
 
         <!-- form 1 -->
-        <form onsubmit="checkInfo()" method="GET" role="form" action="/">
+        <form onsubmit="checkInfo()" method="GET" role="form" action="/" >
         <!-- <div> -->
             <div id = "confirmMsg"></div>
             <!-- Page 1 -->
@@ -88,7 +89,7 @@
                 <input id="account" type="text" placeholder="4~12 alphabets or numbers" required pattern="[0-9a-zA-Z]{4,12}" />
                     <span class="ok">ok</span><br/>
                 Password <span>*</span> <br/>
-                <input id="password" type="password" placeholder="8~16 alphabets or numbers" required pattern="[0-9a-zA-Z]{8,16}"/>
+                <input id="password" type="password" required/>
                     <span class="ok">ok</span><br/>
                 <!-- Email address <span>*</span> <br/>
                 <input id="email" type="email" required />
@@ -137,12 +138,7 @@
         <!-- form3 -->
         <!-- <form id="form3" onsubmit="checkInfo()"> -->
             <div id="form3">
-                <div id="txt">Send a confirm mail to your e-mail address : <br/><br/></div>
-                <input id="from" type="hidden" name="From" placeholder="Your name">
                 <input id="mail" name="mail" type="email" placeholder="Your email" required>
-                <input id="subject" type="hidden" name="Subject" />
-                <input id="msg" type="hidden" name="Message" />
-                <input id="url" type="hidden" name="URL" />
                 <input id="send" type="submit" value="Send" onclick="getInfo3()">
             </div>
         </form>

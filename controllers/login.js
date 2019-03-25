@@ -11,8 +11,10 @@ var router = express.Router();
 app.use(router);
 
 router.get('/', function(req, res, next) {
-    if(user.getloginStatus()){
-        res.render('login', { title: 'Log out', account: '會員中心'});
+    if(req.session.logined){
+    // if(user.getloginStatus() == 1){
+        let name = user.getloginAccount();
+        res.render('login', { title: 'Log out', account: name});
     }
     else{
         res.render('login', { title: 'Sign in', account: 'Sign up'});
@@ -31,24 +33,31 @@ router.post('/', function(req, res, next){
         }
         else{
             console.log("login : " + data);
-            if(data == 1){
+            if(data == -1){
+                user.setloginStatus("fail");
+                res.redirect('/login');
+            }
+            else{
+            // if(data != 1){
                 // let modSql = 'users SET online = ? WHERE account = ?';
                 // let modSqlParams = [1, account];
                 // dbConnection.updateData(modSql, modSqlParams);
                 
-                user.setloginStatus(1);
+                user.setloginStatus(data);
+                // console.log(user.getloginAccount());
                 
                 res.locals.username = account;
                 //設定session
-                req.session.username = res.locals.username 
-                console.log(req.session.username);                       
+                req.session.username = res.locals.username;
+                req.session.logined = true; 
+                // console.log(req.session.username);                       
                 res.redirect('/');
                 // res.render('index', { title: 'Logout' });
            }
-           else{
-                user.setloginStatus(-1);
-                res.redirect('/login');
-           }
+        //    else{
+        //         user.setloginStatus("fail",-1);
+        //         res.redirect('/login');
+        //    }
         }
     });
     

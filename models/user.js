@@ -6,7 +6,8 @@ var crypto = require('crypto');
 var mailcredit = require('../models/mailsecret');
 var dbConnection = require('../models/dbConnection');
 
-var status = 0;
+// var status = 0;
+var acc;
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -74,7 +75,7 @@ function memberLogin(acc, pass, callback){
             for(let i = 0; i < size; i++){
                 if(data[i].account == acc && data[i].password == md5.update(pass).digest('hex')){
                     if(data[i].confirm == 1){
-                        callback(null, 1);
+                        callback(null, data[i].username);
                         return;
                     }
                     else{
@@ -88,17 +89,24 @@ function memberLogin(acc, pass, callback){
     });
 }
 
-function setloginStatus(s){
-    status = s;
+function setloginStatus(a){
+    acc = a;
+    // status = s;
 }
 
-function getloginStatus(){
-    return status;
+function getloginAccount(){
+
+    return acc;
 }
+
+// function getloginStatus(){
+//     return status;
+// }
 
 module.exports.reg = reg;
 module.exports.confirmMail = confirmMail;
 module.exports.memberLogin = memberLogin;
 // module.exports.initUser = initUser;
 module.exports.setloginStatus = setloginStatus;
-module.exports.getloginStatus = getloginStatus;
+// module.exports.getloginStatus = getloginStatus;
+module.exports.getloginAccount = getloginAccount;

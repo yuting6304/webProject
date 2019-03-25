@@ -6,6 +6,8 @@ body{
     background-size: cover;
     background-repeat: no-repeat;
     color: white;
+    margin: 0;
+    height: 100%;
 }
 .main{
     min-width: 600px;

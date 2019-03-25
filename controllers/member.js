@@ -6,8 +6,10 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    if(user.getloginStatus()){
-        res.render('member', { title: 'Log out', account: '會員中心'});
+    if(req.session.logined){
+    // if(user.getloginStatus() == 1){
+        let name = user.getloginAccount();
+        res.render('member', { title: 'Log out', account: name});
     }
     else{
         res.render('member', { title: 'Sign in', account: 'Sign up'});

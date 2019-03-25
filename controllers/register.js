@@ -4,12 +4,17 @@ var mysql  = require('mysql');
 var crypto = require('crypto');
 var user = require('../models/user');
 
+var app = express(); // 產生express application物件
 var router = express.Router();
+
+app.use(router);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    if(user.getloginStatus()){
-        res.render('register', { title: 'Log out', account: '會員中心'});
+    if(req.session.logined){
+    // if(user.getloginStatus() == 1){
+        let name = user.getloginAccount();
+        res.render('register', { title: 'Log out', account: name});
     }
     else{
         res.render('register', { title: 'Sign in', account: 'Sign up'});
@@ -36,11 +41,10 @@ router.post('/', function(req, res){
     console.log("username : " + name + ", account : " + account + ", password : " + password);
     console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
     console.log("Mail : " + mailAddr);
-      
     user.confirmMail(mailAddr);
     user.reg(name, account, password, fname, lname, gender, date, phone, credit, mailAddr);
 
 })
 
 module.exports = router;
-
+module.exports = app;

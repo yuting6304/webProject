@@ -10,12 +10,15 @@ app.use(router);
 
 
 router.get('/', function(req, res, next) {
-    if(user.getloginStatus()){
-        res.render('confirm', { title: 'Log out', account: '會員中心'});
+    if(req.session.logined){
+    // if(user.getloginStatus() == 1){
+        let name = user.getloginAccount();
+        res.render('confirm', { title: 'Log out', account: name});
     }
     else{
         res.render('confirm', { title: 'Sign in', account: 'Sign up'});
-    }});
+    }
+});
 
 router.post('/', function(req, res, next){
     let Account = req.body.Account;
@@ -33,24 +36,31 @@ router.post('/', function(req, res, next){
         }
         else{
             console.log("login : " + data);
-            if(data == 1){
+            if(data == -1){
+                user.setloginStatus("fail");
+                res.redirect('/confirm')
+            }
+            else{
+            // if(data != 1){
                 // let onlinemodSql = 'users SET online = ? WHERE account = ?';
                 // let onlinemodSqlParams = [1, Account];
                 // dbConnection.updateData(onlinemodSql, onlinemodSqlParams);
                 
-                user.setloginStatus(1);
+                user.setloginStatus(data);
                 
                 res.locals.username = Account;
                 //設定session
                 req.session.username = res.locals.username 
-                console.log(req.session.username);                       
+                console.log(req.session.username);     
+                req.session.logined = true; 
+                  
                 res.redirect('/');
                 // res.render('index', { title: 'Logout' });
            }
-           else{
-                user.setloginStatus(-1);
-                res.redirect('/confirm');
-           }
+        //    else{
+        //         user.setloginStatus("fail", -1);
+        //         res.redirect('/confirm');
+        //    }
         }
     });
 

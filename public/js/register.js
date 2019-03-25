@@ -56,7 +56,6 @@ function getInfo1(){
     }
     form1.style.display = "none";  
     form2.style.display = "block";  
-    step1.style.backgroundColor.opacity = "1";
     step2.style.backgroundColor = "#61d1d3";
     step1.style.opacity = "1"
     step2.style.opacity = "0.9";
@@ -112,7 +111,6 @@ function getInfo2(){
 
     form2.style.display = "none";  
     form3.style.display = "block";  
-    step2.style.backgroundColor.opacity = "1";
     step2.style.opacity = "1"
     step3.style.opacity = "0.9";
     step3.style.backgroundColor = "#61d1d3";
