@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
     if(req.session.logined){
     // if(user.getloginStatus() == 1){
         let name = user.getloginAccount();
-        res.render('intro', { title: 'Log out', account: name});
+        res.render('intro', { title: 'Log out', account: req.session.username});
     }
     else{
         res.render('intro', { title: 'Sign in', account: 'Sign up'});

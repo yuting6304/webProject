@@ -11,11 +11,11 @@
 </head>
 <script>
     $(document).ready(function(){
-        var acc,pass;
+        var name,pass;
         $("#login").click(function(){
-          acc=$("#account").val();
+          name=$("#username").val();
           pass=$("#password").val();
-          $.post("http://localhost:8080/login",{account: acc, password: pass}, function(data){
+          $.post("http://localhost:8080/login",{username: name, password: pass}, function(data){
 
           });
         });
@@ -52,8 +52,8 @@
         </article>
         
         <form class="login_area" method="POST" role="form">
-            Account :<br/>
-                <input type="text" name="account" id="account" /><br/>
+            Username :<br/>
+                <input type="text" name="username" id="username" /><br/>
             Password :<br/>
                 <input type="password" name="password" id="password" /><br/><br/>
             <input type="submit" id="login" value="login"/>

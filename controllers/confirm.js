@@ -12,8 +12,8 @@ app.use(router);
 router.get('/', function(req, res, next) {
     if(req.session.logined){
     // if(user.getloginStatus() == 1){
-        let name = user.getloginAccount();
-        res.render('confirm', { title: 'Log out', account: name});
+        // let name = user.getloginAccount();
+        res.render('confirm', { title: 'Log out', account: req.session.username});
     }
     else{
         res.render('confirm', { title: 'Sign in', account: 'Sign up'});
@@ -21,34 +21,34 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next){
-    let Account = req.body.Account;
-    let Password = req.body.Password;
+    let username = req.body.username;
+    let password = req.body.password;
     
-    console.log("Account : " + Account + ", Password : " + Password);
+    console.log("Username : " + username + ", Password : " + password);
     
-    let modSql = 'users SET confirm = ? WHERE account = ?';
-    let modSqlParams = [1, Account];
+    let modSql = 'users SET confirm = ? WHERE username = ?';
+    let modSqlParams = [1, username];
     dbConnection.updateData(modSql, modSqlParams);
 
-    user.memberLogin(Account, Password, function(err, data){
+    user.memberLogin(username, password, function(err, data){
         if(err){
             callback(err, null);
         }
         else{
             console.log("login : " + data);
-            if(data == -1){
-                user.setloginStatus("fail");
-                res.redirect('/confirm')
-            }
-            else{
-            // if(data != 1){
+            // if(data == -1){
+            //     user.setloginStatus("fail");
+            //     res.redirect('/confirm')
+            // }
+            // else{
+            if(data == 1){
                 // let onlinemodSql = 'users SET online = ? WHERE account = ?';
                 // let onlinemodSqlParams = [1, Account];
                 // dbConnection.updateData(onlinemodSql, onlinemodSqlParams);
                 
-                user.setloginStatus(data);
+                // user.setloginStatus(data);
                 
-                res.locals.username = Account;
+                res.locals.username = username;
                 //設定session
                 req.session.username = res.locals.username 
                 console.log(req.session.username);     
@@ -57,10 +57,10 @@ router.post('/', function(req, res, next){
                 res.redirect('/');
                 // res.render('index', { title: 'Logout' });
            }
-        //    else{
-        //         user.setloginStatus("fail", -1);
-        //         res.redirect('/confirm');
-        //    }
+           else{
+                user.setloginStatus("fail", -1);
+                res.redirect('/confirm');
+           }
         }
     });
 

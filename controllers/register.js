@@ -13,8 +13,8 @@ app.use(router);
 router.get('/', function(req, res, next) {
     if(req.session.logined){
     // if(user.getloginStatus() == 1){
-        let name = user.getloginAccount();
-        res.render('register', { title: 'Log out', account: name});
+        // let name = user.getloginAccount();
+        res.render('register', { title: 'Log out', account: req.session.username});
     }
     else{
         res.render('register', { title: 'Sign in', account: 'Sign up'});
@@ -42,7 +42,7 @@ router.post('/', function(req, res){
     console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
     console.log("Mail : " + mailAddr);
     user.confirmMail(mailAddr);
-    user.reg(name, account, password, fname, lname, gender, date, phone, credit, mailAddr);
+    user.reg(name, password, fname, lname, gender, date, phone, credit, mailAddr);
 
 })
 

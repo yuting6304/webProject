@@ -3,7 +3,7 @@ var step1, step2, step3;
 var form1, form2, form3;
 var confirm1 = 0, confirm2 = 0, confirm3 = 0;
 
-var name, account, password;
+var username, account, password;
 var fname, lname, gender, date, phone, credit;
 var mail;
 
@@ -39,17 +39,17 @@ window.onload = function(){
 }
 
 function getInfo1(){
-    name = document.getElementById("name");
-    account = document.getElementById("account");
+    username = document.getElementById("username");
+    // account = document.getElementById("account");
     password = document.getElementById("password");
-    if(name.value == ""){
+    if(username.value == ""){
         alert("Please fill in your name!");
         return false;
     }
-    else if(account.value == ""){
-        alert("Please fill in your account!");
-        return false;
-    }
+    // else if(account.value == ""){
+    //     alert("Please fill in your account!");
+    //     return false;
+    // }
     else if(password.value == ""){
         alert("Please fill in your password!");
         return false;

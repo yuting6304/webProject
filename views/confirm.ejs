@@ -10,11 +10,11 @@
 </head>
 <script>
     $(document).ready(function(){
-        let Account, Password;
+        let username, password;
         $("#enter").click(function(){
-            Account=$("#Account").val();
-            Password=$("#Password").val();
-            $.post("http://localhost:8080/confirm",{Account: Account, Password: Password}, function(data){
+            username=$("#username").val();
+            password=$("#password").val();
+            $.post("http://localhost:8080/confirm",{username: username, password: password}, function(data){
                 // if(data==='done'){
                 //     alert("send mail success");
                 // }
@@ -50,9 +50,9 @@
 
         <form id="confirm" method="POST" role="form">
             Account :<br/>
-                <input type="text" name="Account" id="Account" /><br/>
+                <input type="text" name="username" id="username" /><br/>
             Password :<br/>
-                <input type="password" name="Password" id="Password" /><br/><br/>
+                <input type="password" name="password" id="password" /><br/><br/>
             <input type="submit" id="enter" value="confirm"/>        
         </form>
     </main>

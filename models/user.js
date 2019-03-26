@@ -41,9 +41,9 @@ var transporter = nodemailer.createTransport({
 //     });
 // }
 
-function reg(name, account, password, fname, lname, gender, date, phone, credit, mailAddr){
-    let  addSql = 'users(username, account, password, first_name, last_name, gender, birthday, phone_number, credit_card_number, Email) VALUES(?,?,?,?,?,?,?,?,?,?)';
-    let  addSqlParams = [name, account, password, fname, lname, gender, date, phone, credit, mailAddr];
+function reg(name, password, fname, lname, gender, date, phone, credit, mailAddr){
+    let  addSql = 'users(username, password, first_name, last_name, gender, birthday, phone_number, credit_card_number, Email) VALUES(?,?,?,?,?,?,?,?,?)';
+    let  addSqlParams = [name, password, fname, lname, gender, date, phone, credit, mailAddr];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
@@ -64,7 +64,7 @@ function confirmMail(mailAddr){
     });
 }
 
-function memberLogin(acc, pass, callback){
+function memberLogin(name, pass, callback){
     dbConnection.getDBData('users', function(err, data){
         if(err){
             callback(err, null);
@@ -73,9 +73,9 @@ function memberLogin(acc, pass, callback){
             let size = data.length;
             let md5 = crypto.createHash('md5');
             for(let i = 0; i < size; i++){
-                if(data[i].account == acc && data[i].password == md5.update(pass).digest('hex')){
+                if(data[i].username == name && data[i].password == md5.update(pass).digest('hex')){
                     if(data[i].confirm == 1){
-                        callback(null, data[i].username);
+                        callback(null, 1);
                         return;
                     }
                     else{

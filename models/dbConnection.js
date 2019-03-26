@@ -17,7 +17,8 @@ function connectDB(){
         }
         console.log("mysql connected");
         // mysql_query("SET NAMES 'utf8'");
-        let createUsers = 'create table if not exists users(id int not null auto_increment, username varchar(30) not null, account varchar(30) not null, password varchar(32) not null, first_name varchar(30) not null, last_name varchar(30) not null, gender varchar(30) not null, birthday varchar(30) not null, phone_number varchar(30) not null, credit_card_number varchar(30) not null, Email varchar(30) not null, confirm int not null default 0, primary key(id)) DEFAULT CHARSET=utf8';
+        let createUsers = 'create table if not exists users(id int not null auto_increment, username varchar(30) not null, password varchar(32) not null, first_name varchar(30) not null, last_name varchar(30) not null, gender varchar(30) not null, birthday varchar(30) not null, phone_number varchar(30) not null, credit_card_number varchar(30) not null, Email varchar(30) not null, confirm int not null default 0, primary key(id)) DEFAULT CHARSET=utf8';
+        // let createUsers = 'create table if not exists users(id int not null auto_increment, username varchar(30) not null, account varchar(30) not null, password varchar(32) not null, first_name varchar(30) not null, last_name varchar(30) not null, gender varchar(30) not null, birthday varchar(30) not null, phone_number varchar(30) not null, credit_card_number varchar(30) not null, Email varchar(30) not null, confirm int not null default 0, primary key(id)) DEFAULT CHARSET=utf8';
         connection.query(createUsers, function(err, results, fields){
             if(err){
                 console.log(err.message);

@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
     // res.render('logout', { title: 'Express' });
 
     // user.initUser();
-    user.setloginStatus("logout");
+    // user.setloginStatus("logout");
 
     req.session.destroy();
     res.redirect('/');

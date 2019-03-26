@@ -10,13 +10,13 @@
 </head>
 <script>
     $(document).ready(function(){
-        var name, account, password;
+        var username, account, password;
         var fname, lname, date, phone, credit, gender;
         var mail;
 
         $("#send").click(function(){
-            name=$("#name").val();
-            account=$("#account").val();
+            username=$("#username").val();
+            // account=$("#account").val();
             password=$("#password").val();
 
             fname=$("#fname").val();
@@ -28,7 +28,7 @@
 
             mail=$("#mail").val();
 
-            $.post("http://localhost:8080/register",{name: name, account: account, password: password, fname: fname, lname: lname, gender: gender, date: date, phone: phone, credit: credit, mail: mail}, function(data){
+            $.post("http://localhost:8080/register",{username: username, password: password, fname: fname, lname: lname, gender: gender, date: date, phone: phone, credit: credit, mail: mail}, function(data){
                 // window.location.assign('/');
                 // if(data==='done'){
                 //     alert("register success");
@@ -83,11 +83,11 @@
             <!-- Page 1 -->
             <div name="form1" id="form1">  
                 Username <span>*</span> <br/>
-                <input id="name" type="text" required />
+                <input id="username" type="text" required />
                     <span class="ok">ok</span><br/>
-                Account <span>*</span> <br/>
+                <!-- Account <span>*</span> <br/>
                 <input id="account" type="text" placeholder="4~12 alphabets or numbers" required pattern="[0-9a-zA-Z]{4,12}" />
-                    <span class="ok">ok</span><br/>
+                    <span class="ok">ok</span><br/> -->
                 Password <span>*</span> <br/>
                 <input id="password" type="password" required/>
                     <span class="ok">ok</span><br/>

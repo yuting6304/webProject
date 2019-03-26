@@ -15,8 +15,8 @@ app.use(router);
 router.get('/', function(req, res, next) {
     if(req.session.logined){
     // if(user.getloginStatus() == 1){
-        let name = user.getloginAccount();
-        res.render('index', { title: 'Log out', account: name});
+        // let name = user.getloginAccount();
+        res.render('index', { title: 'Log out', account: req.session.username});
     }
     else{
         res.render('index', { title: 'Sign in', account: 'Sign up'});
