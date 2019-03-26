@@ -58,7 +58,7 @@ router.post('/', function(req, res, next){
                 // res.render('index', { title: 'Logout' });
            }
            else{
-                user.setloginStatus("fail", -1);
+                // user.setloginStatus("fail", -1);
                 res.redirect('/confirm');
            }
         }

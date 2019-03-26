@@ -22,8 +22,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res){
-    let name = req.body.name;
-    let account = req.body.account;
+    let username = req.body.username;
     let password = req.body.password;
 
     let fname = req.body.fname;
@@ -38,11 +37,11 @@ router.post('/', function(req, res){
 
     let mailAddr = req.body.mail;
 
-    console.log("username : " + name + ", account : " + account + ", password : " + password);
+    console.log("username : " + username + ", password : " + password);
     console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
     console.log("Mail : " + mailAddr);
     user.confirmMail(mailAddr);
-    user.reg(name, password, fname, lname, gender, date, phone, credit, mailAddr);
+    user.reg(username, password, fname, lname, gender, date, phone, credit, mailAddr);
 
 })
 

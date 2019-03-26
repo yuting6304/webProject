@@ -7,7 +7,7 @@ var mailcredit = require('../models/mailsecret');
 var dbConnection = require('../models/dbConnection');
 
 // var status = 0;
-var acc;
+// var acc;
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -89,15 +89,15 @@ function memberLogin(name, pass, callback){
     });
 }
 
-function setloginStatus(a){
-    acc = a;
-    // status = s;
-}
+// function setloginStatus(a){
+//     acc = a;
+//     // status = s;
+// }
 
-function getloginAccount(){
+// function getloginAccount(){
 
-    return acc;
-}
+//     return acc;
+// }
 
 // function getloginStatus(){
 //     return status;
@@ -107,6 +107,6 @@ module.exports.reg = reg;
 module.exports.confirmMail = confirmMail;
 module.exports.memberLogin = memberLogin;
 // module.exports.initUser = initUser;
-module.exports.setloginStatus = setloginStatus;
+// module.exports.setloginStatus = setloginStatus;
 // module.exports.getloginStatus = getloginStatus;
-module.exports.getloginAccount = getloginAccount;
+// module.exports.getloginAccount = getloginAccount;
