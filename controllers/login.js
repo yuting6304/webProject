@@ -50,7 +50,9 @@ router.post('/', function(req, res, next){
                 //設定session
                 req.session.username = res.locals.username;
                 req.session.logined = true; 
-                // console.log(req.session.username);                       
+                // console.log(req.session.username);  
+                // let urlname = "/member/"+username;                     
+                // res.redirect(urlname);
                 res.redirect('/');
                 
                 // res.render('index', { title: 'Logout' });
