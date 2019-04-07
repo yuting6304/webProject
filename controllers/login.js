@@ -52,6 +52,7 @@ router.post('/', function(req, res, next){
                 req.session.logined = true; 
                 // console.log(req.session.username);                       
                 res.redirect('/');
+                
                 // res.render('index', { title: 'Logout' });
            }
            else{

@@ -40,9 +40,12 @@ router.post('/', function(req, res){
     console.log("username : " + username + ", password : " + password);
     console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
     console.log("Mail : " + mailAddr);
-    user.confirmMail(mailAddr);
-    user.reg(username, password, fname, lname, gender, date, phone, credit, mailAddr);
-
+    if(username!="" && password!="" && fname!="" && lname!="" && gender!="" && date!="" && phone!="" && credit!="" && mailAddr!=""){
+        user.confirmMail(mailAddr);
+        user.reg(username, password, fname, lname, gender, date, phone, credit, mailAddr);
+    }
+    // res.redirect('/');
+   
 })
 
 module.exports = router;

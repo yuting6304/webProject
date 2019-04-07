@@ -9,11 +9,12 @@ var app = express(); // 產生express application物件
 var router = express.Router();
 
 app.use(router);
-
+var name = "";
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
     if(req.session.logined){
+        name = req.session.username;
     // if(user.getloginStatus() == 1){
         // let name = user.getloginAccount();
         res.render('index', { title: 'Log out', account: req.session.username});
@@ -23,6 +24,20 @@ router.get('/', function(req, res, next) {
     }
     // res.render('index', { title: 'Sign in' });
 });
+
+
+// router.get('/member/:name', function(req, res, next) {
+//     console.log(req.params.name);
+//     if(req.session.logined){
+//     // if(user.getloginStatus() == 1){
+//         // let name = user.getloginAccount();
+//         res.render('index', { title: 'Log out', account: req.session.username});
+//     }
+//     else{
+//         res.render('index', { title: 'Sign in', account: 'Sign up'});
+//     }
+//     // res.render('index', { title: 'Sign in' });
+// });
 
 // router.post('/login', function(req, res, next){
 //     let account = req.body.account;
