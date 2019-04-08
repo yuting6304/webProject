@@ -22,6 +22,7 @@ window.onload = function(){
 
             
     // get each step
+    // step 1
     step1 = document.getElementById("step1");
     step2 = document.getElementById("step2");
     step3 = document.getElementById("step3");
@@ -31,7 +32,7 @@ window.onload = function(){
     step2.style.color = "grey";
     step3.style.color = "grey";
 
-    // visible
+    // set other invisible
     form2.style.display = "none";  
     form3.style.display = "none";    
 
@@ -54,12 +55,19 @@ function getInfo1(){
         alert("Please fill in your password!");
         return false;
     }
+    
+    // step 2
     form1.style.display = "none";  
     form2.style.display = "block";  
+        
+    step1.style.backgroundColor = "";
     step2.style.backgroundColor = "#61d1d3";
+    
     step1.style.opacity = "1"
     step2.style.opacity = "0.9";
-    step2.style.color = "grey";
+
+    step1.style.color = "grey";
+    step2.style.color = "white";
     
     confirm1 = 1;
 
@@ -109,12 +117,19 @@ function getInfo2(){
         return false;
     }
 
+    // step 3
+
     form2.style.display = "none";  
-    form3.style.display = "block";  
+    form3.style.display = "block";
+
     step2.style.opacity = "1"
     step3.style.opacity = "0.9";
+    
+    step2.style.backgroundColor = "";
     step3.style.backgroundColor = "#61d1d3";
+    
     step2.style.color = "grey";
+    step3.style.color = "white";
 
     confirm2 = 1;
     // if(fname != "" && lname != "" && gender != "" && date != "" && phone != "" && credit != ""){

@@ -37,10 +37,12 @@ router.post('/', function(req, res){
 
     let mailAddr = req.body.mail;
 
-    console.log("username : " + username + ", password : " + password);
-    console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
-    console.log("Mail : " + mailAddr);
+   
     if(username!="" && password!="" && fname!="" && lname!="" && gender!="" && date!="" && phone!="" && credit!="" && mailAddr!=""){
+        console.log("username : " + username + ", password : " + password);
+        console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
+        console.log("Mail : " + mailAddr);
+        
         user.confirmMail(mailAddr);
         user.reg(username, password, fname, lname, gender, date, phone, credit, mailAddr);
     }
