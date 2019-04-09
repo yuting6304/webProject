@@ -6,6 +6,7 @@ var session = require('express-session');
 var mysql  = require('mysql'); 
 var dbConnection = require('./models/dbConnection');
 var user = require('./models/user');
+var geth = require('./models/geth');
 // var io = require('socket.io');
 
 
@@ -61,6 +62,7 @@ app.use('/logout', logoutRouter);
 
 var server = app.listen(8080, function () {		
 	dbConnection.connectDB();
+	geth.gethConnection();
 	// user.initUser();
 	console.log("Server start http://127.0.0.1:8080");			
 });
