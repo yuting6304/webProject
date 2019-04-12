@@ -1,11 +1,11 @@
-var nx1, nx2, nx3; // button 
-var step1, step2, step3;
-var form1, form2, form3;
-var confirm1 = 0, confirm2 = 0, confirm3 = 0;
+let nx1, nx2, nx3; // button 
+let step1, step2, step3;
+let form1, form2, form3;
+let confirm1 = 0, confirm2 = 0, confirm3 = 0;
 
-var username, account, password;
-var fname, lname, gender, date, phone, credit;
-var mail;
+let username, account, password;
+let fname, lname, gender, date, phone, credit;
+let mail;
 
 
 
@@ -44,6 +44,7 @@ function getInfo1(){
     // account = document.getElementById("account");
     password = document.getElementById("password");
     if(username.value == ""){
+        username.focus();
         alert("Please fill in your name!");
         return false;
     }
@@ -52,6 +53,7 @@ function getInfo1(){
     //     return false;
     // }
     else if(password.value == ""){
+        password.focus();
         alert("Please fill in your password!");
         return false;
     }
@@ -87,20 +89,28 @@ function getInfo1(){
 function getInfo2(){
     fname = document.getElementById("fname");
     lname = document.getElementById("lname");
-    gender = document.getElementsByName("gender");
+    // gender = document.getElementsByName("gender");
     date = document.getElementById("date");
     phone = document.getElementById("phone");
     credit = document.getElementById("credit");
+    gender=$("input[name='gender']:checked").val();
 
+    let phonerule = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
     if(fname.value == ""){
+        fname.focus();
         alert("Please fill in your first name!");
         return false;
     }
     else if(lname.value == ""){
+        lname.focus();
         alert("Please fill in your last name!");
         return false;
     }
-    else if(gender.value == ""){
+    else if(gender == ""){
+        alert("Please fill in your gender!");
+        return false;
+    }
+    else if(gender == undefined){
         alert("Please fill in your gender!");
         return false;
     }
@@ -108,12 +118,28 @@ function getInfo2(){
         alert("Please fill in your birthday!");
         return false;
     }
+    else if(date.value == undefined){
+        alert("Please fill in your birthday!");
+        return false;
+    }
     else if(phone.value == ""){
+        phone.focus();
         alert("Please fill in your phone number!");
         return false;
     }
+    else if(phone.value.search(phonerule)==-1){
+        phone.focus();
+        alert("Please fill the correct phone number!");
+        return false;
+    }
     else if(credit.value == ""){
+        credit.focus();
         alert("Please fill in your credit card number!");
+        return false;
+    }
+    else if(credit.value != "0000000000"){
+        credit.focus();
+        alert("Please fill the correct credit card number!");
         return false;
     }
 
@@ -147,7 +173,8 @@ function getInfo2(){
 function getInfo3(){
     mail = document.getElementById("mail");
     if(mail.value == ""){
-        alert("Please fill in your mail address!");
+        mail.focus();
+        // alert("Please fill in your mail address!");
         return false;
     }
     confirm3 = 1;

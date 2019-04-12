@@ -79,7 +79,7 @@
         <!-- form 1 -->
         <form onsubmit="checkInfo()" method="GET" role="form" action="/" >
         <!-- <div> -->
-            <div id = "confirmMsg"></div>
+
             <!-- Page 1 -->
             <div name="form1" id="form1">  
                 Username <span>*</span> <br/>
@@ -104,7 +104,7 @@
 
         <!-- form2 -->
         <!-- <form onsubmit="checkInfo()"> -->
-            <div id="confirmMsg"></div>
+
             <!-- Page 2 -->
             <div name="form2" id="form2">
                 First name <span>*</span><br/>
@@ -138,7 +138,10 @@
         <!-- form3 -->
         <!-- <form id="form3" onsubmit="checkInfo()"> -->
             <div id="form3">
+                E-mail <span>*</span> <br/>
                 <input id="mail" name="mail" type="email" placeholder="Your email" required>
+                <span class="ok">ok</span>
+                <br/><br/>
                 <input id="send" type="submit" value="Send" onclick="getInfo3()">
             </div>
         </form>

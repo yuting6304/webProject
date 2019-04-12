@@ -36,7 +36,7 @@ body{
     text-align: initial;
     padding: 5px;
 }
-#form1, #form2{
+#form1, #form2, #form3{
     line-height: 2em;
     width: 300px;
     /* margin: 0px auto;  */
@@ -72,21 +72,21 @@ body{
     border: 1px solid #888888;
 }
 
-#form1>span, #form2>span{
+#form1>span, #form2>span, #form3>span{
     color: red;
 }
-#form1>input, #form2>input{
+#form1>input, #form2>input, #form3>input{
     padding: 5px 20px;
     border: 2px solid #888888;
     border-radius: 5px;
 }
-#form1>.ok, #form2>.ok{
+#form1>.ok, #form2>.ok, #form3>.ok{
     color: green;
 }
-#form1>input:valid+.ok, #form2>input:valid+.ok{
+#form1>input:valid+.ok, #form2>input:valid+.ok,  #form3>input:valid+.ok{
     display: inline;
 }
-#form1>input:invalid+.ok, #form2>input:invalid+.ok{
+#form1>input:invalid+.ok, #form2>input:invalid+.ok, #form3>input:invalid+.ok{
     display: none;
 }
 
@@ -103,17 +103,17 @@ body{
     /* margin: 50px; */
 }
 /* button on page3 */
-#form3{
+#form3>#send{
     position: relative;
-    width: 600px;
+    /* width: 600px;
     height: 400px;
-    left: 5%;
+    left: 25%;  */
     /* border: 1px solid #888888; */
 }
-#form3>div{
+/* #form3>div{
     font-size: 18px;
     font-weight: bolder;
 }
 #form3>input{
     padding: 5px 10px;
-}
+} */

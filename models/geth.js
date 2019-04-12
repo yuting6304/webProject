@@ -13,8 +13,8 @@ web3.setProvider(new web3.providers.HttpProvider(ethereumUri));
 
 function gethConnection(){
     if(!web3.isConnected()){
-        // console.log('unable to connect to ethereum node at ' + ethereumUri);
-        throw new Error('unable to connect to ethereum node at ' + ethereumUri);
+        console.log('unable to connect to ethereum node at ' + ethereumUri);
+        // throw new Error('unable to connect to ethereum node at ' + ethereumUri);
     }else{
         console.log('connected to ehterum node at ' + ethereumUri);
         // let coinbase = web3.eth.coinbase;
