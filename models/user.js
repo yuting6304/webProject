@@ -47,6 +47,30 @@ function reg(name, password, fname, lname, gender, date, phone, credit, mailAddr
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
+function regMail(mailAddr, callback){
+    dbConnection.getDBData('users', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            for(let i = 0; i < size; i++){
+                if(data[i].Email == mailAddr){
+                    if(data[i].confirm == 1){
+                        callback(null, 1);
+                        return;
+                    }
+                    else{
+                        break;
+                    }
+                }
+            }
+            callback(null, -1);
+            return;
+        }
+    });
+}
+
 function confirmMail(mailAddr){
     var mailOptions = {
         from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
@@ -89,6 +113,8 @@ function memberLogin(name, pass, callback){
     });
 }
 
+
+
 // function setloginStatus(a){
 //     acc = a;
 //     // status = s;
@@ -104,6 +130,7 @@ function memberLogin(name, pass, callback){
 // }
 
 module.exports.reg = reg;
+module.exports.regMail = regMail;
 module.exports.confirmMail = confirmMail;
 module.exports.memberLogin = memberLogin;
 // module.exports.initUser = initUser;

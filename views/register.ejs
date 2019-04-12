@@ -4,15 +4,21 @@
     <meta charset="utf-8" />
     <title>Register</title>
     <link rel="stylesheet" href="/css/header.css" type="text/css" />
-    <link href="/css/register_css.css" rel="stylesheet" type="text/css" />
+    <!-- <link rel="stylesheet" href="../node_modules/popups/css/popupS.css" type="text/css" /> -->
+
+    <link rel="stylesheet" href="/css/register_css.css" type="text/css" />
     <script type="text/javascript" src="/js/register.js"></script>
+    <!-- <script type="text/javascript" src="../node_modules/popups/dist/popupS.js"></script> -->
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
+
 <script>
+
     $(document).ready(function(){
-        var username, account, password;
-        var fname, lname, date, phone, credit, gender;
-        var mail;
+        let username, account, password;
+        let fname, lname, date, phone, credit, gender;
+        let mail;
 
         $("#send").click(function(){
             username=$("#username").val();
@@ -29,14 +35,13 @@
             mail=$("#mail").val();
 
             $.post("http://localhost:8080/register",{username: username, password: password, fname: fname, lname: lname, gender: gender, date: date, phone: phone, credit: credit, mail: mail}, function(data){
-                // window.location.assign('/');
-                // if(data==='done'){
-                //     alert("register success");
-                // }
+                console.log(data);
             });
-        
         });
     });
+
+
+    
 </script>
 <body>
     <header class="nav">
@@ -75,12 +80,15 @@
                 step3 : <br/>Send E-mail to finish
             </div>
         </div>
-
+        
+        
         <!-- form 1 -->
-        <form onsubmit="checkInfo()" method="GET" role="form" action="/" >
+        <form id="form" onsubmit="checkInfo()" method="GET" role="form" action="/" >
         <!-- <div> -->
             <div id="checkInput">
+           
             </div>
+            
             <!-- Page 1 -->
             <div name="form1" id="form1">  
                 Username <span>*</span> <br/>

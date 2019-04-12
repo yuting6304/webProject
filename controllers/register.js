@@ -4,10 +4,12 @@ var mysql  = require('mysql');
 var crypto = require('crypto');
 var user = require('../models/user');
 
+
 var app = express(); // 產生express application物件
 var router = express.Router();
 
 app.use(router);
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -41,12 +43,24 @@ router.post('/', function(req, res){
 
    
     if(username!="" && password!="" && fname!="" && lname!="" && gender!=undefined && date!="" && phone!="" && credit!="" && mailAddr!="" && mailAddr.search(emailRule)!=-1){
-        console.log("username : " + username + ", password : " + password);
-        console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
-        console.log("Mail : " + mailAddr);
-        
-        user.confirmMail(mailAddr);
-        user.reg(username, password, fname, lname, gender, date, phone, credit, mailAddr);
+        // user.regMail(mailAddr, function(err, data){
+        //     if(err){
+        //         console.log(err);
+        //     }
+        //     else{
+        //         if(data == 1){
+        //             console.log("mail addr exist");
+        //         }
+        //         else{
+                    console.log("username : " + username + ", password : " + password);
+                    console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
+                    console.log("Mail : " + mailAddr);
+                    
+                    user.confirmMail(mailAddr);
+                    user.reg(username, password, fname, lname, gender, date, phone, credit, mailAddr);
+        //         }
+        //     }
+        // })
     }
     // res.redirect('/');
    
