@@ -28,20 +28,31 @@ body{
     margin:0;
 }
 
-#confirmMsg{
-    position: absolute;
-    top: 30%;
+#checkInput {
+    height: 40px;
+    width: 300px;
+    position: relative;
+    top: 15%;
     left: 25%;
-    font-size: 18px;
-    text-align: initial;
-    padding: 5px;
 }
+.effect{
+    /* inifinite : 動畫持續而不中斷 */
+    animation: blink 1s infinite;
+}
+
+/* 定義動畫 blink動畫 */
+@keyframes blink{
+    0%{opacity: 0;}
+    /* 50%{opacity: 1;} */
+    100%{opacity: 1;}
+}
+
 #form1, #form2, #form3{
     line-height: 2em;
     width: 300px;
     /* margin: 0px auto;  */
     position: relative;
-    top: 20%;
+    top: 25%;
     left: 25%;
 }
 .step{

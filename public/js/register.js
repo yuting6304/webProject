@@ -1,12 +1,12 @@
 let nx1, nx2, nx3; // button 
 let step1, step2, step3;
 let form1, form2, form3;
-let confirm1 = 0, confirm2 = 0, confirm3 = 0;
 
 let username, account, password;
 let fname, lname, gender, date, phone, credit;
 let mail;
 
+let checkInput;
 
 
 window.onload = function(){ 
@@ -36,6 +36,10 @@ window.onload = function(){
     form2.style.display = "none";  
     form3.style.display = "none";    
 
+    checkInput = document.getElementById("checkInput");
+    var start_text = checkInput;
+    // 把class "effect"加到text中
+    start_text.classList.add("effect");
 
 }
 
@@ -45,7 +49,8 @@ function getInfo1(){
     password = document.getElementById("password");
     if(username.value == ""){
         username.focus();
-        alert("Please fill in your name!");
+        checkInput.innerHTML = "<p style='color:red'> Please fill in your name! </p>";
+        // alert("Please fill in your name!");
         return false;
     }
     // else if(account.value == ""){
@@ -53,11 +58,13 @@ function getInfo1(){
     //     return false;
     // }
     else if(password.value == ""){
+        checkInput.innerHTML = "<p style='color:red'> Please fill in your password! </p>";
         password.focus();
-        alert("Please fill in your password!");
+        // alert("Please fill in your password!");
         return false;
     }
-    
+    checkInput.innerHTML = "";
+
     // step 2
     form1.style.display = "none";  
     form2.style.display = "block";  
@@ -97,51 +104,63 @@ function getInfo2(){
 
     let phonerule = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
     if(fname.value == ""){
+        checkInput.innerHTML = "<p style='color:red'> Please fill in first name! </p>";
         fname.focus();
-        alert("Please fill in your first name!");
+        // alert("Please fill in your first name!");
         return false;
     }
     else if(lname.value == ""){
+        checkInput.innerHTML = "<p style='color:red'> Please fill in last name! </p>";
         lname.focus();
-        alert("Please fill in your last name!");
+        // alert("Please fill in your last name!");
         return false;
     }
     else if(gender == ""){
-        alert("Please fill in your gender!");
+        checkInput.innerHTML = "<p style='color:red'> Please select your gender! </p>";
+        // alert("Please fill in your gender!");
         return false;
     }
     else if(gender == undefined){
-        alert("Please fill in your gender!");
+        checkInput.innerHTML = "<p style='color:red'> Please select your gender! </p>";
+        // alert("Please fill in your gender!");
         return false;
     }
     else if(date.value == ""){
-        alert("Please fill in your birthday!");
+        checkInput.innerHTML = "<p style='color:red'> Please select your birthday! </p>";
+        // alert("Please fill in your birthday!");
         return false;
     }
     else if(date.value == undefined){
-        alert("Please fill in your birthday!");
+        checkInput.innerHTML = "<p style='color:red'> Please select your birthday! </p>";
+        // alert("Please fill in your birthday!");
         return false;
     }
     else if(phone.value == ""){
+        checkInput.innerHTML = "<p style='color:red'> Please fill in your phone number! </p>";
         phone.focus();
-        alert("Please fill in your phone number!");
+        // alert("Please fill in your phone number!");
         return false;
     }
     else if(phone.value.search(phonerule)==-1){
+        checkInput.innerHTML = "<p style='color:red'> Your phone number format is error! </p>";
         phone.focus();
-        alert("Please fill the correct phone number!");
+        // alert("Please fill the correct phone number!");
         return false;
     }
     else if(credit.value == ""){
+        checkInput.innerHTML = "<p style='color:red'> Please fill in your credit card number! </p>";
         credit.focus();
-        alert("Please fill in your credit card number!");
+        // alert("Please fill in your credit card number!");
         return false;
     }
     else if(credit.value != "0000000000"){
+        checkInput.innerHTML = "<p style='color:red'> Your credit card number format is error! </p>";
         credit.focus();
-        alert("Please fill the correct credit card number!");
+        // alert("Please fill the correct credit card number!");
         return false;
     }
+
+    checkInput.innerHTML = "";
 
     // step 3
 
@@ -173,10 +192,14 @@ function getInfo2(){
 function getInfo3(){
     mail = document.getElementById("mail");
     if(mail.value == ""){
+        checkInput.innerHTML = "<p style='color:red'> please fill in your mail address! </p>";
         mail.focus();
         // alert("Please fill in your mail address!");
         return false;
     }
+
+    checkInput.innerHTML = "";
+
     confirm3 = 1;
     // if(mail != ""){
     //     confirm3 = 1;
