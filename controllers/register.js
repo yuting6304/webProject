@@ -1,4 +1,5 @@
 var app = require('../app')
+var url = require('url');
 var express = require('express');
 var mysql  = require('mysql');  
 var crypto = require('crypto');
@@ -41,26 +42,28 @@ router.post('/', function(req, res){
 
     let emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
 
-   
+    
+
     if(username!="" && password!="" && fname!="" && lname!="" && gender!=undefined && date!="" && phone!="" && credit!="" && mailAddr!="" && mailAddr.search(emailRule)!=-1){
-        // user.regMail(mailAddr, function(err, data){
-        //     if(err){
-        //         console.log(err);
-        //     }
-        //     else{
-        //         if(data == 1){
-        //             console.log("mail addr exist");
-        //         }
-        //         else{
+        // How to send message to front web ??
+        user.regMail(mailAddr, function(err, data){
+            if(err){
+                console.log(err);
+            }
+            else{
+                if(data == 1){
+                    console.log("mail addr exist");
+                }
+                else{
                     console.log("username : " + username + ", password : " + password);
                     console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
                     console.log("Mail : " + mailAddr);
                     
                     user.confirmMail(mailAddr);
                     user.reg(username, password, fname, lname, gender, date, phone, credit, mailAddr);
-        //         }
-        //     }
-        // })
+                }
+            }
+        })
     }
     // res.redirect('/');
    

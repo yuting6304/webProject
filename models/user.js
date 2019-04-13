@@ -60,9 +60,6 @@ function regMail(mailAddr, callback){
                         callback(null, 1);
                         return;
                     }
-                    else{
-                        break;
-                    }
                 }
             }
             callback(null, -1);
@@ -101,9 +98,6 @@ function memberLogin(name, pass, callback){
                     if(data[i].confirm == 1){
                         callback(null, 1);
                         return;
-                    }
-                    else{
-                        break;
                     }
                 }
             }

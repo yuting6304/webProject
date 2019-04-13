@@ -7,6 +7,7 @@ let fname, lname, gender, date, phone, credit;
 let mail;
 
 let checkInput;
+let confirm1 = 0, confirm2 = 0, confirm3 = 0;
 
 
 window.onload = function(){ 
@@ -29,6 +30,7 @@ window.onload = function(){
 
     step1.style.backgroundColor = "#61d1d3";
     step1.style.opacity = "0.9"
+    step1.style.color = "white";
     step2.style.color = "grey";
     step3.style.color = "grey";
 
@@ -141,7 +143,7 @@ function getInfo2(){
         // alert("Please fill in your phone number!");
         return false;
     }
-    else if(phone.value.search(phonerule)==-1){
+    else if(phone.value.search(phonerule) == -1){
         checkInput.innerHTML = "<p style='color:red'> Your phone number format is error! </p>";
         phone.focus();
         // alert("Please fill the correct phone number!");
@@ -197,6 +199,14 @@ function getInfo3(){
         // alert("Please fill in your mail address!");
         return false;
     }
+
+    
+    // else if(mail.value = "qweszxc12345@gmail.com"){
+    //     mail.focus();
+    //     alert("mail address is used");
+    //     return false;
+
+    // }
 
     checkInput.innerHTML = "";
 

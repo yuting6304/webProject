@@ -37,6 +37,8 @@ var loginRouter = require('./controllers/login');
 var introRouter = require('./controllers/intro');
 var memberRouter = require('./controllers/member');
 var registerRouter = require('./controllers/register');
+var loanRouter = require('./controllers/loan');
+var investRouter = require('./controllers/invest');
 var confirmRouter = require('./controllers/confirm');
 var logoutRouter = require('./controllers/logout');
 
@@ -52,6 +54,9 @@ app.use('/intro', introRouter);
 app.use('/member', memberRouter);
 
 app.use('/register', registerRouter);
+app.use('/loan', loanRouter);
+app.use('/invest', investRouter);
+
 app.use('/confirm', confirmRouter);
 app.use('/logout', logoutRouter);
 
