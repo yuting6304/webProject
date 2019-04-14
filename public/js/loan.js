@@ -3,7 +3,7 @@ let form1, form2;
 let step1, step2;
 
 let money, rate, period, credit, reason;
-let mail, password;;
+let pass_str;
 
 let checkInput;
 let confirm1 = 0, confirm2 = 0;
@@ -115,16 +115,11 @@ function getInfo1(){
     return true;
 }
 function getInfo2(){
-    mail = document.getElementById("mail");
-    password = document.getElementById("password");
-    if(mail.value == ""){
-        checkInput.innerHTML = "<p style='color:red'> Please fill in your mail address! </p>";
-        mail.focus();
-        return false;
-    }
-    else if(password.value == ""){
-        checkInput.innerHTML = "<p style='color:red'> Please fill in your password! </p>";
-        password.focus();
+    pass_str = document.getElementById("pass_str");
+    
+    if(pass_str.value == ""){
+        checkInput.innerHTML = "<p style='color:red'> Please fill in your verify token! </p>";
+        pass_str.focus();
         return false;
     }
     checkInput.innerHTML = "";
@@ -133,7 +128,7 @@ function getInfo2(){
 }
 
 function checkInfo(){
-    
+
     if(confirm1 == 1 && confirm2 == 1){
         return true;
     } 

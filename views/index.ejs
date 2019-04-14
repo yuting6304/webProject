@@ -37,8 +37,14 @@
             <h1 class="word_title">Send and rent is a free website</h1>
             <h2 class="word_subtitle">It is great</h2>
             <div class="word_buttons buttons">
-                <button type="button" class="buttons_button" onclick="gotoInvest()"> Investigate </button>
-                <button type="button" class="buttons_button" onclick="gotoLoan()"> Borrow </button>
+                <% if(title == "Sign in") { %>
+                    <button type="button" class="buttons_button" onclick="gotoLogin()"> Investigate </button>
+                    <button type="button" class="buttons_button" onclick="gotoLogin()"> Borrow </button>
+                <% } else { %>
+                    <button type="button" class="buttons_button" onclick="gotoInvest()"> Investigate </button>
+                    <button type="button" class="buttons_button" onclick="gotoLoan()"> Borrow </button>
+                <% } %>
+                
             </div>
         </div>
     </main>

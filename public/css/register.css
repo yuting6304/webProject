@@ -34,6 +34,7 @@ body{
     position: relative;
     top: 15%;
     left: 25%;
+    font-weight: bold;
 }
 .effect{
     /* inifinite : 動畫持續而不中斷 */

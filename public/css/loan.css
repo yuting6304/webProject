@@ -35,6 +35,7 @@ body{
     position: relative;
     top: 15%;
     left: 25%;
+    font-weight: bold;
 }
 .effect{
     /* inifinite : 動畫持續而不中斷 */
@@ -51,7 +52,7 @@ body{
 .step{
     min-width: 600px;
     width: 100%;
-    height: 100px;
+    height: 65px;
     display: flex;
     margin: 10px;
     justify-content: center;
@@ -59,14 +60,12 @@ body{
 }
 .step>.step1{
     font-size: 18px;
-    width: 33%;
-    height: 75px;
+    width: 50%;
     border: 1px solid #888888;
 }
 .step>.step2{
     font-size: 18px;
-    width: 33%;
-    height: 75px;
+    width: 50%;
     border: 1px solid #888888;
 }
 

@@ -16,6 +16,9 @@
 
             <% if(title == "Sign in") { %>
                 <li class="nav_signin"><a href="/login"><%= title%></a></li>
+                <script>
+                    window.location = "/login";
+                </script>
             <% } else { %>
                 <li class="nav_signin"><a href="/logout"><%= title%></a></li>
             <% } %>

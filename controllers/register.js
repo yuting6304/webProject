@@ -40,30 +40,46 @@ router.post('/', function(req, res){
 
     let mailAddr = req.body.mail;
 
-    let emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+    let randomString;
 
-    
-
-    if(username!="" && password!="" && fname!="" && lname!="" && gender!=undefined && date!="" && phone!="" && credit!="" && mailAddr!="" && mailAddr.search(emailRule)!=-1){
+    if(username!="" && password!="" && fname!="" && lname!="" && gender!=undefined && date!="" && phone!="" && credit!="" && mailAddr!=""){
         // How to send message to front web ??
-        user.regMail(mailAddr, function(err, data){
+        user.regUsername(username, function(err, result){
             if(err){
                 console.log(err);
             }
             else{
-                if(data == 1){
-                    console.log("mail addr exist");
+                if(result == 1){
+                    console.log("username exist");
+                    user.reuseMail(mailAddr, 0);
                 }
                 else{
-                    console.log("username : " + username + ", password : " + password);
-                    console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
-                    console.log("Mail : " + mailAddr);
-                    
-                    user.confirmMail(mailAddr);
-                    user.reg(username, password, fname, lname, gender, date, phone, credit, mailAddr);
+                    user.regMail(mailAddr, function(err, data){
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            if(data == 1){
+                                console.log("mail addr exist");
+                                user.reuseMail(mailAddr, 1);
+                            }
+                            else{
+                                randomString = crypto.randomBytes(32).toString('base64').substr(0, 8);
+ 
+                                console.log("randstr : " + randomString);
+                                console.log("username : " + username + ", password : " + password);
+                                console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
+                                console.log("Mail : " + mailAddr);
+                                
+                                user.confirmMail(mailAddr, randomString);
+                                user.reg(username, password, fname, lname, gender, date, phone, credit, randomString, mailAddr);
+                            }
+                        }
+                    })
                 }
             }
         })
+        
     }
     // res.redirect('/');
    

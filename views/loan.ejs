@@ -14,20 +14,25 @@
 
     $(document).ready(function(){
         let money, rate, period, credit, reason;
-        let mail, password;
+        let pass_str;
         
-
-        $("#send").click(function(){
+        $("#nx").click(function(){
             money=$("#money").val();
             rate=$("#rate").val();
             period=$("#period").val();
             credit=$("#credit").val();
             reason=$("#reason").val();
             
-            password=$("#password").val();
-            mail=$("#mail").val();
+            $.post("http://localhost:8080/loan",{money: money, rate: rate, period: period, credit: credit, reason: reason}, function(data){
+                console.log(data);
+            });
+        });
 
-            $.post("http://localhost:8080/loan",{money: money, rate: rate, period: period, credit: credit, reason: reason, password: password, mail: mail}, function(data){
+        $("#send").click(function(){
+            money="";
+            pass_str=$("#pass_str").val();
+
+            $.post("http://localhost:8080/loan",{money: money, pass_str: pass_str}, function(data){
                 console.log(data);
             });
         });
@@ -65,7 +70,7 @@
                 step1 : <br/>Fill in your demand
             </div>
             <div id="step2" class="step2">
-               step2 : <br/>Fill in your mail and password to confirm
+               step2 : <br/>Fill in your verify token to activate the transaction
             </div>
         </div>
         
@@ -95,11 +100,8 @@
             </div>
 
             <div id="form2">
-                E-mail<span>*</span> <br/>
-                <input id="mail" name="mail" type="email" placeholder="Your email" required>
-                <span class="ok">ok</span><br/>
-                密碼<span>*</span><br/>
-                <input id="password" type="password" required>
+                驗證碼<span>*</span><br/>
+                <input id="pass_str" type="text" required pattern="{8}">
                 <span class="ok">ok</span><br/><br/>
 
                 <input id="send" type="submit" value="Send" onclick="getInfo2()">

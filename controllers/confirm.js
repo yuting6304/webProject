@@ -23,14 +23,12 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next){
     let username = req.body.username;
     let password = req.body.password;
-    
+    let pass_str = req.body.pass_str;
     console.log("Username : " + username + ", Password : " + password);
     
-    let modSql = 'users SET confirm = ? WHERE username = ?';
-    let modSqlParams = [1, username];
-    dbConnection.updateData(modSql, modSqlParams);
+    
 
-    user.memberLogin(username, password, function(err, data){
+    user.memberConfirm(username, password, pass_str, function(err, data){
         if(err){
             callback(err, null);
         }
@@ -47,6 +45,9 @@ router.post('/', function(req, res, next){
                 // dbConnection.updateData(onlinemodSql, onlinemodSqlParams);
                 
                 // user.setloginStatus(data);
+                let modSql = 'users SET confirm = ? WHERE username = ?';
+                let modSqlParams = [1, username];
+                dbConnection.updateData(modSql, modSqlParams);
                 
                 res.locals.username = username;
                 //設定session

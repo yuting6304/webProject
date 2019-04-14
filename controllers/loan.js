@@ -1,5 +1,6 @@
 var app = require('../app')
 var express = require('express');
+var crypto = require('crypto');
 var user = require('../models/user');
 var dbConnection = require('../models/dbConnection');
 var user = require('../models/user');
@@ -32,16 +33,57 @@ router.post('/', function(req, res, next){
     let period = req.body.period;
     let credit = req.body.credit;
     let reason = req.body.reason;
-    let mail = req.body.mail;
-    let password = req.body.password;
+    let pass_str = req.body.pass_str;
 
-    let emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
 
-    if(money!="" && rate!="" && period!="" && credit!="" && reason!="" && mail!="" && mail.search(emailRule)!=-1 && password != ""){
+    let randomString;
+
+    if(money!="" && rate!="" && period!="" && credit!="" && reason!=""){
+        randomString = crypto.randomBytes(32).toString('base64').substr(0, 8);
+        console.log("randstr : " + randomString);
         console.log("username : " + username);
         console.log("money : " + money + ", rate : " + rate);
         console.log("period : " + period + ", credit : " + credit + ", reason : " + reason);
-        console.log("Mail : " + mail + ", password : " + password);
+        
+        if(username!="" && username!=undefined){
+            user.getUserMail(username, function(err, data){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    if(data == -1){
+                        console.log("mail address not found");
+                    }
+                    else{
+                        user.transact(username, money, rate, period, credit, reason, randomString);
+                        user.transactMail(data ,randomString);
+                    }
+                }
+            });
+        }
+    }
+    
+    if(pass_str!=""){
+        user.transactConfirm(username, pass_str, function(err, data){
+            if(err){
+                console.log(err);
+            }
+            else{
+                if(data == 1){
+                    console.log("randstr : " + pass_str);
+                    console.log("username : " + username);
+                    console.log("money : " + money + ", rate : " + rate);
+                    console.log("period : " + period + ", credit : " + credit + ", reason : " + reason);
+                    let modSql = 'transaction SET confirm = ? WHERE username = ?';
+                    let modSqlParams = [1, username];
+                    dbConnection.updateData(modSql, modSqlParams);
+                }
+                else{
+                   console.log("transaction fail");
+                }
+            }
+        });
+        
     }
 });
 module.exports = router;

@@ -2,6 +2,7 @@ var mysql  = require('mysql');
 var dbcredit = require('./dbsecret');
 
 var connection;
+// connect to mysql database
 function connectDB(){
     connection = mysql.createConnection({     
         host     : dbcredit.host,       
@@ -17,7 +18,9 @@ function connectDB(){
         }
         console.log("mysql connected");
         // mysql_query("SET NAMES 'utf8'");
-        let createUsers = 'create table if not exists users(id int not null auto_increment, username varchar(30) not null, password varchar(32) not null, first_name varchar(30) not null, last_name varchar(30) not null, gender varchar(30) not null, birthday varchar(30) not null, phone_number varchar(30) not null, credit_card_number varchar(30) not null, Email varchar(30) not null, confirm int not null default 0, primary key(id)) DEFAULT CHARSET=utf8';
+        // create table user
+        let createUsers = 'create table if not exists users(id int not null auto_increment, username varchar(30) not null, password varchar(32) not null, first_name varchar(30) not null, last_name varchar(30) not null, gender varchar(30) not null, birthday varchar(30) not null, phone_number varchar(30) not null, credit_card_number varchar(30) not null, random_string varchar(8) not null, Email varchar(30) not null, confirm int not null default 0, primary key(id)) DEFAULT CHARSET=utf8';
+        let createTransaction = 'create table if not exists transaction(id int not null auto_increment, username varchar(30) not null, money int not null, rate float not null, period int not null, credit_card_number varchar(30) not null, loan_reason varchar(250) not null, random_string varchar(8) not null, confirm int not null default 0, primary key(id)) DEFAULT CHARSET=utf8';
         // let createUsers = 'create table if not exists users(id int not null auto_increment, username varchar(30) not null, account varchar(30) not null, password varchar(32) not null, first_name varchar(30) not null, last_name varchar(30) not null, gender varchar(30) not null, birthday varchar(30) not null, phone_number varchar(30) not null, credit_card_number varchar(30) not null, Email varchar(30) not null, confirm int not null default 0, primary key(id)) DEFAULT CHARSET=utf8';
         connection.query(createUsers, function(err, results, fields){
             if(err){
@@ -27,10 +30,19 @@ function connectDB(){
                 console.log("Mysql(table): users has been created");
             }
         });
+        connection.query(createTransaction, function(err, results, fields){
+            if(err){
+                console.log(err.message);
+            }
+            else{
+                console.log("Mysql(table): transaction has been created");
+            }
+        });
     });
     return 1;
 }
 
+// insert data to database function
 function setDBData(addSql, addSqlParams){
     // var  addSql = 'users(name, account, password) VALUES(?,?,?)';
     // var  addSqlParams = [name, account,password];
@@ -47,6 +59,7 @@ function setDBData(addSql, addSqlParams){
     // connection.release();
 }
 
+// find data in database function
 function getDBData(name, callback){
     connection.query('SELECT * FROM ' + name, function (err, results) {
         if(err){
@@ -59,6 +72,7 @@ function getDBData(name, callback){
     // connection.release();
 }
 
+// update data in database function
 function updateData(modSql, modSqlParams){
     connection.query('UPDATE ' + modSql, modSqlParams,function (err, result) {
     if(err){

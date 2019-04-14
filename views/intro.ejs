@@ -32,8 +32,13 @@
     <div class="start">
         <h1 class="start_topic">立即開始使用</h1>
         <div class="start_buttons buttons">
-                <button type="button" class="buttons_button" onclick="gotoInvest()"> 我要投資 </button>
-                <button type="button" class="buttons_button" onclick="gotoLoan()"> 我要申貸 </button>
+                <% if(title == "Sign in") { %>
+                    <button type="button" class="buttons_button" onclick="gotoLogin()"> 我要投資 </button>
+                    <button type="button" class="buttons_button" onclick="gotoLogin()"> 我要申貸 </button>
+                <% } else { %>
+                    <button type="button" class="buttons_button" onclick="gotoInvest()"> 我要投資 </button>
+                    <button type="button" class="buttons_button" onclick="gotoLoan()"> 我要申貸 </button>
+                <% } %>
         </div>
     </div>
 

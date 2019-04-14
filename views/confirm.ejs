@@ -3,18 +3,19 @@
 <head>
     <meta charset="utf-8" />
     <title>Confirm to complete sign up</title>
-    <link href="/css/login_css.css" rel="stylesheet" type="text/css" />
+    <link href="/css/login.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="/css/header.css" type="text/css" />
     <script type="text/javascript" src="/js/confirm.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <script>
     $(document).ready(function(){
-        let username, password;
+        let username, password, pass_str;
         $("#enter").click(function(){
             username=$("#username").val();
             password=$("#password").val();
-            $.post("http://localhost:8080/confirm",{username: username, password: password}, function(data){
+            pass_str=$('#pass_str').val();
+            $.post("http://localhost:8080/confirm",{username: username, password: password, pass_str: pass_str}, function(data){
                 // if(data==='done'){
                 //     alert("send mail success");
                 // }
@@ -52,7 +53,9 @@
             Account :<br/>
                 <input type="text" name="username" id="username" /><br/>
             Password :<br/>
-                <input type="password" name="password" id="password" /><br/><br/>
+                <input type="password" name="password" id="password" /><br/>
+            驗證碼 :<br/>
+                <input type="text" name="pass_str" id="pass_str" /><br/><br/>
             <input type="submit" id="enter" value="confirm"/>        
         </form>
     </main>

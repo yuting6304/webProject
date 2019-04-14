@@ -199,7 +199,6 @@ function getInfo3(){
         // alert("Please fill in your mail address!");
         return false;
     }
-
     
     // else if(mail.value = "qweszxc12345@gmail.com"){
     //     mail.focus();
