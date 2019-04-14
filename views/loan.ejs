@@ -22,6 +22,7 @@
             period=$("#period").val();
             credit=$("#credit").val();
             reason=$("#reason").val();
+            pass_str="";
             
             $.post("http://localhost:8080/loan",{money: money, rate: rate, period: period, credit: credit, reason: reason}, function(data){
                 console.log(data);
@@ -29,7 +30,11 @@
         });
 
         $("#send").click(function(){
-            money="";
+            money=$("#money").val();
+            rate=$("#rate").val();
+            period=$("#period").val();
+            credit=$("#credit").val();
+            reason=$("#reason").val();
             pass_str=$("#pass_str").val();
 
             $.post("http://localhost:8080/loan",{money: money, pass_str: pass_str}, function(data){
@@ -75,7 +80,7 @@
         </div>
         
         
-        <form id="form" onsubmit="checkInfo()" method="GET" role="form" action="/" >
+        <form id="form" onsubmit="checkInfo()" method="GET" role="form" action="/member" >
 
             <div id="checkInput">
            
