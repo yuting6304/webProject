@@ -122,6 +122,7 @@ function getInfo2(){
         pass_str.focus();
         return false;
     }
+    
     checkInput.innerHTML = "";
 
     confirm2 = 1;
