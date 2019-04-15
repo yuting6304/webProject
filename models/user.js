@@ -247,6 +247,22 @@ function memberLogin(name, pass, callback){
     });
 }
 
+function getTransaction(username, callback){
+    dbConnection.getDBData('transaction', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            if(size == 0){
+                callback(null, -1);
+            }
+            else{
+                callback(null, data[0].money);
+            }
+        }
+    })
+}
 
 
 // function setloginStatus(a){
@@ -275,6 +291,7 @@ module.exports.transactMail = transactMail;
 module.exports.memberLogin = memberLogin;
 module.exports.memberConfirm = memberConfirm;
 module.exports.transactConfirm = transactConfirm;
+module.exports.getTransaction = getTransaction;
 
 // module.exports.initUser = initUser;
 // module.exports.setloginStatus = setloginStatus;

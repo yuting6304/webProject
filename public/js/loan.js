@@ -6,7 +6,7 @@ let money, rate, period, credit, reason;
 let pass_str;
 
 let checkInput;
-let confirm1 = 0, confirm2 = 0;
+let confirm1, confirm2;
 
 
 window.onload = function(){ 
@@ -37,6 +37,9 @@ window.onload = function(){
     var start_text = checkInput;
     // 把class "effect"加到text中
     start_text.classList.add("effect");
+
+    confirm1 = 0;
+    confirm2 = 0;
 
 }
 
