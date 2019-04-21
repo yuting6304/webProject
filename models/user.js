@@ -49,9 +49,9 @@ function reg(name, password, fname, lname, gender, date, phone, credit, randstr,
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
-function transact(name, money, rate, period, credit, loan_reason, rand){
-    let  addSql = 'transaction(username, money, rate, period, credit_card_number, loan_reason, random_string) VALUES(?,?,?,?,?,?,?)';
-    let  addSqlParams = [name, money, rate, period, credit, loan_reason, rand];
+function transact(name, money, rate, period, loan_reason, rand){
+    let  addSql = 'transaction(username, money, rate, period, loan_reason, random_string) VALUES(?,?,?,?,?,?)';
+    let  addSqlParams = [name, money, rate, period, loan_reason, rand];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
@@ -247,6 +247,8 @@ function memberLogin(name, pass, callback){
     });
 }
 
+
+// this function is used to show in member center
 function getTransaction(username, callback){
     dbConnection.getDBData('transaction', function(err, data){
         if(err){

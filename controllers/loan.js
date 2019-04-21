@@ -13,7 +13,7 @@ app.use(router);
 
 let getName = "";
 let randomString = "";
-let money, rate, period, credit, reason;
+let money, rate, period, reason;
 
 router.get('/', function(req, res, next) {
     if(req.session.logined){
@@ -33,12 +33,11 @@ router.post('/', function(req, res, next){
     
     let pass_str = req.body.pass_str;
 
-    if(money!="" && rate!="" && period!="" && credit!="" && reason!="" && pass_str==undefined && randomString==""){
+    if(money!="" && rate!="" && period!="" && reason!="" && pass_str==undefined && randomString==""){
         
         money = req.body.money;
         rate = req.body.rate;
         period = req.body.period;
-        credit = req.body.credit;
         reason = req.body.reason;
         
         randomString = crypto.randomBytes(32).toString('base64').substr(0, 8);
@@ -46,7 +45,7 @@ router.post('/', function(req, res, next){
         console.log("pass_str : " + pass_str);
         console.log("username : " + username);
         console.log("money : " + money + ", rate : " + rate);
-        console.log("period : " + period + ", credit : " + credit + ", reason : " + reason);
+        console.log("period : " + period + ", reason : " + reason);
         
         if(username!="" && username!=undefined){
             user.getUserMail(username, function(err, data){
@@ -65,15 +64,15 @@ router.post('/', function(req, res, next){
         }
     }
     
-    if(money!="" && rate!="" && period!="" && credit!="" && reason!="" && pass_str!=undefined){
+    if(money!="" && rate!="" && period!="" && reason!="" && pass_str!=undefined){
         
         console.log("randstr : " + pass_str);
         console.log("username : " + username);
         console.log("money : " + money + ", rate : " + rate);
-        console.log("period : " + period + ", credit : " + credit + ", reason : " + reason);
+        console.log("period : " + period  + ", reason : " + reason);
 
         if(pass_str == randomString){
-            user.transact(username, money, rate, period, credit, reason, randomString);
+            user.transact(username, money, rate, period, reason, randomString);
 
             let modSql = 'transaction SET confirm = ? WHERE username = ?';
             let modSqlParams = [1, username];

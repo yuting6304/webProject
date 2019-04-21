@@ -44,6 +44,7 @@ router.post('/', function(req, res){
 
     if(username!="" && password!="" && fname!="" && lname!="" && gender!=undefined && date!="" && phone!="" && credit!="" && mailAddr!=""){
         // How to send message to front web ??
+
         user.regUsername(username, function(err, result){
             if(err){
                 console.log(err);

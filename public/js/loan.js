@@ -2,7 +2,7 @@ let nx; // button
 let form1, form2;
 let step1, step2;
 
-let money, rate, period, credit, reason;
+let money, rate, period, /*credit,*/ reason;
 let pass_str;
 
 let checkInput;
@@ -47,7 +47,7 @@ function getInfo1(){
     money = document.getElementById("money");
     rate = document.getElementById("rate");
     period = document.getElementById("period");
-    credit = document.getElementById("credit");
+    // credit = document.getElementById("credit");
     reason = document.getElementById("reason");
 
     let moneyrule = /^[1-9]\d*(?:\.\d+)?(?:[kmbt])?$/;
@@ -82,16 +82,16 @@ function getInfo1(){
         period.focus();
         return false;
     }
-    else if(credit.value == ""){
-        checkInput.innerHTML = "<p style='color:red'> Please fill in your credit card number! </p>";
-        credit.focus();
-        return false;
-    }
-    else if(credit.value != "0000000000"){
-        checkInput.innerHTML = "<p style='color:red'> Your credit card number format is error! </p>";
-        credit.focus();
-        return false;
-    }
+    // else if(credit.value == ""){
+    //     checkInput.innerHTML = "<p style='color:red'> Please fill in your credit card number! </p>";
+    //     credit.focus();
+    //     return false;
+    // }
+    // else if(credit.value != "0000000000"){
+    //     checkInput.innerHTML = "<p style='color:red'> Your credit card number format is error! </p>";
+    //     credit.focus();
+    //     return false;
+    // }
     else if(reason.value == ""){
         reason.focus();
         checkInput.innerHTML = "<p style='color:red'> Please fill in the reason you want to loan! </p>";
