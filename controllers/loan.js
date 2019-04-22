@@ -30,10 +30,13 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next){
     let username = getName;
-    
+    // let money = req.body.money;
+    // let rate = req.body.rate;
+    // let period = req.body.period;
+    // let reason = req.body.reason;
     let pass_str = req.body.pass_str;
 
-    if(money!="" && rate!="" && period!="" && reason!="" && pass_str==undefined && randomString==""){
+    if(money!="" && rate!="" && period!="" && reason!="" && randomString==""){
         
         money = req.body.money;
         rate = req.body.rate;
@@ -77,6 +80,7 @@ router.post('/', function(req, res, next){
             let modSql = 'transaction SET confirm = ? WHERE username = ?';
             let modSqlParams = [1, username];
             dbConnection.updateData(modSql, modSqlParams);
+            randomString = "";
         }
             
     }

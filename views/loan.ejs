@@ -23,10 +23,12 @@
             // credit=$("#credit").val();
             reason=$("#reason").val();
             pass_str="";
+            if(rate>0 && rate<=12){
+                $.post("http://localhost:8080/loan",{money: money, rate: rate, period: period, /*credit: credit,*/ reason: reason}, function(data){
+                    console.log(data);
+                });
+            }
             
-            $.post("http://localhost:8080/loan",{money: money, rate: rate, period: period, /*credit: credit,*/ reason: reason}, function(data){
-                console.log(data);
-            });
         });
 
         $("#send").click(function(){
@@ -80,7 +82,7 @@
         </div>
         
         
-        <form id="form" onsubmit="checkInfo()" method="GET" role="form" action="/member" >
+        <form id="form" method="GET" role="form" action="/member" >
 
             <div id="checkInput">
            
@@ -91,7 +93,7 @@
                 <input id="money" type="text" pattern="[^a-zA-Z0]*" required/>
                     <span class="ok">ok</span><br/>
                 年利率 <span>*</span><br/>
-                    <input id="rate" type="text" placeholder="1%~12%" pattern="[1-12]" required />
+                    <input id="rate" type="text" placeholder="1%~12%" pattern="[2-9]|1[0-2]?" required />
                     <span class="ok">ok</span><br/>
                 期數(每月一期) <span>*</span><br/>
                     <input id="period" type="text" pattern="[^a-zA-Z0]*" required />
