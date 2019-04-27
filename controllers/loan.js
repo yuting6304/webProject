@@ -36,15 +36,16 @@ router.post('/', function(req, res, next){
     // let reason = req.body.reason;
     let pass_str = req.body.pass_str;
 
-    if(money!="" && rate!="" && period!="" && reason!="" && randomString==""){
+    if(pass_str == "" || pass_str == undefined){
+    // if(money!="" && rate!="" && period!="" && reason!="" && randomString==""){
         
         money = req.body.money;
         rate = req.body.rate;
         period = req.body.period;
         reason = req.body.reason;
-        
-        randomString = crypto.randomBytes(32).toString('base64').substr(0, 8);
         console.log("randstr : " + randomString);
+
+        randomString = crypto.randomBytes(32).toString('base64').substr(0, 8);
         console.log("pass_str : " + pass_str);
         console.log("username : " + username);
         console.log("money : " + money + ", rate : " + rate);
@@ -66,8 +67,8 @@ router.post('/', function(req, res, next){
             });
         }
     }
-    
-    if(money!="" && rate!="" && period!="" && reason!="" && pass_str!=undefined){
+    if(pass_str != "" && pass_str != undefined){
+    // if(money!="" && rate!="" && period!="" && reason!="" && pass_str!=undefined){
         
         console.log("randstr : " + pass_str);
         console.log("username : " + username);

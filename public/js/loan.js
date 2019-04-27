@@ -133,7 +133,7 @@ function getInfo2(){
 
 function checkInfo(){
 
-    if(confirm1 == 1 && confirm2 == 1){
+    if(confirm2 == 1){
         return true;
     } 
     else{
