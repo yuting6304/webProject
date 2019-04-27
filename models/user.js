@@ -127,7 +127,7 @@ function reuseMail(mailAddr, opt){
             from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
             to: mailAddr,
             subject: 'Notification Email from P2P_Borrowing_Platform',
-            html: '<h1>Welcome to P2P_Borrowing_Platform</h1><p>Your username had been used before, Please use another mail address to register again!</p><li><a href="http://127.0.0.1:8080/register">Click Here to register Your Account</a></li>'
+            html: '<h1>Welcome to P2P_Borrowing_Platform</h1><p>Your username had been used before, Please use another username to register again!</p><li><a href="http://127.0.0.1:8080/register">Click Here to register Your Account</a></li>'
         };
     }
     else if(opt == 1){
