@@ -12,68 +12,6 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
-
-<script>
-//     $(document).ready(function(){
-
-//     $("#send").click(function() {
-//         $.ajax({
-//             url: "/register",
-//             type: "GET",
-//             data: {
-//                 username: $("#username").val(),
-//                 password: $("#password").val(),
-//                 fname=$("#fname").val(),
-//                 lname=$("#lname").val(),
-//                 gender=$("input[name='gender']:checked").val(),
-//                 date=$("#date").val(),
-//                 phone=$("#phone").val(),
-//                 credit=$("#credit").val(),
-
-//                 mail=$("#mail").val()
-//             },
-//             success: function(data){    //    alert后台的返回值
-//                 alert(data);
-//             },
-//             error: function(){
-//                 alert('访问失败');
-//             }
-//         });
-//     });
-// });
-
-
-    $(document).ready(function(){
-        let username, account, password;
-        let fname, lname, date, phone, credit, gender;
-        let mail;
-
-        $("#send").click(function(){
-            username=$("#username").val();
-            // account=$("#account").val();
-            password=$("#password").val();
-
-            fname=$("#fname").val();
-            lname=$("#lname").val();
-            gender=$("input[name='gender']:checked").val();
-            date=$("#date").val();
-            phone=$("#phone").val();
-            credit=$("#credit").val();
-
-            mail=$("#mail").val();
-            
-            if(username!="" && password!="" && fname!="" && lname!="" && gender!="" && gender!=undefined && date!="" && phone!="" && credit!="" && mail!=""){
-                $.post("http://localhost:8080/register",{username: username, password: password, fname: fname, lname: lname, gender: gender, date: date, phone: phone, credit: credit, mail: mail}, function(data){
-                    console.log(data);
-                });
-            }
-            
-        });
-    });
-
-
-    
-</script>
 <body>
     <header class="nav">
         <ul>
@@ -114,7 +52,7 @@
         
         
         <!-- form 1 -->
-        <form id="form" onsubmit="checkInfo()" method="GET" role="form" action="/" >
+        <form id="form" onsubmit="checkInfo()" method="POST" role="form" >
         <!-- <div> -->
             <div id="checkInput">
            
@@ -123,13 +61,13 @@
             <!-- Page 1 -->
             <div name="form1" id="form1">  
                 Username <span>*</span> <br/>
-                <input id="username" type="text" required />
+                <input id="username" name="username" type="text" required />
                     <span class="ok">ok</span><br/>
                 <!-- Account <span>*</span> <br/>
                 <input id="account" type="text" placeholder="4~12 alphabets or numbers" required pattern="[0-9a-zA-Z]{4,12}" />
                     <span class="ok">ok</span><br/> -->
                 Password <span>*</span> <br/>
-                <input id="password" type="password" required/>
+                <input id="password" name="password" type="password" required/>
                     <span class="ok">ok</span><br/>
                 <!-- Email address <span>*</span> <br/>
                 <input id="email" type="email" required />
@@ -148,11 +86,11 @@
             <!-- Page 2 -->
             <div name="form2" id="form2">
                 First name <span>*</span><br/>
-                    <input id="fname" type="text" required />
+                    <input id="fname" name="fname" type="text" required />
                     <span class="ok">ok</span>
                     <br/>
                 Last name <span>*</span><br/>
-                    <input id="lname" type="text" required />
+                    <input id="lname" name="lname" type="text" required />
                     <span class="ok">ok</span>
                     <br/>
                 Gender <span>*</span><br/>
@@ -160,13 +98,13 @@
                     Female <input id="female" type="radio" name="gender" value="female" required />
                     <br/>
                 Birthday <span>*</span><br/>
-                <input id="date" type="date" required />
+                <input id="date" name="date" type="date" required />
                 <br/>
                 Phone number <span>*</span> <br/>
-                <input id="phone" type="text" pattern="[0-9]{8,10}" required/>
+                <input id="phone" name="phone" type="text" pattern="[0-9]{8,10}" required/>
                     <span class="ok">ok</span><br/>
                 Credit card number<span>*</span><br/>
-                <input id="credit" type="text" placeholder="fill in ten '0'" required pattern="[0]{10,10}"/>
+                <input id="credit" name="credit" type="text" placeholder="fill in ten '0'" required pattern="[0]{10,10}"/>
                 <span class="ok">ok</span>
                 <br/><br/>
                 <input id="nx2" type="button" value="Next" onclick="getInfo2()">

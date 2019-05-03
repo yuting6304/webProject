@@ -28,56 +28,20 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res){
 
-    // let username = req.body.username;
-    // let password = req.body.password;
+    let username = req.body['username'];
+    let password = req.body['password'];
 
-    // let fname = req.body.fname;
-    // let lname = req.body.lname;
-    // let date = req.body.date;
-    // let phone = req.body.phone;
-    // let credit = req.body.credit;
-    // let gender = req.body.gender;
-
-    // // let md5 = crypto.createHash('md5');
-    // // password = md5.update(password).digest('hex');
-
-    // let mailAddr = req.body.mail;
-
-    
-
-    // emitter.on("ok",function(){
-    //     return res.end("注册成功");    //    向前台返回数据
-    // });
-    // emitter.on("false",function(){
-    //     return res.end("用户名已存在");    //    向前台返回数据
-    // });
-
-    // let sql="insert into users(username, password, first_name, last_name, gender, birthday, phone_number, credit_card_number, random_string, Email) VALUES(?,?,?,?,?,?,?,?,?,?)";    //    向user这个表里写入数据
-    // var sqlValue=[username,password,fname,lname,gender,date,phone, credit, "12345678", mailAddr];
-    // dbConnection.connection.query(sql,sqlValue,function(err){    //    执行sql语句
-    //     if(err){
-    //         console.log(err.message);    //    输出数据库错误信息
-    //         emitter.emit("false");    //    返回失败
-    //     }
-    //     emitter.emit("ok");    //    返回成功
-    // });
-    
-
-
-    let username = req.body.username;
-    let password = req.body.password;
-
-    let fname = req.body.fname;
-    let lname = req.body.lname;
-    let date = req.body.date;
-    let phone = req.body.phone;
-    let credit = req.body.credit;
-    let gender = req.body.gender;
+    let fname = req.body['fname'];
+    let lname = req.body['lname'];
+    let date = req.body['date'];
+    let phone = req.body['phone'];
+    let credit = req.body['credit'];
+    let gender = req.body['gender'];
 
     let md5 = crypto.createHash('md5');
     password = md5.update(password).digest('hex');
 
-    let mailAddr = req.body.mail;
+    let mailAddr = req.body['mail'];
 
     let randomString;
 
@@ -123,7 +87,7 @@ router.post('/', function(req, res){
 
     
         
-    // res.redirect('/');
+    res.redirect('/');
    
 })
 

@@ -8,21 +8,6 @@
     <script type="text/javascript" src="/js/confirm.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
-<script>
-    $(document).ready(function(){
-        let username, password, pass_str;
-        $("#enter").click(function(){
-            username=$("#username").val();
-            password=$("#password").val();
-            pass_str=$('#pass_str').val();
-            $.post("http://localhost:8080/confirm",{username: username, password: password, pass_str: pass_str}, function(data){
-                // if(data==='done'){
-                //     alert("send mail success");
-                // }
-            });
-        });
-    });
-</script>
 <body>
     <header class="nav">
         <ul>

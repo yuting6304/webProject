@@ -24,7 +24,7 @@
             reason=$("#reason").val();
             pass_str="";
             if(rate>0 && rate<=12 && money!="" && rate!="" && period!="" && reason!="" && pass_str==""){
-                $.post("http://localhost:8080/loan",{money: money, rate: rate, period: period, reason: reason, pass_str: pass_str}, function(data){
+                $.post("https://localhost:8080/loan",{money: money, rate: rate, period: period, reason: reason, pass_str: pass_str}, function(data){
                     console.log(data);
                 });
             }
@@ -39,7 +39,7 @@
             reason=$("#reason").val();
             pass_str=$("#pass_str").val();
             if(rate>0 && rate<=12 && money!="" && rate!="" && period!="" && reason!="" && pass_str!=""){
-                $.post("http://localhost:8080/loan",{pass_str: pass_str}, function(data){
+                $.post("https://localhost:8080/loan",{pass_str: pass_str}, function(data){
                     console.log(data);
                 });
             }

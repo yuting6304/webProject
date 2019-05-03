@@ -9,19 +9,6 @@
     <!-- <script type="text/javascript" src="../models/mailsecret.js"></script> -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
-<script>
-    $(document).ready(function(){
-        var name,pass;
-        $("#login").click(function(){
-          name=$("#username").val();
-          pass=$("#password").val();
-          $.post("http://localhost:8080/login",{username: name, password: pass}, function(data){
-
-          });
-        });
-    });
-</script>
-
 <body>
     <header class="nav">
         <ul>
