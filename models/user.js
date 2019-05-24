@@ -43,10 +43,17 @@ var transporter = nodemailer.createTransport({
 // }
 
 // insert the user register data into database
-function reg(name, password, fname, lname, gender, date, phone, credit, randstr, mailAddr){
-    let  addSql = 'users(username, password, first_name, last_name, gender, birthday, phone_number, credit_card_number, random_string, Email) VALUES(?,?,?,?,?,?,?,?,?,?)';
-    let  addSqlParams = [name, password, fname, lname, gender, date, phone, credit, randstr, mailAddr];
+// function reg(name, password, fname, lname, gender, date, phone, credit, randstr, mailAddr){
+//     let  addSql = 'users(username, password, first_name, last_name, gender, birthday, phone_number, credit_card_number, random_string, Email) VALUES(?,?,?,?,?,?,?,?,?,?)';
+//     let  addSqlParams = [name, password, fname, lname, gender, date, phone, credit, randstr, mailAddr];
+//     dbConnection.setDBData(addSql, addSqlParams);
+// }
+
+function reg(name, password, randstr, mailAddr){
+    let  addSql = 'users(username, password, random_string, Email) VALUES(?,?,?,?)';
+    let  addSqlParams = [name, password, randstr, mailAddr];
     dbConnection.setDBData(addSql, addSqlParams);
+
 }
 
 function transact(name, money, rate, period, loan_reason, rand){
@@ -247,6 +254,22 @@ function memberLogin(name, pass, callback){
     });
 }
 
+function getUserData(username, callback){
+    dbConnection.getDBData('users', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            for(let i = 0; i < size; i++){
+                if(data[i].username == username){
+                    callback(null, data[i]);
+                }
+            }
+        }
+    });
+}
+
 
 // this function is used to show in member center
 function getTransaction(username, callback){
@@ -263,7 +286,7 @@ function getTransaction(username, callback){
                 callback(null, data[0].money);
             }
         }
-    })
+    });
 }
 
 
@@ -293,6 +316,8 @@ module.exports.transactMail = transactMail;
 module.exports.memberLogin = memberLogin;
 module.exports.memberConfirm = memberConfirm;
 module.exports.transactConfirm = transactConfirm;
+
+module.exports.getUserData = getUserData;
 module.exports.getTransaction = getTransaction;
 
 // module.exports.initUser = initUser;

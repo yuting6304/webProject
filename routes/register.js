@@ -19,10 +19,10 @@ router.get('/', function(req, res, next) {
     if(req.session.logined){
     // if(user.getloginStatus() == 1){
         // let name = user.getloginAccount();
-        res.render('register', { title: 'Log out', account: req.session.username});
+        res.render('register', { title: 'Log out', account: req.session.username, Reg_Msg : ''});
     }
     else{
-        res.render('register', { title: 'Sign in', account: 'Sign up'});
+        res.render('register', { title: 'Sign in', account: 'Sign up', Reg_Msg : ''});
     }
 });
 
@@ -31,12 +31,12 @@ router.post('/', function(req, res){
     let username = req.body['username'];
     let password = req.body['password'];
 
-    let fname = req.body['fname'];
-    let lname = req.body['lname'];
-    let date = req.body['date'];
-    let phone = req.body['phone'];
-    let credit = req.body['credit'];
-    let gender = req.body['gender'];
+    // let fname = req.body['fname'];
+    // let lname = req.body['lname'];
+    // let date = req.body['date'];
+    // let phone = req.body['phone'];
+    // let credit = req.body['credit'];
+    // let gender = req.body['gender'];
 
     let md5 = crypto.createHash('md5');
     password = md5.update(password).digest('hex');
@@ -56,7 +56,8 @@ router.post('/', function(req, res){
         else{
             if(result == 1){
                 console.log("username exist");
-                user.reuseMail(mailAddr, 0);
+                res.render('register', { title: 'Sign in', account: 'Sign up', Reg_Msg : 'username exist'});
+                // user.reuseMail(mailAddr, 0);
             }
             else{
                 user.regMail(mailAddr, function(err, data){
@@ -66,18 +67,21 @@ router.post('/', function(req, res){
                     else{
                         if(data == 1){
                             console.log("mail addr exist");
-                            user.reuseMail(mailAddr, 1);
+                            res.render('register', { title: 'Sign in', account: 'Sign up', Reg_Msg : 'mail addr exist'});
+                            // user.reuseMail(mailAddr, 1);
                         }
                         else{
                             randomString = crypto.randomBytes(32).toString('base64').substr(0, 8);
 
                             console.log("randstr : " + randomString);
                             console.log("username : " + username + ", password : " + password);
-                            console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
+                            // console.log("fname : " + fname + ", lname : " + lname + ", Gender : " + gender + ", date : " + date + ", phone : " + phone + ", credit : " + credit);
                             console.log("Mail : " + mailAddr);
                             
                             user.confirmMail(mailAddr, randomString);
-                            user.reg(username, password, fname, lname, gender, date, phone, credit, randomString, mailAddr);
+                            user.reg(username, password, randomString, mailAddr);
+                            res.redirect('/');
+
                         }
                     }
                 })
@@ -87,7 +91,6 @@ router.post('/', function(req, res){
 
     
         
-    res.redirect('/');
    
 })
 

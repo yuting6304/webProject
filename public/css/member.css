@@ -1,74 +1,65 @@
 body{
     margin: 0;
-    background-color: #F1F2E8;
+    height: 100%;
 }
 
-.start{
-    display: inline-block;
-    color: #56545B;
+.user{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    display: flex;
+}
+
+
+.user_sidenav{
+    height: 80px;
+    width: 10%;
+    background-color: #DADAD9;
+}
+.user_data{
+    padding: 3%;
+    width: 90%;
+    background-color: #EDE6E3;
+}
+
+.sidenav_block {
+    height: 33.3%;
     text-align: center;
-    width: 100%;
-    height: 500px;
-    background-image: url(/images/start.jpg);
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-
-.start_topic{
-    font-size: 50px;
-    margin: 250px 0 30px 0;
-    vertical-align: center;
-}
-
-.buttons_button{
-    font-size: 20px;
-    border: none;
-    background: #6b85c6;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
+    display: block;
     text-decoration: none;
-    display: inline-block;
-    margin: 0 2%;
+    color: #6F7261;
 }
-
-.buttons_button:hover{
-    -webkit-transition-duration: 0.5s; /* Safari */
-    transition-duration: 0.5s;
-    background: #4967b2;
+.sidenav_block:hover{
+    background-color: #6F7261;
     color: white;
 }
-.intro{
-    margin:0;
-    text-align: center;
-}
 
-.intro_para{
-    margin: 5%;
+.data_img{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    height: 200px;
+    width: 200px;
 }
-.para_title {
-    font-size: 35px;
-
-}
-.para_subtitle {
+.data_words{
     font-size: 20px;
 }
+.words_word{
+    text-align: center;
+    display: block;
+}
 
-table {
-    width: 400px;
-    border-collapse: collapse;
+.correct{
+    float: right;
+    text-align: center;
+    text-decoration: none;  
+    color:#36382E;
+    border: 3px #36382E solid;
+    padding: 0.75%;
 }
-td {
-    border-bottom: 1px solid #008800; padding: 10px;
-}
-/* table's first tr */
-tr:nth-child(1){
-    background-color: #7788ff;
-    color: #ffffff;
-}
-/* rven tr */
-tr:nth-child(even){
-    background-color: #e8e8e8;
+
+.correct:hover{
+    background-color: #36382E;
+    color: white;
 }

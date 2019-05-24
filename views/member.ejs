@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="/css/member.css">
+    <link rel="stylesheet" href="/css/header.css">
     <title>Member Center</title>
-    <link rel="stylesheet" href="/css/member.css" type="text/css" />
-    <link rel="stylesheet" href="/css/header.css" type="text/css" />
 </head>
 
 <body>
+
     <header class="nav">
         <ul>
             <li><a class="active" href="/">Home</a></li>
@@ -14,54 +15,50 @@
             <li><a href="#contact">Contact</a></li>
             <li><a href="/intro">About</a></li>
 
+            <!-- <div class="login">  -->
+
             <% if(title == "Sign in") { %>
                 <li class="nav_signin"><a href="/login"><%= title%></a></li>
-                <script>
-                    window.location = "/login";
-                </script>
             <% } else { %>
                 <li class="nav_signin"><a href="/logout"><%= title%></a></li>
             <% } %>
-
+                
             <% if(account == "Sign up") { %>
                 <li class="nav_signin"><a href="/register"><%= account%></a></li>
             <% } else { %>
                 <li class="nav_signin"><a href="/member"><%= account%></a></li>
             <% } %>
-        </ul>      
+        </ul>    
     </header>
 
-    <div class="start">
-        <h1 class="start_topic">會員中心</h1>
-    </div>
+    <main class="user">
+        <div class="user_sidenav sidenav">
+            <a class="sidenav_block" href="#">個人資料</a>
+            <a class="sidenav_block" href="#">我的貸款</a>
+            <a class="sidenav_block"href="#">我的投資</a>
+        </div>
+        <section class="user_data data">
+            <img  class="data_img" src="/images/member.png">
+            <section class = "data_words words">
 
-    <table>
-		<tr>
-			<td>Team</td>
-			<td>WIN</td>
-			<td>LOSE</td>
-		</tr>
-		<tr>
-			<td><%=  transaction %></td>
-			<td>10</td>
-			<td>8</td>
-		</tr>
-		<tr>
-			<td>Boston Red Sox</td>
-			<td>9</td>
-			<td>9</td>
-        </tr>
-        <tr>
-			<td>Toronto Blue Jays</td>
-			<td>8</td>
-			<td>9</td>
-		</tr>
-	</table>
+                <article class="words_word">
+                    <h1>
+                        Username
+                    </h1>
+                    <p><%= username%></p>
+                </article>
+                <article class="words_word">
+                    <h1>
+                        E-mail
+                    </h1>
+                    <p><%= mail_addr%></p>
+                </article>
+                <a class="correct" href="#">修改資料</a>
+            </section>
 
+        </section>
 
-
-    </article>
-
+    </main>
 
 </body>
 </html>

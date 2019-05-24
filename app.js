@@ -1,4 +1,5 @@
 var express = require("express");
+var http = require('http');
 var https = require('https');
 var path = require('path');
 var bodyParser = require("body-parser");
@@ -65,19 +66,19 @@ app.use('/logout', logoutRouter);
 // app.use('/register3', register3Router);
 
 
-// var server = app.listen(8080, function () {		
-// 	dbConnection.connectDB();
-// 	geth.gethConnection();
-// 	// user.initUser();
-// 	console.log("Server start http://127.0.0.1:8080");			
-// });
-
-https.createServer(options, app).listen(8080, function(){
+var server = app.listen(8080, function () {		
 	dbConnection.connectDB();
 	geth.gethConnection();
 	// user.initUser();
-	console.log("Server start https://127.0.0.1:8080");	
+	console.log("Server start http://127.0.0.1:8080");			
 });
+
+// https.createServer(options, app).listen(8080, function(){
+// 	dbConnection.connectDB();
+// 	geth.gethConnection();
+// 	// user.initUser();
+// 	console.log("Server start https://127.0.0.1:8080");	
+// });
 
 
 module.exports = app;
