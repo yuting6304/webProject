@@ -12,12 +12,20 @@ app.use(router);
 
 router.get('/', function(req, res, next) {
     if(req.session.logined){
-    // if(user.getloginStatus() == 1){
-        // let name = user.getloginAccount();
-        res.render('invest', { title: 'Log out', account: req.session.username});
+        user.getWholeLoanData(function(err, data){
+            if(err){
+                console.log(err);
+            }
+            else{
+                
+                // console.log("username : " + data.username + ", mail address : " + data.Email);
+                res.render('invest', { title: 'Log out', account: req.session.username, data: data });
+            }
+        })       
     }
     else{
-        res.render('invest', { title: 'Sign in', account: 'Sign up'});
+        res.redirect('login');
+        // res.render('member_loan', { title: 'Sign in', account: 'Sign up', username: '', mail_addr: ''});
     }
 });
 

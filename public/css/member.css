@@ -63,3 +63,19 @@ body{
     background-color: #36382E;
     color: white;
 }
+table {
+    width: 400px;
+    border-collapse: collapse;
+}
+td {
+    border-bottom: 1px solid #008800; padding: 10px;
+}
+/* table's first tr */
+tr:nth-child(1){
+    background-color: #7788ff;
+    color: #ffffff;
+}
+/* rven tr */
+tr:nth-child(even){
+    background-color: #e8e8e8;
+}

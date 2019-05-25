@@ -5,46 +5,46 @@
     <title>Loan</title>
     <link rel="stylesheet" href="/css/header.css" type="text/css" />
     <link rel="stylesheet" href="/css/loan.css" type="text/css" />
-    <script type="text/javascript" src="/js/loan.js"></script>
+    <!-- <script type="text/javascript" src="/js/loan.js"></script> -->
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
 </head>
 
 <script>
 
-    $(document).ready(function(){
-        let money, rate, period, /*credit,*/ reason;
-        let pass_str;
+    // $(document).ready(function(){
+    //     let money, rate, period, /*credit,*/ reason;
+    //     let pass_str;
         
-        $("#nx").click(function(){
-            money=$("#money").val();
-            rate=$("#rate").val();
-            period=$("#period").val();
-            // credit=$("#credit").val();
-            reason=$("#reason").val();
-            pass_str="";
-            if(rate>0 && rate<=12 && money!="" && rate!="" && period!="" && reason!="" && pass_str==""){
-                $.post("https://localhost:8080/loan",{money: money, rate: rate, period: period, reason: reason, pass_str: pass_str}, function(data){
-                    console.log(data);
-                });
-            }
+    //     $("#nx").click(function(){
+    //         money=$("#money").val();
+    //         rate=$("#rate").val();
+    //         period=$("#period").val();
+    //         // credit=$("#credit").val();
+    //         reason=$("#reason").val();
+    //         pass_str="";
+    //         if(rate>0 && rate<=12 && money!="" && rate!="" && period!="" && reason!="" && pass_str==""){
+    //             $.post("https://localhost:8080/loan",{money: money, rate: rate, period: period, reason: reason, pass_str: pass_str}, function(data){
+    //                 console.log(data);
+    //             });
+    //         }
             
-        });
+    //     });
 
-        $("#send").click(function(){
-            money=$("#money").val();
-            rate=$("#rate").val();
-            period=$("#period").val();
-            // credit=$("#credit").val();
-            reason=$("#reason").val();
-            pass_str=$("#pass_str").val();
-            if(rate>0 && rate<=12 && money!="" && rate!="" && period!="" && reason!="" && pass_str!=""){
-                $.post("https://localhost:8080/loan",{pass_str: pass_str}, function(data){
-                    console.log(data);
-                });
-            }
-        });
-    });
+    //     $("#send").click(function(){
+    //         money=$("#money").val();
+    //         rate=$("#rate").val();
+    //         period=$("#period").val();
+    //         // credit=$("#credit").val();
+    //         reason=$("#reason").val();
+    //         pass_str=$("#pass_str").val();
+    //         if(rate>0 && rate<=12 && money!="" && rate!="" && period!="" && reason!="" && pass_str!=""){
+    //             $.post("https://localhost:8080/loan",{pass_str: pass_str}, function(data){
+    //                 console.log(data);
+    //             });
+    //         }
+    //     });
+    // });
 
 </script>
 <body>
@@ -73,47 +73,53 @@
             <h3 class= "titles_tile">Join P2P Borrowing Platform</h3>
             <h4 class= "titles_subtitle">Loan</h4>
         </article>
-        <div class="step">
+        <!-- <div class="step">
             <div id="step1" class="step1">
                 step1 : <br/>Fill in your demand
             </div>
             <div id="step2" class="step2">
                step2 : <br/>Fill in your verify token to activate the transaction
             </div>
-        </div>
+        </div> -->
         
         
-        <form id="form" onsubmit="checkInfo()" method="GET" role="form" action="/member" >
-
+        <form id="form" method="POST" role="form" >
             <div id="checkInput">
            
             </div>
 
             <div id="form1">
                 金額 <span>*</span> <br/>
-                <input id="money" type="text" pattern="[^a-zA-Z0]*" required/>
+                <input id="money" name="money" type="text" pattern="[^a-zA-Z]*" required>
                     <span class="ok">ok</span><br/>
                 年利率 <span>*</span><br/>
-                    <input id="rate" type="text" placeholder="1%~12%" pattern="[2-9]|1[0-2]?" required />
+                    <input id="rate" name="rate" type="text" placeholder="1%~12%" pattern="[2-9]|1[0-2]?" required >
                     <span class="ok">ok</span><br/>
                 期數(每月一期) <span>*</span><br/>
-                    <input id="period" type="text" pattern="[^a-zA-Z0]*" required />
+                    <input id="period" name="period" type="text" pattern="[^a-zA-Z0]*" required >
                     <span class="ok">ok</span><br/>
                 <!-- 信用卡號<span>*</span><br/>
                 <input id="credit" type="text" placeholder="fill in ten '0'" required pattern="[0]{10,10}"/>
                 <span class="ok">ok</span><br/> -->
-                借錢理由 <br/>
-                <textarea id="reason" type="text" rows="10" cols="50" ></textarea><br />
-                <input id="nx" type="button" value="Next" onclick="getInfo1()"/>
+                借錢理由 <span>*</span><br/>
+                    <select id="reason" name="reason" required>
+                        <option value=""> Select your reason </option>
+                        <option value="投資"> 投資 </option>
+                        <option value="創業"> 創業 </option>
+                    </select> 
+                    <br/><br/>
+                    <input id="send" type="submit" value="Send" >
+
+                <!-- <input id="nx" type="button" value="Next" onclick="getInfo1()"/> -->
             </div>
 
-            <div id="form2">
+            <!-- <div id="form2">
                 驗證碼<span>*</span><br/>
                 <input id="pass_str" type="text" required >
                 <span class="ok">ok</span><br/><br/>
 
-                <input id="send" type="submit" value="Send" onclick="getInfo2()">
-            </div>
+                <input id="send" type="submit" value="Send" >
+            </div> -->
             
         
         </form>

@@ -85,6 +85,7 @@ body{
     padding: 5px 20px;
     border: 2px solid #888888;
     border-radius: 5px;
+    margin: 10px;
 }
 
 #form1>.ok, #form2>.ok{
@@ -99,15 +100,17 @@ body{
 
 
 /* button next 1 */
-#form1>#nx{
-    width: 75px;
+#form1>#reason{
+    font-size: 14px;
+    height: 30px;
+    width: 240px;
     position: relative;
-    /* left: 45%; */
+    left: 3%;
 }
 
 
 /* button on page2 */
-#form2>#send{
+#form1>#send{
     width: 75px;
     position: relative;
     /* width: 600px;

@@ -12,34 +12,34 @@ let confirm1, confirm2;
 window.onload = function(){ 
     // page
     form1 = document.getElementById("form1");
-    form2 = document.getElementById("form2");
+    // form2 = document.getElementById("form2");
     
     
     // page next button
-    nx = document.getElementById("nx");
+    // nx = document.getElementById("nx");
    
 
-    // get each step
-    // step 1
-    step1 = document.getElementById("step1");
-    step2 = document.getElementById("step2");
-    step3 = document.getElementById("step3");
+    // // get each step
+    // // step 1
+    // step1 = document.getElementById("step1");
+    // step2 = document.getElementById("step2");
+    // step3 = document.getElementById("step3");
 
-    step1.style.backgroundColor = "#61d1d3";
-    step1.style.opacity = "0.9"
-    step1.style.color = "white";
-    step2.style.color = "grey";
+    // step1.style.backgroundColor = "#61d1d3";
+    // step1.style.opacity = "0.9"
+    // step1.style.color = "white";
+    // step2.style.color = "grey";
 
-    // set other invisible
-    form2.style.display = "none";  
+    // // set other invisible
+    // form2.style.display = "none";  
 
-    checkInput = document.getElementById("checkInput");
-    var start_text = checkInput;
-    // 把class "effect"加到text中
-    start_text.classList.add("effect");
+    // checkInput = document.getElementById("checkInput");
+    // var start_text = checkInput;
+    // // 把class "effect"加到text中
+    // start_text.classList.add("effect");
 
-    confirm1 = 0;
-    confirm2 = 0;
+    // confirm1 = 0;
+    // confirm2 = 0;
 
 }
 
@@ -90,54 +90,54 @@ function getInfo1(){
     // else if(credit.value != "0000000000"){
     //     checkInput.innerHTML = "<p style='color:red'> Your credit card number format is error! </p>";
     //     credit.focus();
-    //     return false;
-    // }
-    else if(reason.value == ""){
-        reason.focus();
-        checkInput.innerHTML = "<p style='color:red'> Please fill in the reason you want to loan! </p>";
-        return false;
-    }
+//     //     return false;
+//     // }
+//     else if(reason.value == ""){
+//         reason.focus();
+//         checkInput.innerHTML = "<p style='color:red'> Please fill in the reason you want to loan! </p>";
+//         return false;
+//     }
 
-    checkInput.innerHTML = "";
+//     checkInput.innerHTML = "";
 
-    // step 2
-    form1.style.display = "none";  
-    form2.style.display = "block";  
+//     // step 2
+//     form1.style.display = "none";  
+//     form2.style.display = "block";  
         
-    step1.style.backgroundColor = "";
-    step2.style.backgroundColor = "#61d1d3";
+//     step1.style.backgroundColor = "";
+//     step2.style.backgroundColor = "#61d1d3";
     
-    step1.style.opacity = "1"
-    step2.style.opacity = "0.9";
+//     step1.style.opacity = "1"
+//     step2.style.opacity = "0.9";
 
-    step1.style.color = "grey";
-    step2.style.color = "white";
+//     step1.style.color = "grey";
+//     step2.style.color = "white";
     
-    confirm1 = 1;
+//     confirm1 = 1;
 
-    return true;
+//     return true;
 }
-function getInfo2(){
-    pass_str = document.getElementById("pass_str");
+// function getInfo2(){
+//     pass_str = document.getElementById("pass_str");
     
-    if(pass_str.value == ""){
-        checkInput.innerHTML = "<p style='color:red'> Please fill in your verify token! </p>";
-        pass_str.focus();
-        return false;
-    }
+//     if(pass_str.value == ""){
+//         checkInput.innerHTML = "<p style='color:red'> Please fill in your verify token! </p>";
+//         pass_str.focus();
+//         return false;
+//     }
     
-    checkInput.innerHTML = "";
+//     checkInput.innerHTML = "";
 
-    confirm2 = 1;
-}
+//     confirm2 = 1;
+// }
 
-function checkInfo(){
+// function checkInfo(){
 
-    if(confirm2 == 1){
-        return true;
-    } 
-    else{
-        return false;
-    }
+//     if(confirm2 == 1){
+//         return true;
+//     } 
+//     else{
+//         return false;
+//     }
     
-}
+// }

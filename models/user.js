@@ -56,9 +56,9 @@ function reg(name, password, randstr, mailAddr){
 
 }
 
-function transact(name, money, rate, period, loan_reason, rand){
-    let  addSql = 'transaction(username, money, rate, period, loan_reason, random_string) VALUES(?,?,?,?,?,?)';
-    let  addSqlParams = [name, money, rate, period, loan_reason, rand];
+function transact(name, money, rate, period, loan_reason){
+    let  addSql = 'transaction(username, money, rate, period, loan_reason) VALUES(?,?,?,?,?)';
+    let  addSqlParams = [name, money, rate, period, loan_reason];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
@@ -173,12 +173,12 @@ function confirmMail(mailAddr, randstr){
     });
 }
 
-function transactMail(mailAddr, randstr){
+function transactMail(mailAddr){
     let mailOptions = {
         from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
         to: mailAddr,
         subject: 'Transaction notification from P2P_Borrowing_Platform',
-        html: '<h1>Welcome to P2P_Borrowing_Platform</h1><p>Your Verification token is ' + randstr + '</p>'
+        html: '<h1>Welcome to P2P_Borrowing_Platform</h1><p>You had successful loan</p>'
     };
       
     transporter.sendMail(mailOptions, function(error, info){
@@ -190,26 +190,7 @@ function transactMail(mailAddr, randstr){
     });
 }
 
-function transactConfirm(username, token, callback){
-    dbConnection.getDBData('transaction', function(err, data){
-        if(err){
-            callback(err, null);
-        }
-        else{
-            let size = data.length;
-            for(let i = 0; i < size; i++){
-                if(data[i].username == username){
-                    if(data[i].random_string == token){
-                        callback(null, 1);
-                        return;
-                    }
-                }
-            }
-            callback(null, -1);
-            return;
-        }
-    });
-}
+
 
 function memberConfirm(name, pass, token, callback){
     dbConnection.getDBData('users', function(err, data){
@@ -270,6 +251,51 @@ function getUserData(username, callback){
     });
 }
 
+function getUserLoanData(username, callback){
+    dbConnection.getDBData('transaction', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            let idx = 0;
+            let result_data = [];
+            let index = [];
+            let money = [];
+            let rate = [];
+            let period = [];
+            let reason = []
+            for(let i = 0; i < size; i++){
+                if(data[i].username == username){
+                    idx = idx+1;
+                    index.push(idx);
+                    money.push(data[i].money);
+                    rate.push(data[i].rate);
+                    period.push(data[i].period);
+                    reason.push(data[i].loan_reason);
+                }
+            }
+
+            result_data.push(index);
+            result_data.push(money);
+            result_data.push(rate);
+            result_data.push(period);
+            result_data.push(reason);
+            callback(null, result_data);
+        }
+    });
+}
+
+function getWholeLoanData(callback){
+    dbConnection.getDBData('transaction', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            callback(null, data);   
+        }
+    });
+}
 
 // this function is used to show in member center
 function getTransaction(username, callback){
@@ -315,9 +341,11 @@ module.exports.confirmMail = confirmMail;
 module.exports.transactMail = transactMail;
 module.exports.memberLogin = memberLogin;
 module.exports.memberConfirm = memberConfirm;
-module.exports.transactConfirm = transactConfirm;
 
 module.exports.getUserData = getUserData;
+module.exports.getUserLoanData = getUserLoanData;
+module.exports.getWholeLoanData = getWholeLoanData;
+
 module.exports.getTransaction = getTransaction;
 
 // module.exports.initUser = initUser;

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/css/member.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <title>Investigate</title>
+</head>
+
+<body>
+
+    <header class="nav">
+        <ul>
+            <li><a class="active" href="/">Home</a></li>
+            <li><a href="#news">News</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="/intro">About</a></li>
+
+            <!-- <div class="login">  -->
+
+            <% if(title == "Sign in") { %>
+                <li class="nav_signin"><a href="/login"><%= title%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/logout"><%= title%></a></li>
+            <% } %>
+                
+            <% if(account == "Sign up") { %>
+                <li class="nav_signin"><a href="/register"><%= account%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/member"><%= account%></a></li>
+            <% } %>
+        </ul>    
+    </header>
+
+    <main class="user">
+        <table>
+            <tr>
+                <td>編號</td>
+                <td>借方</td>
+                <td>金額</td>
+                <td>利率</td>
+                <td>期數</td>
+                <td>原因</td>
+            </tr><br/>
+            <% for(let i = 0; i < data.length; i++) { %>
+                <tr>
+                    <td><%= i+1 %></td>
+                    <td><%= data[i].username %></td>
+                    <td><%= data[i].money %></td>
+                    <td><%= data[i].rate %></td>
+                    <td><%= data[i].period %></td>
+                    <td><%= data[i].loan_reason %></td>
+                </tr>
+            <% } %>
+        </table>
+    </main>
+</body>
+</html>

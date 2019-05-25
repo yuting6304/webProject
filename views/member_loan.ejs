@@ -3,7 +3,7 @@
 <head>
     <link rel="stylesheet" href="/css/member.css">
     <link rel="stylesheet" href="/css/header.css">
-    <title>Member Center</title>
+    <title>My Loan Data</title>
 </head>
 
 <body>
@@ -38,22 +38,23 @@
             <a class="sidenav_block"href="#">我的投資</a>
         </div>
         <section class="user_data data">
-            <img  class="data_img" src="/images/member.png">
             <section class = "data_words words">
-
-                <article class="words_word">
-                    <h1>
-                        Username
-                    </h1>
-                    <p><%= username%></p>
-                </article>
-                <article class="words_word">
-                    <h1>
-                        E-mail
-                    </h1>
-                    <p><%= mail_addr%></p>
-                </article>
-                <a class="correct" href="#">修改資料</a>
+                <table>
+                    <tr>
+                        <td>編號</td>
+                        <td>金額</td>
+                        <td>利率</td>
+                        <td>期數</td>
+                        <td>原因</td>
+                    </tr><br/>
+                    <% for(let i = 0; i < data[0].length; i++) { %>
+                        <tr>
+                            <% for(let j = 0; j < 5; j++) { %>
+                                <td><%= data[j][i] %></td>
+                            <% } %>
+                        </tr>
+                    <% } %>
+                </table>
             </section>
 
         </section>
