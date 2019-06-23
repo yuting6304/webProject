@@ -28,6 +28,18 @@ app.use(session({
 }));
 // app.use(router);
 
+app.use("*", function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    if (req.method === 'OPTIONS') {
+        res.send(200)
+    } else {
+        next()
+    }
+});
+
+
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -36,7 +48,13 @@ app.use(bodyParser.json());
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set('port', process.env.PORT || 8080);
+app.set('port', process.env.PORT || 8081);
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
@@ -69,11 +87,11 @@ app.use('/logout', logoutRouter);
 // app.use('/register3', register3Router);
 
 
-var server = app.listen(8080, function () {		
+var server = app.listen(8081, function () {		
 	dbConnection.connectDB();
 	geth.gethConnection();
 	// user.initUser();
-	console.log("Server start http://127.0.0.1:8080");			
+	console.log("Server start http://127.0.0.1:8081");			
 });
 
 // https.createServer(options, app).listen(8080, function(){

@@ -5,9 +5,6 @@
     <title>Loan</title>
     <link rel="stylesheet" href="/css/header.css" type="text/css" />
     <link rel="stylesheet" href="/css/loan.css" type="text/css" />
-    <!-- <script type="text/javascript" src="/js/loan.js"></script> -->
-
-    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
 </head>
 
 <script>
@@ -73,20 +70,9 @@
             <h3 class= "titles_tile">Join P2P Borrowing Platform</h3>
             <h4 class= "titles_subtitle">Loan</h4>
         </article>
-        <!-- <div class="step">
-            <div id="step1" class="step1">
-                step1 : <br/>Fill in your demand
-            </div>
-            <div id="step2" class="step2">
-               step2 : <br/>Fill in your verify token to activate the transaction
-            </div>
-        </div> -->
-        
-        
+
         <form id="form" method="POST" role="form" >
-            <div id="checkInput">
-           
-            </div>
+            <div id="checkInput"></div>
 
             <div id="form1">
                 金額 <span>*</span> <br/>
@@ -98,30 +84,21 @@
                 期數(每月一期) <span>*</span><br/>
                     <input id="period" name="period" type="text" pattern="[^a-zA-Z0]*" required >
                     <span class="ok">ok</span><br/>
-                <!-- 信用卡號<span>*</span><br/>
-                <input id="credit" type="text" placeholder="fill in ten '0'" required pattern="[0]{10,10}"/>
-                <span class="ok">ok</span><br/> -->
                 借錢理由 <span>*</span><br/>
                     <select id="reason" name="reason" required>
                         <option value=""> Select your reason </option>
-                        <option value="投資"> 投資 </option>
-                        <option value="創業"> 創業 </option>
+                        <option value="投資理財"> 投資理財 </option>
+                        <option value="個人家庭週轉"> 個人家庭週轉 </option>
+                        <option value="償還債務"> 償還債務 </option>
+                        <option value="進修/教育支出"> 進修/教育支出 </option>
+                        <option value="醫療支出"> 醫療支出 </option>
+                        <option value="購買不動產"> 購買不動產 </option>
+                        <option value="裝修房屋"> 裝修房屋 </option>
+                        <option value="其他"> 其他 </option>
                     </select> 
                     <br/><br/>
                     <input id="send" type="submit" value="Send" >
-
-                <!-- <input id="nx" type="button" value="Next" onclick="getInfo1()"/> -->
             </div>
-
-            <!-- <div id="form2">
-                驗證碼<span>*</span><br/>
-                <input id="pass_str" type="text" required >
-                <span class="ok">ok</span><br/><br/>
-
-                <input id="send" type="submit" value="Send" >
-            </div> -->
-            
-        
         </form>
 
     </main>

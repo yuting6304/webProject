@@ -17,7 +17,6 @@ router.get('/', function(req, res, next) {
                 console.log(err);
             }
             else{
-                
                 // console.log("username : " + data.username + ", mail address : " + data.Email);
                 res.render('invest', { title: 'Log out', account: req.session.username, data: data });
             }
