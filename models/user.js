@@ -1,5 +1,6 @@
 var express = require('express');
 var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
 var xoauth2 = require('xoauth2');
 var handlebars = require('handlebars');
 var fs = require('fs');
@@ -12,8 +13,10 @@ var dbConnection = require('../models/dbConnection');
 // var acc;
 
 // setting of nodemailer
-var transport = nodemailer.createTransport({
-    service: 'gmail',
+smtpTransport = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    secure: true,
+    port: 465,
     auth: {
         type: 'OAuth2',
         user: mailcredit.user,
@@ -183,10 +186,20 @@ function confirmMail(mailAddr, randstr){
             to : mailAddr,
             subject : 'Confirm Email from P2P_Borrowing_Platform',
             html : htmlToSend
+            // attachments:[{
+            //     filename : 'mail.png',
+            //     path: __dirname + '/mail/mail.png',
+            //     cid : 'https://i.imgur.com/ckZHOKo.jpg'
+            // },
+            // {
+            //     filename : 'logo.png',
+            //     path: __dirname + '/mail/logo.png',
+            //     cid : 'https://i.imgur.com/bGJGS9q.png'
+            // }]
          };
-         transport.sendMail(mailOptions, function (err, response) {
+        smtpTransport.sendMail(mailOptions, function (err, response) {
             if (err) {
-                console.log(error);
+                console.log(err);
             }
             else{
                 consol.log('Email sent: ' + response);
