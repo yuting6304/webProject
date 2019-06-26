@@ -1,6 +1,8 @@
 var express = require('express');
 var nodemailer = require('nodemailer');
 var xoauth2 = require('xoauth2');
+var handlebars = require('handlebars');
+var fs = require('fs');
 var mysql  = require('mysql');  
 var crypto = require('crypto');
 var mailcredit = require('../models/mailsecret');
@@ -10,7 +12,7 @@ var dbConnection = require('../models/dbConnection');
 // var acc;
 
 // setting of nodemailer
-var transporter = nodemailer.createTransport({
+var transport = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         type: 'OAuth2',
@@ -146,7 +148,7 @@ function reuseMail(mailAddr, opt){
         };
     }
     
-    transporter.sendMail(mailOptions, function(error, info){
+    transport.sendMail(mailOptions, function(error, info){
         if (error) {
             console.log(error);
         } else {
@@ -155,21 +157,41 @@ function reuseMail(mailAddr, opt){
     });
 }
 
+function readHTML(path, callback){
+    fs.readFile(path, {encoding: 'utf-8'}, function(err, html) {
+        if (err) {
+            throw err;
+            callback(err);
+        }
+        else {
+            callback(null, html);
+        }
+    });
+}
+
+
 // send a confirm mail to user to get start their account
 function confirmMail(mailAddr, randstr){
-    let mailOptions = {
-        from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
-        to: mailAddr,
-        subject: 'Confirm Email from P2P_Borrowing_Platform',
-        html: '<h1>Welcome to P2P_Borrowing_Platform</h1><p>Your Verification token is ' + randstr + '</p><br/><li><a href="http://127.0.0.1:8080/confirm">Click Here to Start Your Account</a></li>'
-    };
-      
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
+    readHTML(__dirname + '/mail/mail.html', function(err, html) {
+        var template = handlebars.compile(html);
+        var replacements = {
+            randstr: randstr
+        };
+        var htmlToSend = template(replacements);
+        var mailOptions = {
+            from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+            to : mailAddr,
+            subject : 'Confirm Email from P2P_Borrowing_Platform',
+            html : htmlToSend
+         };
+         transport.sendMail(mailOptions, function (err, response) {
+            if (err) {
+                console.log(error);
+            }
+            else{
+                consol.log('Email sent: ' + response);
+            }
+        });
     });
 }
 
@@ -181,7 +203,7 @@ function transactMail(mailAddr){
         html: '<h1>Welcome to P2P_Borrowing_Platform</h1><p>You had successful loan</p>'
     };
       
-    transporter.sendMail(mailOptions, function(error, info){
+    transport.sendMail(mailOptions, function(error, info){
         if (error) {
             console.log(error);
         } else {
@@ -199,7 +221,7 @@ function memberConfirm(name, pass, token, callback){
         }
         else{
             let size = data.length;
-            let md5 = crypto.createHash('md5');
+            const md5 = crypto.createHash('md5');
             for(let i = 0; i < size; i++){
                 if(data[i].username == name && data[i].password == md5.update(pass).digest('hex') && data[i].random_string == token){
                     callback(null, 1);
@@ -222,7 +244,7 @@ function memberLogin(name, pass, callback){
             let size = data.length;
             let md5 = crypto.createHash('md5');
             for(let i = 0; i < size; i++){
-                if(data[i].username == name && data[i].password == md5.update(pass).digest('hex')){
+                if(data[i].username == name && data[i].password == md5.update(pass).digest('hex') && data[i].confirm == 1){
                     if(data[i].confirm == 1){
                         callback(null, 1);
                         return;
@@ -243,7 +265,7 @@ function getUserData(username, callback){
         else{
             let size = data.length;
             for(let i = 0; i < size; i++){
-                if(data[i].username == username){
+                if(data[i].username == username && data[i].confirm == 1){
                     callback(null, data[i]);
                 }
             }
@@ -266,7 +288,7 @@ function getUserLoanData(username, callback){
             let period = [];
             let reason = []
             for(let i = 0; i < size; i++){
-                if(data[i].username == username){
+                if(data[i].username == username && data[i].confirm == 1){
                     idx = idx+1;
                     index.push(idx);
                     money.push(data[i].money);

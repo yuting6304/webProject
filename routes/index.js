@@ -12,6 +12,7 @@ app.use(router);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+
     if(req.session.logined){
         name = req.session.username;
     // if(user.getloginStatus() == 1){

@@ -9,6 +9,8 @@ var dbConnection = require('./models/dbConnection');
 var user = require('./models/user');
 var geth = require('./models/geth');
 var fs = require('fs');
+var MemcachedStore = require("connect-memcached")(session);
+
 
 var options = {
     key: fs.readFileSync('./models/CA/server-key.pem'),
@@ -22,9 +24,17 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 app.use(cookieParser());
 app.use(session({
-	secret: "fd34s@!@dfa453f3DF#$D&W",
-	resave: true,
-	saveUninitialized: true
+    secret: "fd34s@!@dfa453f3DF#$D&W",
+	resave: false,
+    saveUninitialized: false,
+    cookie:{
+        maxAge: 1000*60*60
+    }
+    // store: new MemcachedStore({
+    //     hosts: ["127.0.0.1:8081"],
+    //     // secret: "12347896" // Optionally use transparent encryption for memcache session data
+    // })
+   
 }));
 // app.use(router);
 
@@ -94,11 +104,11 @@ var server = app.listen(8081, function () {
 	console.log("Server start http://127.0.0.1:8081");			
 });
 
-// https.createServer(options, app).listen(8080, function(){
+// https.createServer(options, app).listen(8081, function(){
 // 	dbConnection.connectDB();
 // 	geth.gethConnection();
 // 	// user.initUser();
-// 	console.log("Server start https://127.0.0.1:8080");	
+// 	console.log("Server start https://127.0.0.1:8081");	
 // });
 
 
