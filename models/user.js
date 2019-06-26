@@ -234,9 +234,8 @@ function memberConfirm(name, pass, token, callback){
         }
         else{
             let size = data.length;
-            const md5 = crypto.createHash('md5');
             for(let i = 0; i < size; i++){
-                if(data[i].username == name && data[i].password == md5.update(pass).digest('hex') && data[i].random_string == token){
+                if(data[i].username == name && data[i].password == crypto.createHash('md5').update(pass).digest('hex') && data[i].random_string == token){
                     callback(null, 1);
                     return;
                 }

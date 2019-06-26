@@ -38,7 +38,7 @@ router.post('/', function(req, res){
     // let credit = req.body['credit'];
     // let gender = req.body['gender'];
 
-    const md5 = crypto.createHash('md5');
+    let md5 = crypto.createHash('md5');
     password = md5.update(password).digest('hex');
 
     let mailAddr = req.body['mail'];
