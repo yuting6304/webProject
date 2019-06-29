@@ -25,8 +25,8 @@ var session = require('express-session');
 app.use(cookieParser());
 app.use(session({
     secret: "fd34s@!@dfa453f3DF#$D&W",
-	resave: false,
-    saveUninitialized: false,
+	resave: true,
+    saveUninitialized: true,
     cookie:{
         maxAge: 1000*60*60
     }
@@ -58,7 +58,7 @@ app.use(bodyParser.json());
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set('port', process.env.PORT || 8081);
+app.set('port', process.env.PORT || 8088);
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -97,11 +97,11 @@ app.use('/logout', logoutRouter);
 // app.use('/register3', register3Router);
 
 
-var server = app.listen(8081, function () {		
+var server = app.listen(8088, function () {		
 	dbConnection.connectDB();
 	geth.gethConnection();
 	// user.initUser();
-	console.log("Server start http://127.0.0.1:8081");			
+	console.log("Server start http://127.0.0.1:8088");			
 });
 
 // https.createServer(options, app).listen(8081, function(){

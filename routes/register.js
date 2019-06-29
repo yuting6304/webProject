@@ -56,7 +56,7 @@ router.post('/', function(req, res){
         else{
             if(result == 1){
                 console.log("username exist");
-                res.render('register', { title: 'Sign in', account: 'Sign up', Reg_Msg : 'username exist'});
+                res.render('register', { title: 'Sign in', account: 'Sign up', Reg_Msg : '使用者名稱已存在'});
                 // user.reuseMail(mailAddr, 0);
             }
             else{
@@ -67,7 +67,7 @@ router.post('/', function(req, res){
                     else{
                         if(data == 1){
                             console.log("mail addr exist");
-                            res.render('register', { title: 'Sign in', account: 'Sign up', Reg_Msg : 'mail addr exist'});
+                            res.render('register', { title: 'Sign in', account: 'Sign up', Reg_Msg : '信箱地址已存在'});
                             // user.reuseMail(mailAddr, 1);
                         }
                         else{

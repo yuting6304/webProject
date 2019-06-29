@@ -1,6 +1,5 @@
 var express = require('express');
 var nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-smtp-transport');
 var xoauth2 = require('xoauth2');
 var handlebars = require('handlebars');
 var fs = require('fs');
@@ -13,7 +12,7 @@ var dbConnection = require('../models/dbConnection');
 // var acc;
 
 // setting of nodemailer
-smtpTransport = nodemailer.createTransport({
+var smtpTransport = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     secure: true,
     port: 465,
@@ -197,12 +196,12 @@ function confirmMail(mailAddr, randstr){
             //     cid : 'https://i.imgur.com/bGJGS9q.png'
             // }]
          };
-        smtpTransport.sendMail(mailOptions, function (err, response) {
+        smtpTransport.sendMail(mailOptions, function (err, info) {
             if (err) {
                 console.log(err);
             }
             else{
-                consol.log('Email sent: ' + response);
+                consol.log('Email sent: ' + info.response);
             }
         });
     });
