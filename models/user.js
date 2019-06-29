@@ -300,7 +300,7 @@ function getUserLoanData(username, callback){
             let period = [];
             let reason = []
             for(let i = 0; i < size; i++){
-                if(data[i].username == username && data[i].confirm == 1){
+                if(data[i].username == username){
                     idx = idx+1;
                     index.push(idx);
                     money.push(data[i].money);
