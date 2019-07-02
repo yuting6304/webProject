@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="/css/user.css">
     <link rel="stylesheet" href="/css/user_lb.css ">
     <link rel="stylesheet" href="/css/header.css">
-    <title>My Loan Data</title>
+    <title>My Invest Data</title>
 </head>
 
 <body>
@@ -46,6 +46,7 @@
                     <th>期數</th>
                     <th>欲貸金額</th>
                     <th>貸款原因</th>
+                    <th>投資金額</th>
                 </tr>
                 <% for(let i = 0; i < data[0].length; i++) { %>
                     <tr class = "datas_data">
@@ -58,6 +59,7 @@
                                 <td><%= data[j][i] %></td>
                             <% } %>
                         <% } %>
+                        <td>$ 0</td>
                     </tr>
                 <% } %>
             </table>

@@ -55,7 +55,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 8088);
@@ -71,6 +70,7 @@ var loginRouter = require('./routes/login');
 var introRouter = require('./routes/intro');
 var memberRouter = require('./routes/member');
 var memberloanRouter = require('./routes/member');
+var memberinvestRouter = require('./routes/member');
 
 var registerRouter = require('./routes/register');
 var loanRouter = require('./routes/loan');
@@ -84,6 +84,7 @@ app.use('/login', loginRouter);
 app.use('/intro', introRouter);
 app.use('/member', memberRouter);
 app.use('/member/myLoan', memberloanRouter);
+app.use('/member/myInvest', memberinvestRouter);
 
 app.use('/register', registerRouter);
 app.use('/loan', loanRouter);
@@ -97,11 +98,15 @@ app.use('/logout', logoutRouter);
 // app.use('/register3', register3Router);
 
 
-var server = app.listen(8088, function () {		
+var server = app.listen(8088, function () {
 	dbConnection.connectDB();
 	geth.gethConnection();
 	// user.initUser();
-	console.log("Server start http://127.0.0.1:8088");			
+    console.log("Server start http://127.0.0.1:8088");
+    
+    
+    // console.log('scheduleRecurrenceRule:' + new Date());
+    // user.schedule_event();			
 });
 
 // https.createServer(options, app).listen(8081, function(){

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="/css/member.css">
+    <link rel="stylesheet" href="/css/user.css">
+    <link rel="stylesheet" href="/css/user_info.css ">
     <link rel="stylesheet" href="/css/header.css">
     <title>Member Center</title>
 </head>
@@ -35,25 +36,24 @@
         <div class="user_sidenav sidenav">
             <a class="sidenav_block" href="/member">個人資料</a>
             <a class="sidenav_block" href="/member/myLoan">我的貸款</a>
-            <a class="sidenav_block"href="#">我的投資</a>
+            <a class="sidenav_block"href="/member/myInvest">我的投資</a>
         </div>
-        <section class="user_data data">
-            <img  class="data_img" src="/images/member.png">
+        <section class="user_data datas">
+            <img  class="data_img" src="/images/user.png">
             <section class = "data_words words">
 
-                <article class="words_word">
-                    <h1>
-                        Username
+                <article class="words_word word">
+                    <h1 class="word_key">
+                        名字
                     </h1>
                     <p><%= username%></p>
                 </article>
-                <article class="words_word">
-                    <h1>
-                        E-mail
+                <article class="words_word word">
+                    <h1 class="word_key">
+                        電子信箱
                     </h1>
                     <p><%= mail_addr%></p>
                 </article>
-                <a class="correct" href="#">修改資料</a>
             </section>
 
         </section>

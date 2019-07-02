@@ -5,6 +5,7 @@ var handlebars = require('handlebars');
 var fs = require('fs');
 var mysql  = require('mysql');  
 var crypto = require('crypto');
+var schedule = require('node-schedule');
 var mailcredit = require('../models/mailsecret');
 var dbConnection = require('../models/dbConnection');
 
@@ -162,8 +163,8 @@ function reuseMail(mailAddr, opt){
 function readHTML(path, callback){
     fs.readFile(path, {encoding: 'utf-8'}, function(err, html) {
         if (err) {
-            throw err;
-            callback(err);
+            // throw err;
+            callback(err, null);
         }
         else {
             callback(null, html);
@@ -310,9 +311,9 @@ function getUserLoanData(username, callback){
             }
 
             result_data.push(index);
-            result_data.push(money);
             result_data.push(rate);
             result_data.push(period);
+            result_data.push(money);
             result_data.push(reason);
             callback(null, result_data);
         }
@@ -363,6 +364,26 @@ function getTransaction(username, callback){
 //     return status;
 // }
 
+
+// schedule function
+// use for transaction at 9 every day
+function schedule_event(){
+
+    var rule = new schedule.RecurrenceRule();
+    // rule.dayOfWeek = 2;
+    // rule.month = 3;
+    // rule.dayOfMonth = 1;
+    // rule.hour = 1;
+    // rule.minute = 42;
+    rule.second = 0;
+    
+    schedule.scheduleJob(rule, function(){
+       console.log('scheduleRecurrenceRule:' + new Date());
+    });
+}
+
+
+
 module.exports.reg = reg;
 module.exports.transact = transact;
 module.exports.getUserMail = getUserMail;
@@ -380,6 +401,9 @@ module.exports.getUserLoanData = getUserLoanData;
 module.exports.getWholeLoanData = getWholeLoanData;
 
 module.exports.getTransaction = getTransaction;
+
+
+module.exports.schedule_event = schedule_event;
 
 // module.exports.initUser = initUser;
 // module.exports.setloginStatus = setloginStatus;

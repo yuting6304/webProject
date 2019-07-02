@@ -1,0 +1,23 @@
+.datas{
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}
+
+th, td{
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+tr:nth-child(odd){background-color: #ACC1C1}
+tr:hover{
+    background-color: #85A09F;
+}
+th{
+    background-color: #114745;
+    color: white;
+}
+
+td{
+    height: 40px;
+}
