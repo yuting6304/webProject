@@ -34,10 +34,14 @@ body{
 }
 input{
     margin: 10px;
-    padding: 3px 10px;
+    width: 200px;
+    padding: 5px 20px;
     border-radius: 5px;
+    margin: 10px;
 }
-#login_btn{
+
+#login{
+    width: 75px;
     position: relative;
-    left: 25%;
+    left: 24%;
 }

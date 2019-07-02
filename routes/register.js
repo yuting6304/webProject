@@ -81,17 +81,12 @@ router.post('/', function(req, res){
                             user.confirmMail(mailAddr, randomString);
                             user.reg(username, password, randomString, mailAddr);
                             res.redirect('/');
-
                         }
                     }
                 })
             }
         }
     })
-
-    
-        
-   
 })
 
 module.exports = router;

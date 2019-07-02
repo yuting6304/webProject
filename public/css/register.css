@@ -48,7 +48,7 @@ body{
     100%{opacity: 1;}
 }
 
-#form1, #form2, #form3{
+#form1{
     line-height: 2em;
     width: 300px;
     /* margin: 0px auto;  */
@@ -56,76 +56,30 @@ body{
     top: 25%;
     left: 25%;
 }
-.step{
-    min-width: 600px;
-    width: 100%;
-    height: 100px;
-    display: flex;
-    margin: 10px;
-    justify-content: center;
-    font-weight: bolder;
-}
-.step>.step1{
-    font-size: 18px;
-    width: 33%;
-    height: 50px;
-    border: 1px solid #888888;
-}
-.step>.step2{
-    font-size: 18px;
-    width: 33%;
-    height: 50px;
-    border: 1px solid #888888;
-}
-.step>.step3{
-    font-size: 18px;
-    width: 33%;
-    height: 50px;
-    border: 1px solid #888888;
-}
 
-#form1>span, #form2>span, #form3>span{
+#form1>span{
     color: red;
 }
-#form1>input, #form2>input, #form3>input{
+#form1>input{
+    width: 200px;
     padding: 5px 20px;
     border: 2px solid #888888;
     border-radius: 5px;
+    margin: 10px;
 }
-#form1>.ok, #form2>.ok, #form3>.ok{
+#form1>.ok{
     color: green;
 }
-#form1>input:valid+.ok, #form2>input:valid+.ok,  #form3>input:valid+.ok{
+#form1>input:valid+.ok{
     display: inline;
 }
-#form1>input:invalid+.ok, #form2>input:invalid+.ok, #form3>input:invalid+.ok{
+#form1>input:invalid+.ok{
     display: none;
 }
 
-
 /* button next 1 */
-#form1>#nx1{
+#form1>#send{
+    width: 75px;
     position: relative;
-    /* left: 45%; */
+    left: 55%;
 }
-
-/* button on page2 */
-#form2>#nx2{
-    position: relative;
-    /* margin: 50px; */
-}
-/* button on page3 */
-#form3>#send{
-    position: relative;
-    /* width: 600px;
-    height: 400px;
-    left: 25%;  */
-    /* border: 1px solid #888888; */
-}
-/* #form3>div{
-    font-size: 18px;
-    font-weight: bolder;
-}
-#form3>input{
-    padding: 5px 10px;
-} */
