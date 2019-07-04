@@ -7,7 +7,9 @@ var session = require('express-session');
 var mysql  = require('mysql'); 
 var dbConnection = require('./models/dbConnection');
 var user = require('./models/user');
-var geth = require('./models/geth');
+var geth = require('./geth/deploy_contract');
+
+// var geth = require('./models/geth');
 var fs = require('fs');
 var MemcachedStore = require("connect-memcached")(session);
 
@@ -99,14 +101,24 @@ app.use('/logout', logoutRouter);
 
 
 var server = app.listen(8088, function () {
-	dbConnection.connectDB();
-	geth.gethConnection();
+    geth.gethConnection();
+    dbConnection.connectDB(function(err, succ){
+        if(err){
+            throw err;
+        }
+        else{
+            if(succ == 1){
+                user.initContract();
+                console.log("\nServer start http://127.0.0.1:8088");
+                user.schedule_event_deploy_constract();
+                user.schedule_event_make_a_match();
+            }
+        }
+    });
+
+	// geth.gethConnection();
 	// user.initUser();
-    console.log("Server start http://127.0.0.1:8088");
     
-    
-    // console.log('scheduleRecurrenceRule:' + new Date());
-    // user.schedule_event();			
 });
 
 // https.createServer(options, app).listen(8081, function(){

@@ -6,17 +6,20 @@ var fs = require('fs');
 var mysql  = require('mysql');  
 var crypto = require('crypto');
 var schedule = require('node-schedule');
-var mailcredit = require('../models/mailsecret');
-var dbConnection = require('../models/dbConnection');
+var mailcredit = require('./mailsecret');
+var dbConnection = require('./dbConnection');
+var matchMaker = require('../geth/call_MatchMaker');
+var deploy_contract = require('../geth/deploy_contract');
 
 // var status = 0;
 // var acc;
 
 // setting of nodemailer
 var smtpTransport = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    secure: true,
-    port: 465,
+    // host: 'smtp.gmail.com',
+    // secure: true,
+    // port: 465,
+    service: 'gmail',
     auth: {
         type: 'OAuth2',
         user: mailcredit.user,
@@ -54,16 +57,21 @@ var smtpTransport = nodemailer.createTransport({
 //     dbConnection.setDBData(addSql, addSqlParams);
 // }
 
-function reg(name, password, randstr, mailAddr){
-    let  addSql = 'users(username, password, random_string, Email) VALUES(?,?,?,?)';
-    let  addSqlParams = [name, password, randstr, mailAddr];
+function reg(name, password, reliability, randstr, mailAddr){
+    let  addSql = 'users(username, password, reliability, random_string, Email) VALUES(?,?,?,?,?)';
+    let  addSqlParams = [name, password, reliability, randstr, mailAddr];
     dbConnection.setDBData(addSql, addSqlParams);
-
 }
 
 function transact(name, money, rate, period, loan_reason){
     let  addSql = 'transaction(username, money, rate, period, loan_reason) VALUES(?,?,?,?,?)';
     let  addSqlParams = [name, money, rate, period, loan_reason];
+    dbConnection.setDBData(addSql, addSqlParams);
+}
+
+function store_contract(addr, group){
+    let  addSql = 'contract(address, group_type) VALUES(?,?)';
+    let  addSqlParams = [addr, group];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
@@ -256,7 +264,7 @@ function memberLogin(name, pass, callback){
             let size = data.length;
             let md5 = crypto.createHash('md5');
             for(let i = 0; i < size; i++){
-                if(data[i].username == name && data[i].password == md5.update(pass).digest('hex') && data[i].confirm == 1){
+                if(data[i].username == name && data[i].password == md5.update(pass).digest('hex')){
                     if(data[i].confirm == 1){
                         callback(null, 1);
                         return;
@@ -349,43 +357,165 @@ function getTransaction(username, callback){
     });
 }
 
+function getWholeContract(callback){
+    dbConnection.getDBData('contract', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            callback(null, data);
+        }
+    });
+}
 
-// function setloginStatus(a){
-//     acc = a;
-//     // status = s;
-// }
+// construct a contract
+function schedule_event_deploy_constract(){
 
-// function getloginAccount(){
-
-//     return acc;
-// }
-
-// function getloginStatus(){
-//     return status;
-// }
-
-
-// schedule function
-// use for transaction at 9 every day
-function schedule_event(){
-
-    var rule = new schedule.RecurrenceRule();
+    let rule = new schedule.RecurrenceRule();
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
-    // rule.hour = 1;
-    // rule.minute = 42;
+    rule.hour = 20;
+    rule.minute = 0;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
-       console.log('scheduleRecurrenceRule:' + new Date());
+        console.log('scheduleRecurrenceRule:' + new Date());
+
+        let contract_count = 0;
+        getWholeContract(function(err, data){
+            if(err){
+                console.log(err);
+            }
+            else{
+                let size = data.length;
+                
+                for(let i = 0; i < size; i++){
+                    if(data[i].status == 1){
+                        if(matchMaker == 7){
+                            break;
+                        }
+                        matchMaker.make_a_match(data[i].address);
+                        let modSql = 'contract SET status = ? WHERE address = ?';
+                        let modSqlParams = [0, data[i].address];
+                        dbConnection.updateData(modSql, modSqlParams);
+                        contract_count++;
+                    }
+                }
+
+                deploy_contract.deploy_matchmaker_contract(259200, "投資理財");
+                deploy_contract.deploy_matchmaker_contract(259200, "個人家庭週轉");
+                deploy_contract.deploy_matchmaker_contract(259200, "進修/教育支出");
+                deploy_contract.deploy_matchmaker_contract(259200, "醫療支出");
+                deploy_contract.deploy_matchmaker_contract(259200, "購買不動產");
+                deploy_contract.deploy_matchmaker_contract(259200, "裝修房屋");
+                deploy_contract.deploy_matchmaker_contract(259200, "其他");
+            }
+        });
+
+        console.log('合約部屬完成');
+    });
+}
+
+function initContract(){
+    let contract_count = 0;
+    getWholeContract(function(err, data){
+        if(err){
+            console.log(err);
+        }
+        else{
+            let size = data.length;
+            for(let i = 0; i < size; i++){
+                if(data[i].status == 1){
+                    if(matchMaker == 7){
+                        break;
+                    }
+                    contract_count++;
+                }
+            }
+            if(contract_count < 7){
+                deploy_contract.deploy_matchmaker_contract(259200, "投資理財");
+                deploy_contract.deploy_matchmaker_contract(259200, "個人家庭週轉");
+                deploy_contract.deploy_matchmaker_contract(259200, "進修/教育支出");
+                deploy_contract.deploy_matchmaker_contract(259200, "醫療支出");
+                deploy_contract.deploy_matchmaker_contract(259200, "購買不動產");
+                deploy_contract.deploy_matchmaker_contract(259200, "裝修房屋");
+                deploy_contract.deploy_matchmaker_contract(259200, "其他");
+            }
+        }
+    });
+    
+}
+
+// schedule function
+// use for transaction at 9 every day
+
+function schedule_event_make_a_match(){
+
+    let rule = new schedule.RecurrenceRule();
+    // rule.dayOfWeek = 2;
+    // rule.month = 3;
+    // rule.dayOfMonth = 1;
+    rule.hour = 21;
+    rule.minute = 0;
+    rule.second = 0;
+    
+    schedule.scheduleJob(rule, function(){
+        console.log('scheduleRecurrenceRule:' + new Date());
+        let contract_count = 0;
+        getWholeContract(function(err, data){
+            if(err){
+                console.log(err);
+            }
+            else{
+                let size = data.length;
+                
+                for(let i = 0; i < size; i++){
+                    if(data[i].status == 0){
+                        if(matchMaker == 7){
+                            break;
+                        }
+                        matchMaker.make_a_match(data[i].address);
+                        let modSql = 'contract SET status = ? WHERE address = ?';
+                        let modSqlParams = [-1, data[i].address];
+                        dbConnection.updateData(modSql, modSqlParams);
+                        contract_count++;
+                    }
+                }
+            }
+        });
+        if(contract_count > 7){
+            console.log("there are some errors in the contract!!!");
+        }
+        console.log('撮合完成');
+    });
+}
+
+function getUserReliable(name, callback){
+    dbConnection.getDBData('users', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            for(let i = 0; i < size; i++){
+                if(data[i].username == name){
+                    if(data[i].confirm == 1){
+                        callback(null, data[i].reliability);
+                        return;
+                    }
+                }
+            }
+            callback(null, -1);
+            return;
+        }
     });
 }
 
 
-
 module.exports.reg = reg;
 module.exports.transact = transact;
+module.exports.store_contract = store_contract;
 module.exports.getUserMail = getUserMail;
 
 module.exports.regMail = regMail;
@@ -402,9 +532,11 @@ module.exports.getWholeLoanData = getWholeLoanData;
 
 module.exports.getTransaction = getTransaction;
 
+module.exports.getUserReliable = getUserReliable;
 
-module.exports.schedule_event = schedule_event;
-
+module.exports.initContract = initContract;
+module.exports.schedule_event_make_a_match = schedule_event_make_a_match;
+module.exports.schedule_event_deploy_constract = schedule_event_deploy_constract;
 // module.exports.initUser = initUser;
 // module.exports.setloginStatus = setloginStatus;
 // module.exports.getloginStatus = getloginStatus;

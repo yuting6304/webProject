@@ -1,11 +1,9 @@
 var app = require('../app')
 var express = require('express');
-var mysql = require('mysql');
 var crypto = require('crypto');
-var events = require('events');
-var emitter = new events.EventEmitter();
+var random = require('random');
 var user = require('../models/user');
-var dbConnection = require('../models/dbConnection');
+
 
 
 var app = express(); // 產生express application物件
@@ -44,6 +42,7 @@ router.post('/', function(req, res){
     let mailAddr = req.body['mail'];
 
     let randomString;
+    let reliable = '0';
 
     // if(username!="" && password!="" && fname!="" && lname!="" && gender!=undefined && date!="" && phone!="" && credit!="" && mailAddr!=""){
         // How to send message to front web ??
@@ -71,6 +70,20 @@ router.post('/', function(req, res){
                             // user.reuseMail(mailAddr, 1);
                         }
                         else{
+                            
+                            if(random.int(1, 3) == 1){
+                                console.log('reliability : ' + 'A');
+                                reliable = 'A';
+                            }
+                            else if(random.int(1, 3) == 2){
+                                console.log('reliability : ' + 'B');
+                                reliable = 'B';
+                            }
+                            else if(random.int(1, 3) == 3){
+                                console.log('reliability : ' + 'C');
+                                reliable = 'C';
+                            }
+
                             randomString = crypto.randomBytes(32).toString('base64').substr(0, 8);
 
                             console.log("randstr : " + randomString);
@@ -79,7 +92,7 @@ router.post('/', function(req, res){
                             console.log("Mail : " + mailAddr);
                             
                             user.confirmMail(mailAddr, randomString);
-                            user.reg(username, password, randomString, mailAddr);
+                            user.reg(username, password, reliable, randomString, mailAddr);
                             res.redirect('/');
                         }
                     }

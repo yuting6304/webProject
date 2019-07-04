@@ -4,6 +4,7 @@ var crypto = require('crypto');
 var user = require('../models/user');
 var dbConnection = require('../models/dbConnection');
 var user = require('../models/user');
+var matchMaker = require('../geth/call_MatchMaker');
 
 
 var app = express(); // 產生express application物件
@@ -45,8 +46,18 @@ router.post('/', function(req, res, next){
     console.log("money : " + money + ", rate : " + rate);
     console.log("period : " + period + ", reason : " + reason);
 
+    user.getUserReliable(username, function(err, reliable){
+        if(err){
+            console.log(err);
+        }
+        else{
+            matchMaker.addUser('BORROWER', username, money, rate, reliable);
+        }
+    });
+
     user.transact(username, money, rate, period, reason);
     res.redirect('/');
+    console.log(matchMaker.showAllInfo());
 
 
     
