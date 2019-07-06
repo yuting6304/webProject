@@ -59,7 +59,7 @@ function deploy_contract(contract_Name, duration, index, callback){
         var abi = JSON.parse(compiledContract.contracts[contractName].interface);
     }
 
-    if (demo == 1) console.log(JSON.stringify(abi, undefined, 2));
+    // if (demo == 1) console.log(JSON.stringify(abi, undefined, 2));
 
     /*
     * deploy contract

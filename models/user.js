@@ -63,9 +63,9 @@ function reg(name, password, reliability, randstr, mailAddr){
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
-function transact(name, money, rate, period, loan_reason){
-    let  addSql = 'transaction(username, money, rate, period, loan_reason) VALUES(?,?,?,?,?)';
-    let  addSqlParams = [name, money, rate, period, loan_reason];
+function transact(name, money, rate, period, loan_type, loan_reason){
+    let  addSql = 'transaction(username, money, rate, period, loan_type, loan_reason) VALUES(?,?,?,?,?,?)';
+    let  addSqlParams = [name, money, rate, period, loan_type, loan_reason];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
@@ -306,7 +306,9 @@ function getUserLoanData(username, callback){
             let money = [];
             let rate = [];
             let period = [];
-            let reason = []
+            let reason = [];
+            let type = [];
+            let status = [];
             for(let i = 0; i < size; i++){
                 if(data[i].username == username){
                     idx = idx+1;
@@ -315,6 +317,8 @@ function getUserLoanData(username, callback){
                     rate.push(data[i].rate);
                     period.push(data[i].period);
                     reason.push(data[i].loan_reason);
+                    type.push(data[i].loan_type);
+                    status.push(data[i].status);
                 }
             }
 
@@ -323,6 +327,8 @@ function getUserLoanData(username, callback){
             result_data.push(period);
             result_data.push(money);
             result_data.push(reason);
+            result_data.push(type);
+            result_data.push(status);
             callback(null, result_data);
         }
     });
@@ -392,7 +398,7 @@ function schedule_event_deploy_constract(){
                 
                 for(let i = 0; i < size; i++){
                     if(data[i].status == 1){
-                        if(matchMaker == 7){
+                        if(matchMaker == 8){
                             break;
                         }
                         matchMaker.make_a_match(data[i].address);
@@ -404,6 +410,7 @@ function schedule_event_deploy_constract(){
                 }
 
                 deploy_contract.deploy_matchmaker_contract(259200, "投資理財");
+                deploy_contract.deploy_matchmaker_contract(259200, "償還債務");                
                 deploy_contract.deploy_matchmaker_contract(259200, "個人家庭週轉");
                 deploy_contract.deploy_matchmaker_contract(259200, "進修/教育支出");
                 deploy_contract.deploy_matchmaker_contract(259200, "醫療支出");
@@ -427,14 +434,15 @@ function initContract(){
             let size = data.length;
             for(let i = 0; i < size; i++){
                 if(data[i].status == 1){
-                    if(matchMaker == 7){
+                    if(matchMaker == 8){
                         break;
                     }
                     contract_count++;
                 }
             }
-            if(contract_count < 7){
+            if(contract_count < 8){
                 deploy_contract.deploy_matchmaker_contract(259200, "投資理財");
+                deploy_contract.deploy_matchmaker_contract(259200, "償還債務");
                 deploy_contract.deploy_matchmaker_contract(259200, "個人家庭週轉");
                 deploy_contract.deploy_matchmaker_contract(259200, "進修/教育支出");
                 deploy_contract.deploy_matchmaker_contract(259200, "醫療支出");
@@ -472,7 +480,7 @@ function schedule_event_make_a_match(){
                 
                 for(let i = 0; i < size; i++){
                     if(data[i].status == 0){
-                        if(matchMaker == 7){
+                        if(matchMaker == 8){
                             break;
                         }
                         matchMaker.make_a_match(data[i].address);
@@ -484,7 +492,7 @@ function schedule_event_make_a_match(){
                 }
             }
         });
-        if(contract_count > 7){
+        if(contract_count > 8){
             console.log("there are some errors in the contract!!!");
         }
         console.log('撮合完成');
@@ -513,6 +521,25 @@ function getUserReliable(name, callback){
 }
 
 
+function getContractAddr(group_type, callback){
+    dbConnection.getDBData('contract', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            for(let i = 0; i < size; i++){
+                if(data[i].status == 1){
+                    if(data[i].group_type == group_type){
+                        console.log('找到了！！！');
+                        callback(null, data[i].address);
+                    }
+                }
+            }
+        }
+    });
+}
+
 module.exports.reg = reg;
 module.exports.transact = transact;
 module.exports.store_contract = store_contract;
@@ -537,7 +564,5 @@ module.exports.getUserReliable = getUserReliable;
 module.exports.initContract = initContract;
 module.exports.schedule_event_make_a_match = schedule_event_make_a_match;
 module.exports.schedule_event_deploy_constract = schedule_event_deploy_constract;
-// module.exports.initUser = initUser;
-// module.exports.setloginStatus = setloginStatus;
-// module.exports.getloginStatus = getloginStatus;
-// module.exports.getloginAccount = getloginAccount;
+module.exports.getContractAddr = getContractAddr;
+

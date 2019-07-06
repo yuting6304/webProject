@@ -80,7 +80,7 @@ body{
 
 
 /* button next 1 */
-#form1>#reason{
+#form1>#reason, #form1>#loan_type{
     font-size: 14px;
     height: 30px;
     width: 240px;

@@ -40,77 +40,47 @@ router.post('/', function(req, res, next){
     let money = req.body['money'];
     let rate = req.body['rate'];
     let period = req.body['period'];
+    let loan_type = req.body['loan_type'];
     let reason = req.body['reason'];
 
     console.log("username : " + username);
     console.log("money : " + money + ", rate : " + rate);
+    console.log("loan type : " + loan_type);
     console.log("period : " + period + ", reason : " + reason);
 
-    user.getUserReliable(username, function(err, reliable){
-        if(err){
-            console.log(err);
-        }
-        else{
-            matchMaker.addUser('BORROWER', username, money, rate, reliable);
-        }
-    });
-
-    user.transact(username, money, rate, period, reason);
-    res.redirect('/');
-    console.log(matchMaker.showAllInfo());
-
+    if(loan_type == "撮合"){
+        user.getUserReliable(username, function(err, reliable){
+            if(err){
+                console.log(err);
+            }
+            else{
+                user.getContractAddr(reason, function(err, addr){
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        if(addr != '' || addr != undefined){
+                            // console.log(addr);
+                            matchMaker.addUser('BORROWER', username, money, rate, reliable, addr);
+                            console.log(matchMaker.showAllInfo(addr));                        
+                        }
+                        else{
+                            console.log('select contract failed!');
+                        }
+                    }
+                });
+    
+            }
+        });
+    }
+    else if(loan_type == "一般"){
+        
+    }
 
     
 
-    // if(pass_str == "" || pass_str == undefined){
-    // // if(money!="" && rate!="" && period!="" && reason!="" && randomString==""){
-        
-    //     money = req.body.money;
-    //     rate = req.body.rate;
-    //     period = req.body.period;
-    //     reason = req.body.reason;
-    //     console.log("randstr : " + randomString);
-
-    //     randomString = crypto.randomBytes(32).toString('base64').substr(0, 8);
-    //     console.log("pass_str : " + pass_str);
-    //     console.log("username : " + username);
-    //     console.log("money : " + money + ", rate : " + rate);
-    //     console.log("period : " + period + ", reason : " + reason);
-        
-    //     if(username!="" && username!=undefined){
-    //         user.getUserMail(username, function(err, data){
-    //             if(err){
-    //                 console.log(err);
-    //             }
-    //             else{
-    //                 if(data == -1){
-    //                     console.log("mail address not found");
-    //                 }
-    //                 else{
-    //                     user.transactMail(data ,randomString);
-    //                 }
-    //             }
-    //         });
-    //     }
-    // }
-    // if(pass_str != "" && pass_str != undefined){
-    // // if(money!="" && rate!="" && period!="" && reason!="" && pass_str!=undefined){
-        
-    //     console.log("randstr : " + pass_str);
-    //     console.log("username : " + username);
-    //     console.log("money : " + money + ", rate : " + rate);
-    //     console.log("period : " + period  + ", reason : " + reason);
-
-    //     if(pass_str == randomString){
-    //         user.transact(username, money, rate, period, reason, randomString);
-
-    //         let modSql = 'transaction SET confirm = ? WHERE username = ?';
-    //         let modSqlParams = [1, username];
-    //         dbConnection.updateData(modSql, modSqlParams);
-    //         randomString = "";
-    //     }
-            
-    // }
+    user.transact(username, money, rate, period, loan_type, reason);
+    res.redirect('/');
 });
 module.exports = router;
 module.exports = app;

@@ -5,6 +5,8 @@
     <title>Loan</title>
     <link rel="stylesheet" href="/css/header.css" type="text/css" />
     <link rel="stylesheet" href="/css/loan.css" type="text/css" />
+    <script type="text/javascript" src="/js/loan.js"></script>
+
 </head>
 
 <script>
@@ -71,7 +73,7 @@
             <h4 class= "titles_subtitle">Loan</h4>
         </article>
 
-        <form id="form" method="POST" role="form" >
+        <form onsubmit="checkInfo()" id="form" method="POST" role="form" >
             <div id="checkInput"></div>
 
             <div id="form1">
@@ -84,6 +86,13 @@
                 期數(每月一期) <span>*</span><br/>
                     <input id="period" name="period" type="text" pattern="[^a-zA-Z0]*" required >
                     <span class="ok">ok</span><br/>
+                借款方式 <span>*</span><br/>
+                    <select id="loan_type" name="loan_type" required>
+                        <option value=""> Select your loan type </option>
+                        <option value="一般"> 一般 </option>
+                        <option value="撮合"> 撮合 </option>
+                    </select>
+                    <br/>
                 借錢理由 <span>*</span><br/>
                     <select id="reason" name="reason" required>
                         <option value=""> Select your reason </option>
@@ -97,7 +106,7 @@
                         <option value="其他"> 其他 </option>
                     </select> 
                     <br/><br/>
-                    <input id="send" type="submit" value="Send" >
+                    <input id="send" type="submit" value="Send">
             </div>
         </form>
 

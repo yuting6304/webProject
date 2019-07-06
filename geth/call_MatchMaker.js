@@ -103,9 +103,9 @@ function addDefaultUser() {
 
 
 
-function addUser(User_ID, User_Name, User_TotalAmount, User_Interest, User_CreditRating) {
+function addUser(User_ID, User_Name, User_TotalAmount, User_Interest, User_CreditRating, ADDR) {
   // update this value in order to do something to aimmed contract
-  var value = getContractInfo(addr);
+  var value = getContractInfo(ADDR);
   value[0].checkGoalReached({from: address0, gas: value[1]});
   value[0].addUserInContract(User_ID, User_Name, User_TotalAmount, User_Interest, User_CreditRating.charCodeAt(0), {from: address0, gas: value[1]});
   value[0].checkGoalReached({from: address0, gas: value[1]});
@@ -132,8 +132,8 @@ function getResult(){
 /*********************************************************/
 /****************** Getters and Setters ******************/
 /*********************************************************/
-function showAllInfo() {
-  var value = getContractInfo(addr);
+function showAllInfo(ADDR) {
+  var value = getContractInfo(ADDR);
   value[0].checkGoalReached({from: address0, gas: value[1]});
   var val = value[0].showAllInfo({from: address0, gas: value[1]});
   value[0].checkGoalReached({from: address0, gas: value[1]});

@@ -155,3 +155,39 @@
 22:34:11.968143 table@remove removed @31
 23:06:51.853032 db@close closing
 23:06:51.873506 db@close done T·20.465971ms
+=============== Jul 6, 2019 (CST) ===============
+16:33:23.429175 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+16:33:23.478034 version@stat F·[0 1] S·791KiB[0B 791KiB] Sc·[0.00 0.01]
+16:33:23.478059 db@open opening
+16:33:23.478125 journal@recovery F·1
+16:33:23.501953 journal@recovery recovering @33
+16:33:23.743473 memdb@flush created L0@36 N·4828 S·578KiB "\x00\xb2{..\xb4\xc6m,v22627":"\xfd\xb9\xb1..5\x0f\x9c,v22239"
+16:33:23.750323 version@stat F·[1 1] S·1MiB[578KiB 791KiB] Sc·[0.25 0.01]
+16:33:24.551475 db@janitor F·4 G·0
+16:33:24.551571 db@open done T·1.073487474s
+16:41:34.708727 table@compaction L0·1 -> L1·1 S·1MiB Q·23058
+16:41:34.989685 table@build created L1@39 N·14852 S·1MiB "\x00\xb2{..\xb4\xc6m,v22627":"\xfe\xf4\x13..\xac\x8c\xf2,v11645"
+16:41:34.989764 version@stat F·[0 1] S·1MiB[0B 1MiB] Sc·[0.00 0.01]
+16:41:35.034378 table@compaction committed F-1 S-300KiB Ke·0 D·1778 T·307.449205ms
+16:41:35.063298 table@remove removed @36
+16:41:35.063711 table@remove removed @35
+17:19:31.950045 db@close closing
+17:19:31.966102 db@close done T·16.053728ms
+=============== Jul 6, 2019 (CST) ===============
+17:46:11.697795 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+17:46:11.711518 version@stat F·[0 1] S·1MiB[0B 1MiB] Sc·[0.00 0.01]
+17:46:11.711554 db@open opening
+17:46:11.711642 journal@recovery F·1
+17:46:11.714279 journal@recovery recovering @37
+17:46:11.832133 memdb@flush created L0@40 N·3946 S·290KiB "\x00\xdc\xce..\f\x9ej,v26483":"\xfd\xb9\xb1..5\x0f\x9c,v26397"
+17:46:11.925342 version@stat F·[1 1] S·1MiB[290KiB 1MiB] Sc·[0.25 0.01]
+17:46:12.045902 db@janitor F·4 G·0
+17:46:12.046025 db@open done T·334.424048ms
+17:48:56.682896 table@compaction L0·1 -> L1·1 S·1MiB Q·26948
+17:48:56.794567 table@build created L1@43 N·17491 S·1MiB "\x00\xb2{..\xb4\xc6m,v22627":"\xfe\xf4\x13..\xac\x8c\xf2,v11645"
+17:48:56.794650 version@stat F·[0 1] S·1MiB[0B 1MiB] Sc·[0.00 0.01]
+17:48:56.839190 table@compaction committed F-1 S-96KiB Ke·0 D·1307 T·156.233225ms
+17:48:56.839418 table@remove removed @40
+17:48:56.839614 table@remove removed @39
+18:25:41.934266 db@close closing
+18:25:41.934347 db@close done T·72.953µs
