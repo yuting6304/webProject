@@ -63,9 +63,9 @@ function reg(name, password, reliability, randstr, mailAddr){
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
-function transact(name, money, rate, period, loan_type, loan_reason){
-    let  addSql = 'transaction(username, money, rate, period, loan_type, loan_reason) VALUES(?,?,?,?,?,?)';
-    let  addSqlParams = [name, money, rate, period, loan_type, loan_reason];
+function transact(name, money, rate, period, loan_type, loan_reason, addr){
+    let  addSql = 'transaction(username, money, rate, period, loan_type, loan_reason, contract_addr) VALUES(?,?,?,?,?,?,?)';
+    let  addSqlParams = [name, money, rate, period, loan_type, loan_reason, addr];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 

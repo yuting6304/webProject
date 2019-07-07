@@ -5,7 +5,8 @@ var user = require('../models/user');
 var dbConnection = require('../models/dbConnection');
 var user = require('../models/user');
 var matchMaker = require('../geth/call_MatchMaker');
-
+var deploy_contract = require('../geth/deploy_contract');
+var crowdFund = require('../geth/call_CrowdFunding');
 
 var app = express(); // 產生express application物件
 var router = express.Router();
@@ -60,26 +61,26 @@ router.post('/', function(req, res, next){
                     }
                     else{
                         if(addr != '' || addr != undefined){
-                            // console.log(addr);
                             matchMaker.addUser('BORROWER', username, money, rate, reliable, addr);
-                            console.log(matchMaker.showAllInfo(addr));                        
+                            console.log(matchMaker.showAllInfo(addr)); 
+                            user.transact(username, money, rate, period, loan_type, reason, addr);
                         }
                         else{
                             console.log('select contract failed!');
                         }
                     }
                 });
-    
             }
         });
     }
     else if(loan_type == "一般"){
-        
+        deploy_contract.deploy_contract("CrowdFunding.sol", username, money, rate, period, 259200,  reason, function(addr){
+            user.transact(username, money, rate, period, loan_type, reason, addr);
+        });
+        // deploy_contract.deploy_crowdfunding_contract(username, money, rate, period, 259200, reason, loan_type);
+        console.log('完成一般貸款');
     }
 
-    
-
-    user.transact(username, money, rate, period, loan_type, reason);
     res.redirect('/');
 });
 module.exports = router;
