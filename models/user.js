@@ -465,7 +465,7 @@ function schedule_event_make_a_match(){
     // rule.month = 3;
     // rule.dayOfMonth = 1;
     rule.hour = 21;
-    rule.minute = 0;
+    rule.minute = 3;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){

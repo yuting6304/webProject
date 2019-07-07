@@ -8,22 +8,22 @@ var addr = "0xf146beae2e668f545ab82f1584fe003f3b3489f9";
 var web3 = new Web3();
 web3.setProvider(new web3.providers.HttpProvider(ethereumUri));
 const address0 = web3.eth.accounts[0];// user
-// if (!web3.isConnected()) {
-//   throw new Error('unable to connect to ethereum node at ' + ethereumUri);
-// } else {
-//   let coinbase = web3.eth.coinbase;
-//   if (demo == 1) console.log('coinbase:' + coinbase);
-//   let balance = web3.eth.getBalance(coinbase);
-//   if (demo == 1) console.log('balance:' + web3.fromWei(balance, 'ether') + " ETH");
-//   let accounts = web3.eth.accounts;
-//   if (demo == 1) console.log(accounts);
+if (!web3.isConnected()) {
+  throw new Error('unable to connect to ethereum node at ' + ethereumUri);
+} else {
+  let coinbase = web3.eth.coinbase;
+  if (demo == 1) console.log('coinbase:' + coinbase);
+  let balance = web3.eth.getBalance(coinbase);
+  if (demo == 1) console.log('balance:' + web3.fromWei(balance, 'ether') + " ETH");
+  let accounts = web3.eth.accounts;
+  if (demo == 1) console.log(accounts);
 
-//   if (web3.personal.unlockAccount(address0, '1')) {
-//     if (demo == 1) console.log(`${address0} is unlocaked`);
-//   } else {
-//     if (demo == 1) console.log(`unlock failed, ${address0}`);
-//   }
-// }
+  if (web3.personal.unlockAccount(address0, '1')) {
+    if (demo == 1) console.log(`${address0} is unlocaked`);
+  } else {
+    if (demo == 1) console.log(`unlock failed, ${address0}`);
+  }
+}
 
 
 

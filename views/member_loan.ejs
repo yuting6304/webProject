@@ -6,7 +6,11 @@
     <link rel="stylesheet" href="/css/header.css">
     <title>My Loan Data</title>
 </head>
-
+<script>
+    function getvalue(val){
+       alert(val.parentNode.parentNode.children[1].innerHTML);
+    }
+</script>
 <body>
 
     <header class="nav">
@@ -39,7 +43,7 @@
             <a class="sidenav_block" href="/member/myInvest">我的投資</a>
         </div>
         <section class="user_data">
-            <table class = "datas">
+            <table class = "datas" id="table">
                 <tr>
                     <th>編號</th>
                     <th>利率</th>
@@ -53,7 +57,7 @@
                     <tr class = "datas_data">
                         <% for(let j = 0; j < 7; j++) { %>
                             <% if(j == 1) { %>
-                                <td><%= data[j][i] %> % </td>
+                                <td id="val"><%= data[j][i] %> % </td>
                             <% } else if(j == 3) { %>
                                 <td>$ <%= data[j][i] %></td>
                             <% } else if(j == 6) { %>
@@ -61,11 +65,13 @@
                                     <td> 等待中 </td>
                                 <% } else { %>
                                     <td> 已結束 </td>
+                                    <button>click</button>
                                 <% } %>
                             <% } else { %>
                                 <td><%= data[j][i] %></td>
                             <% } %>
                         <% } %>
+                        <td><button onclick="getvalue(this)">click</button></td>
                     </tr>
                 <% } %>
             </table>
