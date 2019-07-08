@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="/css/member.css">
+    <link rel="stylesheet" href="/css/user.css">
+    <link rel="stylesheet" href="/css/user_lb.css ">
     <link rel="stylesheet" href="/css/header.css">
-    <title>Investigate</title>
+    <script type="text/javascript" src="/js/invest.js"></script>
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <title>Investigation</title>
 </head>
-
 <body>
 
     <header class="nav">
@@ -14,6 +16,8 @@
             <li><a href="#news">News</a></li>
             <li><a href="#contact">Contact</a></li>
             <li><a href="/intro">About</a></li>
+
+            <!-- <div class="login">  -->
 
             <% if(title == "Sign in") { %>
                 <li class="nav_signin"><a href="/login"><%= title%></a></li>
@@ -30,26 +34,37 @@
     </header>
 
     <main class="user">
-        <table>
-            <tr>
-                <td>編號</td>
-                <td>借方</td>
-                <td>金額</td>
-                <td>利率</td>
-                <td>期數</td>
-                <td>原因</td>
-            </tr><br/>
-            <% for(let i = 0; i < data.length; i++) { %>
+        <section class="user_data">
+            <table class = "datas" id="table">
                 <tr>
-                    <td><%= i+1 %></td>
-                    <td><%= data[i].username %></td>
-                    <td><%= data[i].money %></td>
-                    <td><%= data[i].rate %></td>
-                    <td><%= data[i].period %></td>
-                    <td><%= data[i].loan_reason %></td>
+                    <th>編號</th>
+                    <th>使用者</th>
+                    <th>欲貸金額</th>
+                    <th>利率</th>
+                    <th>期數</th>
+                    <th>貸款原因</th>
+                    <th>貸款方式</th>
+                    <th>狀態</th>
+                    <th>投資</th>
                 </tr>
-            <% } %>
-        </table>
+                <% for(let i = 0; i < data.length; i++) { %>
+                    <tr class = "datas_data" id="table_data">
+                        <td><%= i+1 %></td>
+                        <td><%= data[i].username %></td>
+                        <td>$ <%= data[i].money %></td>
+                        <td><%= data[i].rate %> % </td>
+                        <td><%= data[i].period %> 期 </td>
+                        <td><%= data[i].loan_reason %></td>
+                        <td><%= data[i].loan_type %></td>
+                        <td><%= data[i].status %></td>
+                        <td><button id="click" onclick="getValue(this)">click</button></td>
+                    </tr>
+                <% } %>
+            </table>
+        </section>
+
+
     </main>
+
 </body>
 </html>

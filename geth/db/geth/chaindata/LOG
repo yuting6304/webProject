@@ -279,3 +279,22 @@
 20:48:53.922746 version@stat F·[1 1] S·1MiB[314KiB 1MiB] Sc·[0.25 0.02]
 20:48:54.040644 db@janitor F·4 G·0
 20:48:54.040695 db@open done T·211.051828ms
+21:04:46.909802 db@close closing
+21:04:46.910013 db@close done T·205.281µs
+=============== Jul 8, 2019 (CST) ===============
+13:15:27.886133 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+13:15:27.938606 version@stat F·[1 1] S·1MiB[314KiB 1MiB] Sc·[0.25 0.02]
+13:15:27.938680 db@open opening
+13:15:27.938902 journal@recovery F·1
+13:15:27.981585 journal@recovery recovering @63
+13:15:28.070791 memdb@flush created L0@65 N·164 S·19KiB "\x01Te..<u\u007f,v38725":"\xfc\xed&..[Z ,v38724"
+13:15:28.077187 version@stat F·[2 1] S·1MiB[333KiB 1MiB] Sc·[0.50 0.02]
+13:15:28.161240 db@janitor F·5 G·0
+13:15:28.161287 db@open done T·222.578681ms
+15:02:16.383648 table@compaction L0·2 -> L1·1 S·1MiB Q·38782
+15:02:16.634630 table@build created L1@68 N·25335 S·1MiB "\x00\xb2{..\xb4\xc6m,v22627":"\xff+\xbd..\xe6V\xa1,v30489"
+15:02:16.634811 version@stat F·[0 1] S·1MiB[0B 1MiB] Sc·[0.00 0.02]
+15:02:16.668487 table@compaction committed F-2 S-114KiB Ke·0 D·1661 T·284.683086ms
+15:02:16.668811 table@remove removed @65
+15:02:16.669108 table@remove removed @62
+15:02:16.678970 table@remove removed @61

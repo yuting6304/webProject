@@ -323,9 +323,9 @@ function getUserLoanData(username, callback){
             }
 
             result_data.push(index);
+            result_data.push(money);
             result_data.push(rate);
             result_data.push(period);
-            result_data.push(money);
             result_data.push(reason);
             result_data.push(type);
             result_data.push(status);

@@ -4,7 +4,6 @@ var user = require('../models/user');
 var dbConnection = require('../models/dbConnection');
 var user = require('../models/user');
 
-
 var app = express(); // 產生express application物件
 var router = express.Router();
 
@@ -29,7 +28,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next){
+    let invest_data = req.query.data;
+    console.log('data : ' + invest_data);
     
+    // console.log('data : ' + invest_data.user);
+    // console.log('data : ' + invest_data.money);
+
+
 
 });
 module.exports = router;
