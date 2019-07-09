@@ -69,6 +69,13 @@ function transact(name, money, rate, period, loan_type, loan_reason, addr){
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
+
+function invest(investigator, loaner, money, rate, period, loan_type, loan_reason, addr){
+    let  addSql = 'invest(investigator, loaner, money, rate, period, loan_type, loan_reason, contract_addr) VALUES(?,?,?,?,?,?,?,?)';
+    let  addSqlParams = [investigator, loaner, money, rate, period, loan_type, loan_reason, addr];
+    dbConnection.setDBData(addSql, addSqlParams);
+}
+
 function store_contract(addr, group){
     let  addSql = 'contract(address, group_type) VALUES(?,?)';
     let  addSqlParams = [addr, group];
@@ -345,6 +352,25 @@ function getWholeLoanData(callback){
     });
 }
 
+function getNormalLoanData(callback){
+    dbConnection.getDBData('transaction', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            let result_data = [];
+            for(let i = 0; i < size; i++){
+                if(data[i].loan_type == "一般"){
+                    result_data.push(data[i]);
+                }
+            }
+            callback(null, result_data);   
+        }
+    });
+}
+
+
 // this function is used to show in member center
 function getTransaction(username, callback){
     dbConnection.getDBData('transaction', function(err, data){
@@ -540,8 +566,27 @@ function getContractAddr(group_type, callback){
     });
 }
 
+
+function getNormalTransactionAddr(username, id, callback){
+    dbConnection.getDBData('transaction', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            for(let i = 0; i < size; i++){
+                if(data[i].username == username && data[i].id == id){
+                    callback(null, data[i].contract_addr);
+                    return;
+                }
+            }
+        }
+    });
+}
+
 module.exports.reg = reg;
 module.exports.transact = transact;
+module.exports.invest = invest;
 module.exports.store_contract = store_contract;
 module.exports.getUserMail = getUserMail;
 
@@ -555,7 +600,7 @@ module.exports.memberConfirm = memberConfirm;
 
 module.exports.getUserData = getUserData;
 module.exports.getUserLoanData = getUserLoanData;
-module.exports.getWholeLoanData = getWholeLoanData;
+module.exports.getNormalLoanData = getNormalLoanData;
 
 module.exports.getTransaction = getTransaction;
 
@@ -565,4 +610,4 @@ module.exports.initContract = initContract;
 module.exports.schedule_event_make_a_match = schedule_event_make_a_match;
 module.exports.schedule_event_deploy_constract = schedule_event_deploy_constract;
 module.exports.getContractAddr = getContractAddr;
-
+module.exports.getNormalTransactionAddr = getNormalTransactionAddr;

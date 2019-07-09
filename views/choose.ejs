@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>投資方式選擇</title>
+    <link rel="stylesheet" href="/css/choose.css">
+    <link rel="stylesheet" href="/css/header.css">
+</head>
+
+<body>
+
+    <header class="nav">
+        <ul>
+            <li><a class="active" href="/">Home</a></li>
+            <li><a href="#news">News</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="/intro">About</a></li>
+            <% if(title == "Sign in") { %>
+                <li class="nav_signin"><a href="/login"><%= title%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/logout"><%= title%></a></li>
+            <% } %>
+                
+            <% if(account == "Sign up") { %>
+                <li class="nav_signin"><a href="/register"><%= account%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/member"><%= account%></a></li>
+            <% } %>
+        </ul>      
+    </header>
+    <h1 class="topic">選擇投資方式</h1>
+    <main class="chooses">
+        <section class="chooses_choose choose" onmouseover="document.getElementById('word').style.opacity='1';" onmouseout="document.getElementById('word').style.opacity='0';">
+            <a class="choose_button" href="/invest">一般投資</a>
+            <p id="word" class="choose_word">介紹文字A</br>嗨嗨嗨</p>
+        </section>
+        <section class="chooses_choose choose" onmouseover="document.getElementById('word1').style.opacity='1';" onmouseout="document.getElementById('word1').style.opacity='0';">
+            <a class="choose_button" href="/match" >撮合投資</a>
+            <p id="word1" class="choose_word">介紹文字B</br>哈哈哈</p>
+        </section>
+    </main>
+</body>
+</html>

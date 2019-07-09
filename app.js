@@ -76,6 +76,10 @@ var memberinvestRouter = require('./routes/member');
 
 var registerRouter = require('./routes/register');
 var loanRouter = require('./routes/loan');
+var chooseRouter = require('./routes/choose');
+var matchRouter = require('./routes/match');
+
+
 var investRouter = require('./routes/invest');
 var confirmRouter = require('./routes/confirm');
 var logoutRouter = require('./routes/logout');
@@ -90,7 +94,9 @@ app.use('/member/myInvest', memberinvestRouter);
 
 app.use('/register', registerRouter);
 app.use('/loan', loanRouter);
+app.use('/choose', chooseRouter);
 app.use('/invest', investRouter);
+app.use('/match', matchRouter);
 
 app.use('/confirm', confirmRouter);
 app.use('/logout', logoutRouter);

@@ -26,6 +26,9 @@ function connectDB(callback){
         // let createUsers = 'create table if not exists users(id int not null auto_increment, username varchar(30) not null, account varchar(30) not null, password varchar(32) not null, first_name varchar(30) not null, last_name varchar(30) not null, gender varchar(30) not null, birthday varchar(30) not null, phone_number varchar(30) not null, credit_card_number varchar(30) not null, Email varchar(30) not null, confirm int not null default 0, primary key(id)) DEFAULT CHARSET=utf8';
         let createContract = 'create table if not exists contract(id int not null auto_increment, address varchar(50) not null, group_type varchar(50) not null, status int not null default 1, primary key(id)) DEFAULT CHARSET=utf8';        
         
+        let createInvest = 'create table if not exists invest(id int not null auto_increment, investigator varchar(30) not null, loaner varchar(30) not null, money int not null, rate float not null, period int not null, loan_type varchar(20) not null, loan_reason varchar(250) not null, contract_addr varchar(50) not null, status int not null default 1, primary key(id)) DEFAULT CHARSET=utf8';        
+
+
         connection.query(createUsers, function(err, results, fields){
             if(err){
                 console.log(err.message);
@@ -40,6 +43,14 @@ function connectDB(callback){
             }
             else{
                 console.log("Mysql(table): transaction has been created");
+            }
+        });
+        connection.query(createInvest, function(err, results, fields){
+            if(err){
+                console.log(err.message);
+            }
+            else{
+                console.log("Mysql(table): invest has been created");
             }
         });
         connection.query(createContract, function(err, results, fields){

@@ -11,5 +11,10 @@ function disable_button(){
 }
 
 function checkInfo(){
-    alert('確定送出');
+    if (confirm("確定送出")) {
+        return true;
+    } 
+    else {
+        return false;
+    }
 }

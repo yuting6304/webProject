@@ -1,5 +1,5 @@
 function gotoInvest(){
-    window.location = "/invest";
+    window.location = "/choose";
 }
 
 function gotoLoan(){

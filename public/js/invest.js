@@ -9,12 +9,23 @@ function getValue(val){
     //     type : val.parentNode.parentNode.children[6].innerHTML,
     //     status : val.parentNode.parentNode.children[7].innerHTML
     // };
+
+    let invest_money = prompt("輸入想投資的金額", "0");
+    if(invest_money == null || invest_money == "" || invest_money == "0") {
+        alert("尚未填寫投資金額！！");
+        return;
+    }
+
+    if (!confirm("確定投資！！")) {
+        return;
+    } 
+
     let invest_detail = [];
-    for(let i = 0; i < 8; i++){
+    for(let i = 0; i < 9; i++){
         invest_detail.push(val.parentNode.parentNode.children[i].innerHTML)
     }
     // console.log(JSON.stringify(invest_detail));
-    var serverURL = "http://localhost:8088/invest?"+"data="+invest_detail[5];
+    var serverURL = "http://localhost:8088/invest?"+"index="+invest_detail[8]+"&user="+invest_detail[1]+"&money="+invest_detail[2]+"&rate="+invest_detail[3]+"&period="+invest_detail[4]+"&reason="+invest_detail[5]+"&type="+invest_detail[6]+"&status="+invest_detail[7]+"&msg="+invest_money;
     var xhr = new XMLHttpRequest();
     xhr.open('POST',serverURL,true);
     xhr.withCredentials=false;
@@ -27,11 +38,3 @@ function getValue(val){
     }
 
 }
-
-// $(document).ready(function(){        
-//     $("#send").click(function(){
-//         $.post("https://localhost:8088/invest",{data : invest_detail}, function(data){
-//             console.log(data);
-//         });
-//     });
-// })

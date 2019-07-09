@@ -33,6 +33,14 @@ function gethConnection(){
 }
 
 
+function unlock_account(){
+    if (web3.personal.unlockAccount(account0, '1')) {
+        if (demo == 1) console.log(`${account0} is unlocaked`);
+    }else{
+        if (demo == 1) console.log(`unlock failed, ${account0}`);
+    }
+}
+
 
 
 /*********************************************************/
@@ -162,3 +170,4 @@ module.exports.deploy_contract = deploy_contract;
 module.exports.deploy_matchmaker_contract = deploy_matchmaker_contract;
 // module.exports.deploy_crowdfunding_contract = deploy_crowdfunding_contract;
 module.exports.gethConnection = gethConnection;
+module.exports.unlock_account = unlock_account;

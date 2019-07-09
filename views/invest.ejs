@@ -39,9 +39,9 @@
                 <tr>
                     <th>編號</th>
                     <th>使用者</th>
-                    <th>欲貸金額</th>
-                    <th>利率</th>
-                    <th>期數</th>
+                    <th>欲貸金額($)</th>
+                    <th>利率(%/年)</th>
+                    <th>期數(期)</th>
                     <th>貸款原因</th>
                     <th>貸款方式</th>
                     <th>狀態</th>
@@ -51,12 +51,13 @@
                     <tr class = "datas_data" id="table_data">
                         <td><%= i+1 %></td>
                         <td><%= data[i].username %></td>
-                        <td>$ <%= data[i].money %></td>
-                        <td><%= data[i].rate %> % </td>
-                        <td><%= data[i].period %> 期 </td>
+                        <td><%= data[i].money %></td>
+                        <td><%= data[i].rate %></td>
+                        <td><%= data[i].period %></td>
                         <td><%= data[i].loan_reason %></td>
                         <td><%= data[i].loan_type %></td>
                         <td><%= data[i].status %></td>
+                        <td style="display: none"><%= data[i].id %></td>
                         <td><button id="click" onclick="getValue(this)">click</button></td>
                     </tr>
                 <% } %>

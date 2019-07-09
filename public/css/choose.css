@@ -1,0 +1,68 @@
+body{
+    font-family: Microsoft JhengHei;
+    margin: 0;
+    height: 100%;
+    background-image: url(/images/choose.png);
+} 
+
+.topic{
+    /* color: white; */
+    font-size: 250%;
+    text-align: center;
+    margin: 5% 0 0 0 ;
+}
+
+.chooses{
+    display: flex;
+    justify-content: center;
+    margin: 0 2% 2% 2%;
+}
+
+.choose{
+    display: flex;
+    flex-direction: column;
+    margin: 3% 10%;
+    width: 200px;
+    height: 200px;
+    background-color: #828BC9;
+    border-radius: 50%;
+
+}
+.choose_button{
+    display:block;
+    width:inherit;
+    line-height:200px;
+    text-align:center;
+    font-size: 175%;
+    font-family: inherit;
+    border: none;
+    color: white;
+    text-decoration: none;
+}
+/* .choose_button:hover{
+height: 120px;
+} */
+
+.choose:hover{
+    animation: open;
+    animation-fill-mode: forwards;
+    animation-duration: 0.5s;
+    
+}
+
+.choose_word{
+    opacity: 0;
+    color: white;
+    text-align:center;
+    font-size: 125%;
+    margin: 0 0 0 0;
+}
+
+@keyframes open{
+    from{}
+    to{width:400px; height:400px; background-color: #657CCE; opacity: 1;}
+}
+/* @-webkit-keyframes open{
+    from{}
+    to{width:400px; height:400px;}
+} */
