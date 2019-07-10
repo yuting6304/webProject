@@ -59,7 +59,7 @@ router.post('/', function(req, res, next){
                     else{
                         if(addr != '' || addr != undefined){
                             matchMaker.addUser('BORROWER', username, money, rate, reliable, addr);
-                            console.log(matchMaker.showAllInfo(addr)); 
+                            setTimeout(showInfo, 10000, addr);                            
                             user.transact(username, money, rate, period, loan_type, reason, addr);
                         }
                         else{
@@ -80,5 +80,10 @@ router.post('/', function(req, res, next){
 
     res.redirect('/');
 });
+
+function showInfo(ADDR){
+    console.log("geth info : " + matchMaker.showAllInfo(ADDR));
+}
+
 module.exports = router;
 module.exports = app;

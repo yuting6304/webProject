@@ -1,8 +1,10 @@
 var app = require('../app')
 var express = require('express');
+var dbConnection = require('../models/dbConnection');
 var user = require('../models/user');
 var crowd_fund = require('../geth/call_CrowdFunding');
 var deploy_contract = require('../geth/deploy_contract');
+var gethUtil = require('../models/contract_util');
 
 var app = express(); // 產生express application物件
 var router = express.Router();
@@ -17,9 +19,11 @@ router.get('/', function(req, res, next) {
                 console.log(err);
             }
             else{
-                invest_user = req.session.username;
-                // console.log("username : " + req.session.username);
-                res.render('invest', { title: 'Log out', account: req.session.username, data: data });
+                gethUtil.getCurrentAmount(function(err, amount){
+                    invest_user = req.session.username;
+                    // console.log("username : " + req.session.username);
+                    res.render('invest', { title: 'Log out', account: req.session.username, data: data, amount: amount });
+                });
             }
         })       
     }
@@ -40,7 +44,6 @@ router.post('/', function(req, res, next){
     let type = req.query.type;
     let status = req.query.status;
     let msg = parseInt(req.query.msg, 10);
-    let store_addr;
     
     console.log('index : ' + index);
     console.log('user : ' + loaner);
@@ -63,14 +66,14 @@ router.post('/', function(req, res, next){
             console.log(addr);
             deploy_contract.unlock_account();
             crowd_fund.fund(invest_user, msg, addr);
-            user.invest(invest_user, loaner, money, rate, period, type, reason, addr);
-            setTimeout(update, 10000, addr);            
-            setTimeout(showResult, 20000, addr);
-            setTimeout(showResult, 35000, addr);
+            user.invest(invest_user, loaner, money, msg, rate, period, type, reason, addr);
+            setTimeout(update, 10000, addr, res);            
+            // setTimeout(showResult, 20000, addr);
+            setTimeout(showResult, 30000, addr);
         }
     });
 
-    
+    res.redirect('/');
     
     // crowd_fund.fund(invest_user, msg);
     // user.invest(name, money, rate, period, loan_type, loan_reason, addr);
@@ -87,7 +90,26 @@ function update(ADDR){
 }
 
 function showResult(ADDR){
+    let goal = crowd_fund.show_GOALAMOUNT(ADDR);
+    let current = crowd_fund.show_CURRENTAMOUNT(ADDR);
+    let rest = goal-current;
+    
     console.log(crowd_fund.getResult(ADDR));
+    console.log("goal : " + goal);
+    console.log("current : " + current);
+    console.log("rest : " + rest);
+
+    if(rest == 0){
+        update(ADDR);
+        console.log('RESULT : ' + crowd_fund.getResult(ADDR));
+        let modSql = 'transaction SET status = ? WHERE contract_addr = ?';
+        let modSqlParams = [0, ADDR];
+        dbConnection.updateData(modSql, modSqlParams);
+        
+        let modSql2 = 'invest SET status = ? WHERE contract_addr = ?';
+        let modSqlParams2 = [0, ADDR];
+        dbConnection.updateData(modSql2, modSqlParams2);
+    }
 }
 
 module.exports = router;

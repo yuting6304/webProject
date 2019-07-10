@@ -45,7 +45,7 @@ router.get('/myLoan', function(req, res, next) {
 
 router.get('/myInvest', function(req, res, next) {
     if(req.session.logined){
-        user.getUserLoanData(req.session.username, function(err, data){
+        user.getUserInvestData(req.session.username, function(err, data){
             if(err){
                 console.log(err);
             }

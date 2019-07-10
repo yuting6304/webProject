@@ -70,9 +70,9 @@ function transact(name, money, rate, period, loan_type, loan_reason, addr){
 }
 
 
-function invest(investigator, loaner, money, rate, period, loan_type, loan_reason, addr){
-    let  addSql = 'invest(investigator, loaner, money, rate, period, loan_type, loan_reason, contract_addr) VALUES(?,?,?,?,?,?,?,?)';
-    let  addSqlParams = [investigator, loaner, money, rate, period, loan_type, loan_reason, addr];
+function invest(investigator, loaner, money, invest_money, rate, period, loan_type, loan_reason, addr){
+    let  addSql = 'invest(investigator, loaner, money, invest_money, rate, period, loan_type, loan_reason, contract_addr) VALUES(?,?,?,?,?,?,?,?,?)';
+    let  addSqlParams = [investigator, loaner, money, invest_money, rate, period, loan_type, loan_reason, addr];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
@@ -341,6 +341,53 @@ function getUserLoanData(username, callback){
     });
 }
 
+function getUserInvestData(username, callback){
+    dbConnection.getDBData('invest', function(err, data){
+        if(err){
+            console.log(err);
+        }
+        else{
+            let size = data.length;
+            let idx = 0;
+            let result_data = [];
+            let index = [];
+            let loaner = [];
+            let money = [];
+            let invest_money = [];
+            let invest_rate = [];
+            let invest_period = [];
+            let invest_reason = [];
+            let invest_type = [];
+            let status = [];
+            for(let i = 0; i < size; i++){
+                if(data[i].investigator == username){
+                    idx = idx+1;
+                    index.push(idx);
+                    loaner.push(data[i].loaner);
+                    money.push(data[i].money);
+                    invest_money.push(data[i].invest_money);
+                    invest_rate.push(data[i].rate);
+                    invest_period.push(data[i].period);
+                    invest_reason.push(data[i].loan_reason);
+                    invest_type.push(data[i].loan_type)
+                    status.push(data[i].status);
+                }
+            }
+            result_data.push(index);
+            result_data.push(loaner);
+            result_data.push(money);
+            result_data.push(invest_rate);
+            result_data.push(invest_period);
+            result_data.push(invest_reason);
+            result_data.push(invest_type);
+            result_data.push(invest_money);
+            result_data.push(status);
+            callback(null, result_data);
+        }
+    });
+}
+
+
 function getWholeLoanData(callback){
     dbConnection.getDBData('transaction', function(err, data){
         if(err){
@@ -600,6 +647,7 @@ module.exports.memberConfirm = memberConfirm;
 
 module.exports.getUserData = getUserData;
 module.exports.getUserLoanData = getUserLoanData;
+module.exports.getUserInvestData = getUserInvestData;
 module.exports.getNormalLoanData = getNormalLoanData;
 
 module.exports.getTransaction = getTransaction;

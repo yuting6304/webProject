@@ -38,9 +38,9 @@ router.post('/', function(req, res, next){
         else{
             if(addr != '' || addr != undefined){
                 matchMaker.addUser('INVESTOR', username, money, rate, "A", addr);
-                matchMaker.showAllInfo(addr);
+                // matchMaker.showAllInfo(addr);
                 user.invest(username, "平台", money, rate, period, "撮合", reason, addr);
-                console.log(matchMaker.showAllInfo(addr));                 
+                setTimeout(showInfo, 10000, addr);                            
             }
             else{
                 console.log('select contract failed!');
@@ -51,5 +51,11 @@ router.post('/', function(req, res, next){
 
     res.redirect('/');
 });
+
+function showInfo(ADDR){
+    console.log("geth info : " + matchMaker.showAllInfo(ADDR));
+}
+
+
 module.exports = router;
 module.exports = app;

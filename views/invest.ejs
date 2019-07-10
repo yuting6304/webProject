@@ -44,7 +44,7 @@
                     <th>期數(期)</th>
                     <th>貸款原因</th>
                     <th>貸款方式</th>
-                    <th>狀態</th>
+                    <th>可投資金額</th>
                     <th>投資</th>
                 </tr>
                 <% for(let i = 0; i < data.length; i++) { %>
@@ -56,15 +56,18 @@
                         <td><%= data[i].period %></td>
                         <td><%= data[i].loan_reason %></td>
                         <td><%= data[i].loan_type %></td>
-                        <td><%= data[i].status %></td>
+                        <td><%= amount[i] %></td>
+                        <td style="display: none"><%= data[i].status %></td>
                         <td style="display: none"><%= data[i].id %></td>
-                        <td><button id="click" onclick="getValue(this)">click</button></td>
+                        <% if(amount[i] == 0){ %>
+                            <td><button type="button" disabled id="click" onclick="getValue(this)">click</button></td>
+                        <%  }else{ %>
+                            <td><button id="click" onclick="getValue(this)">click</button></td>
+                        <% } %>
                     </tr>
                 <% } %>
             </table>
         </section>
-
-
     </main>
 
 </body>

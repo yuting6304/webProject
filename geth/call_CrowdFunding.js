@@ -121,18 +121,26 @@ function show_FINISH_TIME(){
   return val;
 }
 
-function show_GOALAMOUNT(){
-  var value = getContractInfo(addr);
+function show_GOALAMOUNT(ADDR){
+  var value = getContractInfo(ADDR);
   value[0].checkGoalReached({from: address0, gas: value[1]});
   var val = value[0].GOALAMOUNT({from: address0, gas: value[1]});
   value[0].checkGoalReached({from: address0, gas: value[1]});
   return val;
 }
 
-function show_CURRENTAMOUNT(){
-  var value = getContractInfo(addr);
+function show_CURRENTAMOUNT(ADDR){
+  var value = getContractInfo(ADDR);
   value[0].checkGoalReached({from: address0, gas: value[1]});
   var val = value[0].currentAmount({from: address0, gas: value[1]});
+  value[0].checkGoalReached({from: address0, gas: value[1]});
+  return val;
+}
+
+function show_RESTAMOUNT(ADDR){
+  var value = getContractInfo(ADDR);
+  value[0].checkGoalReached({from: address0, gas: value[1]});
+  var val = value[0].rest_Amount({from: address0, gas: value[1]});
   value[0].checkGoalReached({from: address0, gas: value[1]});
   return val;
 }
@@ -215,3 +223,6 @@ module.exports.fund = fund;
 module.exports.getResult = getResult;
 module.exports.showAllInfo = showAllInfo;
 module.exports.upDateContract = upDateContract;
+module.exports.show_CURRENTAMOUNT = show_CURRENTAMOUNT;
+module.exports.show_GOALAMOUNT = show_GOALAMOUNT;
+module.exports.show_RESTAMOUNT = show_RESTAMOUNT;

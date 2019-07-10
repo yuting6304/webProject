@@ -27,6 +27,7 @@ contract CrowdFunding {
 	uint public PERIODS; // 目標期數
 
 	uint public currentAmount; // 目前投資額
+	uint public rest_Amount;
 	mapping (uint => Investor) public investors; // 管理投資家的對應表（map）
 
 	modifier aLive () {
@@ -49,6 +50,7 @@ contract CrowdFunding {
 		FINISH_TIME = 0;
 		numInvestors = 0;
 		currentAmount = 0;
+		rest_Amount = _GOALAMOUNT;
 		TRANSACTION = "";
 	}
 	/// 投資時會被呼叫的函數
@@ -62,9 +64,11 @@ contract CrowdFunding {
 				inv.restAmount = inv.amount - GOALAMOUNT;
 				inv.restAmount = inv.restAmount + currentAmount;
 				currentAmount = GOALAMOUNT;
+				rest_Amount = 0;
 			} else {
 				inv.restAmount = 0;
 				currentAmount += inv.amount;
+				rest_Amount = GOALAMOUNT-currentAmount;
 			}
 		}
 	}
