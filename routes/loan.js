@@ -46,37 +46,41 @@ router.post('/', function(req, res, next){
     console.log("loan type : " + loan_type);
     console.log("period : " + period + ", reason : " + reason);
 
-    if(loan_type == "撮合"){
-        user.getUserReliable(username, function(err, reliable){
-            if(err){
-                console.log(err);
-            }
-            else{
-                user.getContractAddr(reason, function(err, addr){
-                    if(err){
-                        console.log(err);
-                    }
-                    else{
+    user.getUserReliable(username, function(err, reliable){
+        if(err){
+            console.log(err);
+        }
+        else{
+            user.getContractAddr(reason, function(err, addr){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    deploy_contract.unlock_account();
+                    if(loan_type == "撮合"){
+
                         if(addr != '' || addr != undefined){
                             matchMaker.addUser('BORROWER', username, money, rate, reliable, addr);
                             setTimeout(showInfo, 10000, addr);                            
-                            user.transact(username, money, rate, period, loan_type, reason, addr);
+                            user.transact(username, reliable, money, rate, period, loan_type, reason, addr);
                         }
                         else{
                             console.log('select contract failed!');
                         }
                     }
-                });
-            }
-        });
-    }
-    else if(loan_type == "一般"){
-        deploy_contract.deploy_contract("CrowdFunding.sol", username, money, rate, period, 259200,  reason, function(addr){
-            user.transact(username, money, rate, period, loan_type, reason, addr);
-        });
-        // deploy_contract.deploy_crowdfunding_contract(username, money, rate, period, 259200, reason, loan_type);
-        console.log('完成一般貸款');
-    }
+                    
+                    else if(loan_type == "一般"){
+                        deploy_contract.deploy_contract("CrowdFunding.sol", username, money, rate, period, 259200,  reason, function(addr){
+                            user.transact(username, reliable, money, rate, period, loan_type, reason, addr);
+                        });
+                        // deploy_contract.deploy_crowdfunding_contract(username, money, rate, period, 259200, reason, loan_type);
+                        console.log('完成一般貸款');
+                    }
+                }
+            });
+        }
+    });
+    
 
     res.redirect('/');
 });

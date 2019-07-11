@@ -60,7 +60,12 @@ contract CrowdFunding {
 			Investor inv = investors[numInvestors++];
 			inv.name = _name;
 			inv.amount = _fundMoney;
-			if (currentAmount + inv.amount >= GOALAMOUNT) {
+			if (currentAmount + inv.amount > GOALAMOUNT) {
+				inv.restAmount = inv.amount - GOALAMOUNT;
+				inv.restAmount = inv.restAmount + currentAmount;
+				currentAmount = GOALAMOUNT;
+				rest_Amount = 0;
+			} else if (currentAmount + inv.amount == GOALAMOUNT) {
 				inv.restAmount = inv.amount - GOALAMOUNT;
 				inv.restAmount = inv.restAmount + currentAmount;
 				currentAmount = GOALAMOUNT;
@@ -93,8 +98,10 @@ contract CrowdFunding {
 	// name, amount, resamount
 	// 回傳：borrowerName&borrowerAmount,investorName&investorAmount,investorName&investorAmount
 	function get_TRANSACTION() public view returns(string) {
+		TRANSACTION = "";
 		if (status == STATUS.SUCCESS){
-			TRANSACTION = concatString(TRANSACTION, OWNER);TRANSACTION = concatString(TRANSACTION, ",");
+			TRANSACTION = concatString(TRANSACTION, OWNER);
+			TRANSACTION = concatString(TRANSACTION, ",");
 			for (uint i = 0; i<numInvestors; i++) {
 				TRANSACTION = concatString(TRANSACTION, investors[i].name);
 				if (i < numInvestors-1) TRANSACTION = concatString(TRANSACTION, ",");
@@ -153,13 +160,18 @@ contract CrowdFunding {
 	function get_INVESTORS() public view returns(string) {
 		string memory Info = "";
 		for (uint i = 0; i<numInvestors; i++){
-			Info = concatString(Info, "\tname     : ");
-			Info = concatString(Info, investors[i].name);Info = concatString(Info, "\n");
-			Info = concatString(Info, "\t\ttotalAmount : ");
-			Info = concatString(Info, convertIntToString(investors[i].amount));Info = concatString(Info, "\n");
-			Info = concatString(Info, "\t\trestAmount  : ");
-			Info = concatString(Info, convertIntToString(investors[i].restAmount));Info = concatString(Info, "\n");
-			Info = concatString(Info, "\t----------------------------------------------------------------\n");
+			
+			/*Info = concatString(Info, "name     : ");*/
+			Info = concatString(Info, investors[i].name);
+			Info = concatString(Info, ",");
+
+			/*Info = concatString(Info, "totalAmount : ");*/
+			Info = concatString(Info, convertIntToString(investors[i].amount));
+			Info = concatString(Info, ",");
+
+			/*Info = concatString(Info, "restAmount  : ");*/
+			Info = concatString(Info, convertIntToString(investors[i].restAmount));
+			Info = concatString(Info, ",");
 		}
 		return Info;
 	}

@@ -21,11 +21,11 @@ function getValue(val){
     } 
 
     let invest_detail = [];
-    for(let i = 0; i < 10; i++){
+    for(let i = 0; i < 11; i++){
         invest_detail.push(val.parentNode.parentNode.children[i].innerHTML)
     }
     // console.log(JSON.stringify(invest_detail));
-    var serverURL = "http://localhost:8088/invest?"+"index="+invest_detail[9]+"&user="+invest_detail[1]+"&money="+invest_detail[2]+"&rate="+invest_detail[3]+"&period="+invest_detail[4]+"&reason="+invest_detail[5]+"&type="+invest_detail[6]+"&status="+invest_detail[8]+"&msg="+invest_money;
+    var serverURL = "http://localhost:8088/invest?"+"index="+invest_detail[10]+"&user="+invest_detail[1]+"&reliable="+invest_detail[2]+"&money="+invest_detail[3]+"&rate="+invest_detail[4]+"&period="+invest_detail[5]+"&reason="+invest_detail[6]+"&type="+invest_detail[7]+"&status="+invest_detail[9]+"&msg="+invest_money;
     var xhr = new XMLHttpRequest();
     xhr.open('POST',serverURL,true);
     xhr.withCredentials=false;
@@ -39,7 +39,7 @@ function getValue(val){
 
     window.setTimeout(function() {
         window.location = "/invest";
-    }, 3000);
+    }, 5000);
     // window.location = "/invest";
 
 }

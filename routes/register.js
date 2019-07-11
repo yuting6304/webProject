@@ -71,18 +71,26 @@ router.post('/', function(req, res){
                         }
                         else{
                             
-                            if(random.int(1, 3) == 1){
-                                console.log('reliability : ' + 'A');
-                                reliable = 'A';
-                            }
-                            else if(random.int(1, 3) == 2){
-                                console.log('reliability : ' + 'B');
-                                reliable = 'B';
-                            }
-                            else if(random.int(1, 3) == 3){
-                                console.log('reliability : ' + 'C');
-                                reliable = 'C';
-                            }
+                            randomReliable(function(err, num){
+                                if(err){
+                                    console.log(err);
+                                }
+                                else{
+                                    if(num == 1){
+                                        console.log('reliability : ' + 'A');
+                                        reliable = 'A';
+                                    }
+                                    else if(num == 2){
+                                        console.log('reliability : ' + 'B');
+                                        reliable = 'B';
+                                    }
+                                    else if(num == 3){
+                                        console.log('reliability : ' + 'C');
+                                        reliable = 'C';
+                                    }
+                                }
+                            });
+                            
 
                             randomString = crypto.randomBytes(32).toString('base64').substr(0, 8);
 
@@ -101,6 +109,13 @@ router.post('/', function(req, res){
         }
     })
 })
+
+
+function randomReliable(callback){
+    let num = random.int(1, 3);
+    console.log(num);
+    callback(null, num);
+}
 
 module.exports = router;
 module.exports = app;

@@ -37,6 +37,7 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next){
     let index = req.query.index;
     let loaner = req.query.user;
+    let reliable = req.query.reliable;
     let money = req.query.money;
     let rate = req.query.rate;
     let period = req.query.period;
@@ -57,7 +58,6 @@ router.post('/', function(req, res, next){
 
     console.log("invest username : " + invest_user);
 
-
     user.getNormalTransactionAddr(loaner, index, function(err, addr){
         if(err){
             console.log(err);
@@ -66,7 +66,7 @@ router.post('/', function(req, res, next){
             console.log(addr);
             deploy_contract.unlock_account();
             crowd_fund.fund(invest_user, msg, addr);
-            user.invest(invest_user, loaner, money, msg, rate, period, type, reason, addr);
+            user.invest(invest_user, loaner, reliable, money, msg, rate, period, type, reason, addr);
             setTimeout(update, 10000, addr, res);            
             // setTimeout(showResult, 20000, addr);
             setTimeout(showResult, 30000, addr);
@@ -90,13 +90,10 @@ function update(ADDR){
 }
 
 function showResult(ADDR){
-    let goal = crowd_fund.show_GOALAMOUNT(ADDR);
-    let current = crowd_fund.show_CURRENTAMOUNT(ADDR);
-    let rest = goal-current;
+   
+    let rest = crowd_fund.show_RESTAMOUNT(ADDR);
     
     console.log(crowd_fund.getResult(ADDR));
-    console.log("goal : " + goal);
-    console.log("current : " + current);
     console.log("rest : " + rest);
 
     if(rest == 0){

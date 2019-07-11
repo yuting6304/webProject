@@ -63,16 +63,16 @@ function reg(name, password, reliability, randstr, mailAddr){
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
-function transact(name, money, rate, period, loan_type, loan_reason, addr){
-    let  addSql = 'transaction(username, money, rate, period, loan_type, loan_reason, contract_addr) VALUES(?,?,?,?,?,?,?)';
-    let  addSqlParams = [name, money, rate, period, loan_type, loan_reason, addr];
+function transact(name, reliability, money, rate, period, loan_type, loan_reason, addr){
+    let  addSql = 'transaction(username, reliability, money, rate, period, loan_type, loan_reason, contract_addr) VALUES(?,?,?,?,?,?,?,?)';
+    let  addSqlParams = [name, reliability, money, rate, period, loan_type, loan_reason, addr];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
 
-function invest(investigator, loaner, money, invest_money, rate, period, loan_type, loan_reason, addr){
-    let  addSql = 'invest(investigator, loaner, money, invest_money, rate, period, loan_type, loan_reason, contract_addr) VALUES(?,?,?,?,?,?,?,?,?)';
-    let  addSqlParams = [investigator, loaner, money, invest_money, rate, period, loan_type, loan_reason, addr];
+function invest(investigator, loaner, reliability, money, invest_money, rate, period, loan_type, loan_reason, addr){
+    let  addSql = 'invest(investigator, loaner, reliability, money, invest_money, rate, period, loan_type, loan_reason, contract_addr) VALUES(?,?,?,?,?,?,?,?,?,?)';
+    let  addSqlParams = [investigator, loaner, reliability, money, invest_money, rate, period, loan_type, loan_reason, addr];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
@@ -352,6 +352,7 @@ function getUserInvestData(username, callback){
             let result_data = [];
             let index = [];
             let loaner = [];
+            let reliability = [];
             let money = [];
             let invest_money = [];
             let invest_rate = [];
@@ -359,11 +360,13 @@ function getUserInvestData(username, callback){
             let invest_reason = [];
             let invest_type = [];
             let status = [];
+            let addr = [];
             for(let i = 0; i < size; i++){
                 if(data[i].investigator == username){
                     idx = idx+1;
                     index.push(idx);
                     loaner.push(data[i].loaner);
+                    reliability.push(data[i].reliability);
                     money.push(data[i].money);
                     invest_money.push(data[i].invest_money);
                     invest_rate.push(data[i].rate);
@@ -371,10 +374,12 @@ function getUserInvestData(username, callback){
                     invest_reason.push(data[i].loan_reason);
                     invest_type.push(data[i].loan_type)
                     status.push(data[i].status);
+                    addr.push(data[i].contract_addr);
                 }
             }
             result_data.push(index);
             result_data.push(loaner);
+            result_data.push(reliability);
             result_data.push(money);
             result_data.push(invest_rate);
             result_data.push(invest_period);
@@ -382,6 +387,45 @@ function getUserInvestData(username, callback){
             result_data.push(invest_type);
             result_data.push(invest_money);
             result_data.push(status);
+            result_data.push(addr);
+            callback(null, result_data);
+        }
+    });
+}
+
+function getAddressData(addr, callback){
+    dbConnection.getDBData('transaction', function(err, data){
+        if(err){
+            console.log(err);
+        }
+        else{
+            let size = data.length;
+            let result_data = [];
+            let loaner = [];
+            let reliability = [];
+            let money = [];
+            let invest_rate = [];
+            let invest_period = [];
+            let invest_reason = [];
+            let invest_type = [];
+            for(let i = 0; i < size; i++){
+                if(data[i].contract_addr == addr){
+                    loaner.push(data[i].username);
+                    reliability.push(data[i].reliability);
+                    money.push(data[i].money);
+                    invest_rate.push(data[i].rate);
+                    invest_period.push(data[i].period);
+                    invest_reason.push(data[i].loan_reason);
+                    invest_type.push(data[i].loan_type)
+                }
+            }
+            result_data.push(loaner);
+            result_data.push(reliability);
+            result_data.push(money);
+            result_data.push(invest_rate);
+            result_data.push(invest_period);
+            result_data.push(invest_reason);
+            result_data.push(invest_type);
             callback(null, result_data);
         }
     });
@@ -649,6 +693,7 @@ module.exports.getUserData = getUserData;
 module.exports.getUserLoanData = getUserLoanData;
 module.exports.getUserInvestData = getUserInvestData;
 module.exports.getNormalLoanData = getNormalLoanData;
+module.exports.getAddressData = getAddressData;
 
 module.exports.getTransaction = getTransaction;
 

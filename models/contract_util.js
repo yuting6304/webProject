@@ -12,6 +12,8 @@ function getCurrentAmount(callback){
             callback(err, null);
         }
         else{
+            deploy_contract.unlock_account();
+
             let size = data.length;
             let amount = [];
             for(let i = 0; i < size; i++){

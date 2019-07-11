@@ -2,7 +2,7 @@ var app = require('../app')
 var express = require('express');
 var user = require('../models/user');
 var matchMaker = require('../geth/call_MatchMaker');
-
+var deploy_contract = require('../geth/deploy_contract');
 var app = express(); // 產生express application物件
 var router = express.Router();
 
@@ -31,23 +31,30 @@ router.post('/', function(req, res, next){
     console.log("money : " + money + ", rate : " + rate);
     console.log("period : " + period + ", reason : " + reason);
 
-    user.getContractAddr(reason, function(err, addr){
+    user.getUserReliable(username, function(err, reliable){
         if(err){
             console.log(err);
         }
         else{
-            if(addr != '' || addr != undefined){
-                matchMaker.addUser('INVESTOR', username, money, rate, "A", addr);
-                // matchMaker.showAllInfo(addr);
-                user.invest(username, "平台", money, rate, period, "撮合", reason, addr);
-                setTimeout(showInfo, 10000, addr);                            
-            }
-            else{
-                console.log('select contract failed!');
-            }
+            user.getContractAddr(reason, function(err, addr){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    if(addr != '' || addr != undefined){
+                        deploy_contract.unlock_account();
+                        matchMaker.addUser('INVESTOR', username, money, rate, reliable, addr);
+                        // matchMaker.showAllInfo(addr);
+                        user.invest(username, "平台", reliable, money, rate, period, "撮合", reason, addr);
+                        setTimeout(showInfo, 10000, addr);                            
+                    }
+                    else{
+                        console.log('select contract failed!');
+                    }
+                }
+            });
         }
     });
-
 
     res.redirect('/');
 });

@@ -177,12 +177,17 @@ function show_STATUS(){
   return val;
 }
 
-function show_INVESTORS(){
-  var value = getContractInfo(addr);
+function show_INVESTORS(ADDR){
+  var value = getContractInfo(ADDR);
   value[0].checkGoalReached({from: address0, gas: value[1]});
   var val = value[0].get_INVESTORS({from: address0, gas: value[1]});
   value[0].checkGoalReached({from: address0, gas: value[1]});
-  return val;
+  if(val == ""){
+    return val;
+  }
+  else{
+    return val.split(",");
+  }
 }
 
 function show_NUMINVESTORS(){
@@ -226,3 +231,4 @@ module.exports.upDateContract = upDateContract;
 module.exports.show_CURRENTAMOUNT = show_CURRENTAMOUNT;
 module.exports.show_GOALAMOUNT = show_GOALAMOUNT;
 module.exports.show_RESTAMOUNT = show_RESTAMOUNT;
+module.exports.show_INVESTORS = show_INVESTORS;
