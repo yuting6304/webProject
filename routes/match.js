@@ -22,13 +22,13 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next){
     let username = getName;
-    let money = req.body['money'];
+    let invest_money = req.body['money'];
     let rate = req.body['rate'];
     let period = req.body['period'];
     let reason = req.body['reason'];
 
     console.log("username : " + username);
-    console.log("money : " + money + ", rate : " + rate);
+    console.log("money : " + invest_money + ", rate : " + rate);
     console.log("period : " + period + ", reason : " + reason);
 
     user.getUserReliable(username, function(err, reliable){
@@ -43,9 +43,9 @@ router.post('/', function(req, res, next){
                 else{
                     if(addr != '' || addr != undefined){
                         deploy_contract.unlock_account();
-                        matchMaker.addUser('INVESTOR', username, money, rate, reliable, addr);
+                        matchMaker.addUser('INVESTOR', username, invest_money, rate, 'A', addr);
                         // matchMaker.showAllInfo(addr);
-                        user.invest(username, "平台", reliable, money, rate, period, "撮合", reason, addr);
+                        user.invest(username, "平台", reliable, 0, invest_money, rate, period, "撮合", reason, addr);
                         setTimeout(showInfo, 10000, addr);                            
                     }
                     else{
@@ -60,7 +60,8 @@ router.post('/', function(req, res, next){
 });
 
 function showInfo(ADDR){
-    console.log("geth info : " + matchMaker.showAllInfo(ADDR));
+    // console.log("geth info : " + matchMaker.showAllInfo(ADDR));
+    matchMaker.showAllInfo(ADDR);
 }
 
 

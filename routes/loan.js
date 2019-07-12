@@ -86,7 +86,8 @@ router.post('/', function(req, res, next){
 });
 
 function showInfo(ADDR){
-    console.log("geth info : " + matchMaker.showAllInfo(ADDR));
+    // console.log("geth info : " + matchMaker.showAllInfo(ADDR));
+    matchMaker.showAllInfo(ADDR)
 }
 
 module.exports = router;

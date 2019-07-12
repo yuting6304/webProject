@@ -43,3 +43,4 @@ function getValue(val){
     // window.location = "/invest";
 
 }
+

@@ -316,6 +316,7 @@ function getUserLoanData(username, callback){
             let reason = [];
             let type = [];
             let status = [];
+            let addr = [];
             for(let i = 0; i < size; i++){
                 if(data[i].username == username){
                     idx = idx+1;
@@ -326,6 +327,7 @@ function getUserLoanData(username, callback){
                     reason.push(data[i].loan_reason);
                     type.push(data[i].loan_type);
                     status.push(data[i].status);
+                    addr.push(data[i].contract_addr);
                 }
             }
 
@@ -336,6 +338,7 @@ function getUserLoanData(username, callback){
             result_data.push(reason);
             result_data.push(type);
             result_data.push(status);
+            result_data.push(addr);
             callback(null, result_data);
         }
     });
@@ -498,8 +501,8 @@ function schedule_event_deploy_constract(){
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
-    rule.hour = 20;
-    rule.minute = 0;
+    rule.hour = 13;
+    rule.minute = 53;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -525,7 +528,7 @@ function schedule_event_deploy_constract(){
                         contract_count++;
                     }
                 }
-
+                deploy_contract.unlock_account();
                 deploy_contract.deploy_matchmaker_contract(259200, "投資理財");
                 deploy_contract.deploy_matchmaker_contract(259200, "償還債務");                
                 deploy_contract.deploy_matchmaker_contract(259200, "個人家庭週轉");
@@ -581,8 +584,8 @@ function schedule_event_make_a_match(){
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
-    rule.hour = 21;
-    rule.minute = 3;
+    rule.hour = 13;
+    rule.minute = 55;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -594,12 +597,13 @@ function schedule_event_make_a_match(){
             }
             else{
                 let size = data.length;
-                
+                deploy_contract.unlock_account();
                 for(let i = 0; i < size; i++){
                     if(data[i].status == 0){
                         if(matchMaker == 8){
                             break;
                         }
+                        console.log(data[i].address);
                         matchMaker.make_a_match(data[i].address);
                         let modSql = 'contract SET status = ? WHERE address = ?';
                         let modSqlParams = [-1, data[i].address];
@@ -607,6 +611,9 @@ function schedule_event_make_a_match(){
                         contract_count++;
                     }
                 }
+                setTimeout(showResult, 120000, '0xa0ea232c0fb98f9adbae0833604d3f2946372f6d');                            
+                setTimeout(showInfo, 180000, '0xa0ea232c0fb98f9adbae0833604d3f2946372f6d');                            
+
             }
         });
         if(contract_count > 8){
@@ -615,6 +622,16 @@ function schedule_event_make_a_match(){
         console.log('撮合完成');
     });
 }
+
+function showInfo(addr){
+    deploy_contract.unlock_account();
+    matchMaker.showAllInfo(addr);
+}
+function showResult(addr){
+    deploy_contract.unlock_account();
+    matchMaker.getResult(addr);
+}
+
 
 function getUserReliable(name, callback){
     dbConnection.getDBData('users', function(err, data){
