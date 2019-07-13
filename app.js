@@ -74,11 +74,13 @@ var memberRouter = require('./routes/member');
 var memberloanRouter = require('./routes/member');
 var memberinvestRouter = require('./routes/member');
 var transactinfoRouter = require('./routes/member');
+var matchinfoRouter = require('./routes/member');
 
 var registerRouter = require('./routes/register');
 var loanRouter = require('./routes/loan');
 var chooseRouter = require('./routes/choose');
 var matchRouter = require('./routes/match');
+var matchTestRouter = require('./routes/match_test');
 
 
 var investRouter = require('./routes/invest');
@@ -93,6 +95,7 @@ app.use('/member', memberRouter);
 app.use('/member/myLoan', memberloanRouter);
 app.use('/member/myInvest', memberinvestRouter);
 app.use('/member/transact_Info', transactinfoRouter);
+app.use('/member/match_Info', matchinfoRouter);
 
 app.use('/register', registerRouter);
 app.use('/loan', loanRouter);
@@ -102,6 +105,10 @@ app.use('/match', matchRouter);
 
 app.use('/confirm', confirmRouter);
 app.use('/logout', logoutRouter);
+
+
+
+app.use('/match_test', matchTestRouter);
 
 // app.use('/register1', register1Router);
 // app.use('/register2', register2Router);
@@ -118,8 +125,8 @@ var server = app.listen(8088, function () {
             if(succ == 1){
                 user.initContract();
                 console.log("\nServer start http://127.0.0.1:8088");
-                user.schedule_event_deploy_constract();
-                user.schedule_event_make_a_match();
+                // user.schedule_event_deploy_constract();
+                // user.schedule_event_make_a_match();
             }
         }
     });

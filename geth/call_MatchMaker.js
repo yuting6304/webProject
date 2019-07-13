@@ -29,23 +29,23 @@ if (!web3.isConnected()) {
 
 /*********************************************************/
 
-// addDefaultUser('0xcbeeaa8d0ec472c7169b1efb43eac3ec84140a8e');
-// make_a_match('0xcbeeaa8d0ec472c7169b1efb43eac3ec84140a8e');
+// addDefaultUser('0x8d34603cb9785c83b7f0bffc3ef87f9c1dc1402d');
+// make_a_match('0x8d34603cb9785c83b7f0bffc3ef87f9c1dc1402d');
 
-// getResult('0xcbeeaa8d0ec472c7169b1efb43eac3ec84140a8e');
-// showAllInfo('0xcbeeaa8d0ec472c7169b1efb43eac3ec84140a8e');
+// getResult('0x8d34603cb9785c83b7f0bffc3ef87f9c1dc1402d');
+// showAllInfo('0x1b8367c08a91a43c51eec083c55debcbe813d819');
 // console.log(show_BORROWERS('0x42ad5cdaa15215cc6ac27944bad009cc98893e76'));
 // console.log(show_INVESTORS('0x42ad5cdaa15215cc6ac27944bad009cc98893e76'));
 
 
 function addDefaultUser(addr) {
-  addUser('INVESTOR', "施崇祐", 260000, 11, "A", addr);
-  addUser('INVESTOR', "陳姿妤", 220000, 22, "B", addr);
-  addUser('INVESTOR', "李昱廷", 700000, 33, "B", addr);
-  addUser('INVESTOR', "蔡英文", 250000, 11, "B", addr);
-  addUser('INVESTOR', "馬英九", 1, 11, "B", addr);
-  addUser('INVESTOR', "小紅帽", 1, 11, "C", addr);
-  addUser('INVESTOR', "艾希", 1, 11, "B", addr);
+  addUser('INVESTOR', "aaa", 260000, 11, "A", addr);
+  addUser('INVESTOR', "bbb", 220000, 22, "B", addr);
+  addUser('INVESTOR', "ccc", 700000, 33, "B", addr);
+  addUser('INVESTOR', "ddd", 250000, 11, "B", addr);
+  addUser('INVESTOR', "eee", 1, 11, "B", addr);
+  addUser('INVESTOR', "fff", 1, 11, "C", addr);
+  addUser('INVESTOR', "ggg", 1, 11, "B", addr);
   // addUser('INVESTOR', "施崇祐", 260000, 11, "A", addr);
   // addUser('INVESTOR', "陳姿妤", 220000, 22, "B", addr);
   // addUser('INVESTOR', "李昱廷", 700000, 33, "B", addr);
@@ -74,9 +74,12 @@ function addDefaultUser(addr) {
   // addUser('INVESTOR', "馬英九", 1, 11, "B");
   // addUser('INVESTOR', "小紅帽", 1, 11, "C");
   // addUser('INVESTOR', "艾希", 1, 11, "B");
+  
+  // addUser('INVESTOR', "哈哈哈", 6666, 11, "A", addr);  
+  // addUser('BORROWER', "合和合", 6666, 11, "A", addr);
 
-  addUser('BORROWER', "法洛士", 200000, 11, "A", addr);
-  addUser('BORROWER', "咸蛋超人", 500000, 11, "A", addr);
+  addUser('BORROWER', "123", 200000, 11, "A", addr);
+  addUser('BORROWER', "456", 500000, 11, "A", addr);
   // addUser('BORROWER', "法洛士", 200000, 11, "A");
   // addUser('BORROWER', "咸蛋超人", 500000, 11, "A");
   // addUser('BORROWER', "法洛士", 200000, 11, "A");
@@ -117,7 +120,7 @@ function make_a_match(ADDR) {
   value[0].checkGoalReached({from: address0, gas: value[1]});
   var result = value[0].make_a_match({from: address0, gas: value[1]});
   value[0].afterMakeAMatch(result, {from: address0, gas: value[1]});
-
+  console.log('make a match complete');
   // return parseString(show_TRANSACTION());
   // [資料]
   // [[第n筆資料]]
@@ -125,8 +128,8 @@ function make_a_match(ADDR) {
 }
 
 function getResult(ADDR){
-  console.log(parseString(show_TRANSACTION(ADDR)));
-  // return parseString(show_TRANSACTION(ADDR));
+  // console.log(parseString(show_TRANSACTION(ADDR)));
+  return parseString(show_TRANSACTION(ADDR));
 }
 
 
@@ -142,9 +145,10 @@ function showAllInfo(ADDR) {
   return val;
 }
 
-function upDateContract(){
-  var value = getContractInfo(addr);
+function upDateContract(ADDR){
+  var value = getContractInfo(ADDR);
   value[0].checkGoalReached({from: address0, gas: value[1]});
+  console.log('update complete');
 }
 
 function show_State(){
@@ -220,7 +224,7 @@ function show_NUMBORROWERS(){
 }
 
 function show_INVESTORS(ADDR){
-  var value = getContractInfo(addr);
+  var value = getContractInfo(ADDR);
   value[0].checkGoalReached({from: address0, gas: value[1]});
   var val = value[0].get_INVESTORS({from: address0, gas: value[1]});
   value[0].checkGoalReached({from: address0, gas: value[1]});
@@ -283,3 +287,5 @@ module.exports.addUser = addUser;
 module.exports.showAllInfo = showAllInfo;
 module.exports.make_a_match = make_a_match;
 module.exports.getResult = getResult;
+module.exports.upDateContract = upDateContract;
+module.exports.show_INVESTORS = show_INVESTORS;

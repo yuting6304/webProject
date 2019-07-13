@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/css/user.css">
+    <link rel="stylesheet" href="/css/user_lb.css ">
+    <link rel="stylesheet" href="/css/header.css">
+    <script type="text/javascript" src="/js/member_invest.js"></script>
+
+    <title>Match Information</title>
+</head>
+<body>
+
+    <header class="nav">
+        <ul>
+            <li><a class="active" href="/">Home</a></li>
+            <li><a href="#news">News</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="/intro">About</a></li>
+
+            <!-- <div class="login">  -->
+
+            <% if(title == "Sign in") { %>
+                <li class="nav_signin"><a href="/login"><%= title%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/logout"><%= title%></a></li>
+            <% } %>
+                
+            <% if(account == "Sign up") { %>
+                <li class="nav_signin"><a href="/register"><%= account%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/member"><%= account%></a></li>
+            <% } %>
+        </ul>    
+    </header>
+
+    <main class="user">
+        <section class="user_data">
+            <table class = "datas">
+                <p>貸款者</p>
+                <tr>
+                    <th>貸款者</th>
+                    <th>貸款者信用評價</th>
+                    <th>貸款金額</th>
+                    <th>利率</th>
+                    <th>貸款原因</th>
+                    <th>貸款方式</th>
+                    <th>撮合金額</th>
+                    <th>撮合結果</th>
+                </tr>
+                <tr class = "datas_data">
+                    <td><%= data[0][0] %></td>
+                    <td><%= data[0][4] %></td>
+                    <td>$ <%= data[0][1] %></td>
+                    <td><%= data[0][3] %> %</td>
+                    <td><%= reason %></td>
+                    <td>撮合</td>
+                    <td><%= data[0][1]-data[data.length-1][2] %></td>
+                    <% if(data[data.length-1][2] == 0) { %>
+                        <td>撮合成功</td>
+                    <% } else { %>
+                        <td>撮合失敗</td>
+                    <% } %>
+                </tr>
+            </table>
+            <table class = "datas">
+                <p>借款者</p>
+                <tr>
+                    <th>編號</th>
+                    <th>借款者</th>
+                    <th>借款金額</th> 
+                    <th>實際借款金額</th>                
+                </tr>
+                <% for(let i = 0; i < info.length; i+=5) { %>
+                    <tr class = "datas_data"></tr>
+                        
+                            <td><%= i/5+1 %></td>
+                            <td><%= info[i] %></td>
+                            <td><%= info[i+1] %></td>
+                            <td><%= info[i+1]-info[i+2] %></td>
+                    </tr>
+                <% } %>
+
+            </table>
+        </section>
+    </main>
+</body>
+</html>

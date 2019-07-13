@@ -60,7 +60,7 @@ router.post('/', function(req, res, next){
                     if(loan_type == "撮合"){
 
                         if(addr != '' || addr != undefined){
-                            matchMaker.addUser('BORROWER', username, money, rate, reliable, addr);
+                            matchMaker.addUser('BORROWER', username, money, rate, 'A', addr);
                             setTimeout(showInfo, 10000, addr);                            
                             user.transact(username, reliable, money, rate, period, loan_type, reason, addr);
                         }

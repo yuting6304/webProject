@@ -43,7 +43,7 @@ router.post('/', function(req, res, next){
                 else{
                     if(addr != '' || addr != undefined){
                         deploy_contract.unlock_account();
-                        matchMaker.addUser('INVESTOR', username, invest_money, rate, 'A', addr);
+                        matchMaker.addUser('INVESTOR', username, invest_money, rate, reliable, addr);
                         // matchMaker.showAllInfo(addr);
                         user.invest(username, "平台", reliable, 0, invest_money, rate, period, "撮合", reason, addr);
                         setTimeout(showInfo, 10000, addr);                            

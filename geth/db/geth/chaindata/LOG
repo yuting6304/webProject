@@ -341,3 +341,66 @@
 13:33:30.929834 table@remove removed @73
 13:59:18.183078 db@close closing
 13:59:18.209649 db@close done T·26.564537ms
+=============== Jul 13, 2019 (CST) ===============
+12:23:50.435309 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+12:23:50.479038 version@stat F·[0 1] S·1MiB[0B 1MiB] Sc·[0.00 0.02]
+12:23:50.479111 db@open opening
+12:23:50.479289 journal@recovery F·1
+12:23:50.507630 journal@recovery recovering @75
+12:23:50.688759 memdb@flush created L0@78 N·4356 S·689KiB "\x04\x16r..fT\xaf,v40844":"\xffl\x03..\x9dIB,v40474"
+12:23:50.695334 version@stat F·[1 1] S·2MiB[689KiB 1MiB] Sc·[0.25 0.02]
+12:23:50.788639 db@janitor F·4 G·0
+12:23:50.788739 db@open done T·309.566894ms
+12:25:46.940399 db@close closing
+12:25:46.940478 db@close done T·76.89µs
+=============== Jul 13, 2019 (CST) ===============
+12:25:58.630176 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+12:25:58.630320 version@stat F·[1 1] S·2MiB[689KiB 1MiB] Sc·[0.25 0.02]
+12:25:58.630332 db@open opening
+12:25:58.630377 journal@recovery F·1
+12:25:58.632241 journal@recovery recovering @79
+12:25:58.707966 memdb@flush created L0@81 N·2 S·241B "Dat..ion,v40942":"Las..der,v40943"
+12:25:58.714371 version@stat F·[2 1] S·2MiB[690KiB 1MiB] Sc·[0.50 0.02]
+12:25:58.809922 db@janitor F·5 G·0
+12:25:58.809997 db@open done T·179.648112ms
+12:33:58.907772 db@close closing
+12:33:58.908007 db@close done T·227.569µs
+=============== Jul 13, 2019 (CST) ===============
+12:55:28.074829 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+12:55:28.074961 version@stat F·[2 1] S·2MiB[690KiB 1MiB] Sc·[0.50 0.02]
+12:55:28.074972 db@open opening
+12:55:28.075016 journal@recovery F·1
+12:55:28.076635 journal@recovery recovering @82
+12:55:28.139677 memdb@flush created L0@84 N·2 S·241B "Dat..ion,v40945":"Las..der,v40946"
+12:55:28.145725 version@stat F·[3 1] S·2MiB[690KiB 1MiB] Sc·[0.75 0.02]
+12:55:28.241722 db@janitor F·6 G·0
+12:55:28.241870 db@open done T·166.840902ms
+13:24:31.400231 table@compaction L0·3 -> L1·1 S·2MiB Q·41191
+13:24:31.587955 table@build created L1@87 N·25498 S·2MiB "\x00\x1b\xec..\"\x9f\xba,v31658":"r\x00\x00..ǒ\x94,v36591"
+13:24:31.633071 table@build created L1@88 N·1339 S·186KiB "r\x00\x00..\xfb\xf3\xee,v36608":"\xffھ..\x92\r@,v31954"
+13:24:31.633178 version@stat F·[0 2] S·2MiB[0B 2MiB] Sc·[0.00 0.02]
+13:24:31.668330 table@compaction committed F-2 S-352KiB Ke·0 D·1672 T·259.15531ms
+13:24:31.668475 table@remove removed @84
+13:24:31.668533 table@remove removed @81
+13:24:31.668671 table@remove removed @78
+13:24:31.668964 table@remove removed @77
+14:23:43.086755 db@close closing
+14:23:43.090920 db@close done T·4.161534ms
+=============== Jul 13, 2019 (CST) ===============
+20:56:08.913343 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+20:56:08.943129 version@stat F·[0 2] S·2MiB[0B 2MiB] Sc·[0.00 0.02]
+20:56:08.943231 db@open opening
+20:56:08.943482 journal@recovery F·1
+20:56:08.950297 journal@recovery recovering @85
+20:56:09.091918 memdb@flush created L0@89 N·2243 S·632KiB "\x01\aM..\x1e\xf1\x13,v43186":"\xfe\xdb\xff..U\xb1\xf9,v42467"
+20:56:09.095836 version@stat F·[1 2] S·2MiB[632KiB 2MiB] Sc·[0.25 0.02]
+20:56:09.193563 db@janitor F·5 G·0
+20:56:09.193600 db@open done T·250.333663ms
+21:13:53.302502 table@compaction L0·1 -> L1·2 S·2MiB Q·43309
+21:13:53.465718 table@build created L1@92 N·22347 S·2MiB "\x00\x1b\xec..\"\x9f\xba,v31658":"l\xa9\x87..\xaa'\xd7,v41323"
+21:13:53.532951 table@build created L1@93 N·5700 S·487KiB "l\xa9\x8e..\xe7\x8a\xc3,v41490":"\xffھ..\x92\r@,v31954"
+21:13:53.533058 version@stat F·[0 2] S·2MiB[0B 2MiB] Sc·[0.00 0.03]
+21:13:53.566794 table@compaction committed F-1 S-338KiB Ke·0 D·1033 T·264.187523ms
+21:13:53.567176 table@remove removed @89
+21:13:53.567629 table@remove removed @87
+21:13:53.567709 table@remove removed @88

@@ -611,9 +611,6 @@ function schedule_event_make_a_match(){
                         contract_count++;
                     }
                 }
-                setTimeout(showResult, 120000, '0xa0ea232c0fb98f9adbae0833604d3f2946372f6d');                            
-                setTimeout(showInfo, 180000, '0xa0ea232c0fb98f9adbae0833604d3f2946372f6d');                            
-
             }
         });
         if(contract_count > 8){
@@ -692,6 +689,40 @@ function getNormalTransactionAddr(username, id, callback){
     });
 }
 
+function getUserInvestRestMonry(username, addr){
+    dbConnection.getDBData('invest', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            for(let i = 0; i < size; i++){
+                if(data[i].username == username && data[i].contract_addr == addr){
+                    callback(null, data[i].rest_money);
+                    return;
+                }
+            }
+        }
+    });
+}
+
+function getUserLoanRestMoney(username, addr){
+    dbConnection.getDBData('transaction', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            for(let i = 0; i < size; i++){
+                if(data[i].username == username && data[i].contract_addr == addr){
+                    callback(null, data[i].rest_money);
+                    return;
+                }
+            }
+        }
+    });
+}
+
 module.exports.reg = reg;
 module.exports.transact = transact;
 module.exports.invest = invest;
@@ -717,7 +748,10 @@ module.exports.getTransaction = getTransaction;
 module.exports.getUserReliable = getUserReliable;
 
 module.exports.initContract = initContract;
+module.exports.getWholeContract = getWholeContract;
 module.exports.schedule_event_make_a_match = schedule_event_make_a_match;
 module.exports.schedule_event_deploy_constract = schedule_event_deploy_constract;
 module.exports.getContractAddr = getContractAddr;
 module.exports.getNormalTransactionAddr = getNormalTransactionAddr;
+module.exports.getUserInvestRestMonry = getUserInvestRestMonry;
+module.exports.getUserLoanRestMoney = getUserLoanRestMoney;

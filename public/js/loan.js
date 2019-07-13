@@ -18,3 +18,7 @@ function checkInfo(){
         return false;
     }
 }
+
+function gotoMatch(){
+    window.location = "/match_test";
+}
