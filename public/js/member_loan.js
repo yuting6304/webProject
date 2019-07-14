@@ -21,7 +21,7 @@ function showMatchInfo(val){
         invest_detail.push(val.parentNode.parentNode.children[i].innerHTML)
     }
 
-    var serverURL = "http://localhost:8088/member/match_Info?"+"addr="+invest_detail[8]+"&reason="+invest_detail[4];
+    var serverURL = "http://localhost:8088/member/match_Info?"+"addr="+invest_detail[8]+"&reason="+invest_detail[4]+"&mode="+"貸款者";
     var xhr = new XMLHttpRequest();
     xhr.open('POST',serverURL,true);
     xhr.withCredentials=false;

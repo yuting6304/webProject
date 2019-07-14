@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next){
     console.log("success arrived");
                     
-    let result = matchMaker.getResult('0x75728475a27a5485dee62691f45a0c2c1578a540');
+    // let result = matchMaker.getResult('0x75728475a27a5485dee62691f45a0c2c1578a540');
 
     // console.log('Result : ' + result[0][0][0]);
 
@@ -30,7 +30,6 @@ router.post('/', function(req, res, next){
     // console.log('length 0 : ' + result[0].length);
     // console.log('length 0 : ' + result[0][0].length);
 
-    
 
     user.getWholeContract(function(err, data){
         if(err){

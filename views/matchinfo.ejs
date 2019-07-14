@@ -35,52 +35,129 @@
 
     <main class="user">
         <section class="user_data">
-            <table class = "datas">
-                <p>貸款者</p>
-                <tr>
-                    <th>貸款者</th>
-                    <th>貸款者信用評價</th>
-                    <th>貸款金額</th>
-                    <th>利率</th>
-                    <th>貸款原因</th>
-                    <th>貸款方式</th>
-                    <th>撮合金額</th>
-                    <th>撮合結果</th>
-                </tr>
-                <tr class = "datas_data">
-                    <td><%= data[0][0] %></td>
-                    <td><%= data[0][4] %></td>
-                    <td>$ <%= data[0][1] %></td>
-                    <td><%= data[0][3] %> %</td>
-                    <td><%= reason %></td>
-                    <td>撮合</td>
-                    <td><%= data[0][1]-data[data.length-1][2] %></td>
-                    <% if(data[data.length-1][2] == 0) { %>
-                        <td>撮合成功</td>
-                    <% } else { %>
-                        <td>撮合失敗</td>
-                    <% } %>
-                </tr>
-            </table>
-            <table class = "datas">
-                <p>借款者</p>
-                <tr>
-                    <th>編號</th>
-                    <th>借款者</th>
-                    <th>借款金額</th> 
-                    <th>實際借款金額</th>                
-                </tr>
-                <% for(let i = 0; i < info.length; i+=5) { %>
-                    <tr class = "datas_data"></tr>
-                        
-                            <td><%= i/5+1 %></td>
-                            <td><%= info[i] %></td>
-                            <td><%= info[i+1] %></td>
-                            <td><%= info[i+1]-info[i+2] %></td>
-                    </tr>
-                <% } %>
+            <% if(mode == "貸款者") { %>
 
-            </table>
+                <table class = "datas">
+                    <p>貸款者</p>
+                    <tr>
+                        <th>貸款者</th>
+                        <th>貸款者信用評價</th>
+                        <th>貸款金額</th>
+                        <th>利率</th>
+                        <th>貸款原因</th>
+                        <th>貸款方式</th>
+                        <th>撮合金額</th>
+                        <th>撮合結果</th>
+                    </tr>
+                    <tr class = "datas_data">
+                        <td><%= data[0][0] %></td>
+                        <td><%= data[0][4] %></td>
+                        <td>$ <%= data[0][1] %></td>
+                        <td><%= data[0][3] %> %</td>
+                        <td><%= reason %></td>
+                        <td>撮合</td>
+                        <td>$ <%= data[0][1]-data[data.length-1][2] %></td>
+                        <% if(data[data.length-1][2] == 0) { %>
+                            <td>撮合成功</td>
+                        <% } else { %>
+                            <td>撮合失敗</td>
+                        <% } %>
+                    </tr>
+                </table>
+                <table class = "datas">
+                    <p>借款者</p>
+                    <tr>
+                        <th>編號</th>
+                        <th>借款者</th>
+                        <th>借款金額</th> 
+                        <th>實際借款金額</th>                
+                    </tr>
+                    <% for(let i = 0; i < info.length; i+=5) { %>
+                        <tr class = "datas_data"></tr>
+                            
+                                <td><%= i/5+1 %></td>
+                                <td><%= info[i] %></td>
+                                <td>$ <%= info[i+1] %></td>
+                                <td>$ <%= info[i+1]-info[i+2] %></td>
+                        </tr>
+                    <% } %>
+                </table>
+
+            <% } else { %>
+                <% for(let i = 0; i < counter[0]; i++) { %>
+                    <table class = "datas">
+                        <p>第<%= i+1 %>筆借貸紀錄</p>
+                        <p>貸款者</p>
+                        <tr>
+                            <th>貸款者</th>
+                            <th>貸款者信用評價</th>
+                            <th>貸款金額</th>
+                            <th>利率</th>
+                            <th>貸款原因</th>
+                            <th>貸款方式</th>
+                            <th>撮合金額</th>
+                            <th>撮合結果</th>
+                        </tr>
+                        <tr class = "datas_data">
+                            <% if(i == 0) { %>
+                                <td><%= data[0][0] %></td>
+                                <td><%= data[0][4] %></td>
+                                <td>$ <%= data[0][1] %></td>
+                                <td><%= data[0][3] %> %</td>
+                                <td><%= reason %></td>
+                                <td>撮合</td>
+                                <td>$ <%= data[0][1]-data[counter[i+1]-1][2] %></td>
+                                <% if(data[counter[i+1]-1][2] == 0) { %>
+                                    <td>撮合成功</td>
+                                <% } else { %>
+                                    <td>撮合失敗</td>
+                                <% } %>
+                            <% } else { %>
+                                <td><%= data[counter[i]][0] %></td>
+                                <td><%= data[counter[i]][4] %></td>
+                                <td>$ <%= data[counter[i]][1] %></td>
+                                <td><%= data[counter[i]][3] %> %</td>
+                                <td><%= reason %></td>
+                                <td>撮合</td>
+                                <td>$ <%= data[counter[i]][1]-data[counter[i+1]-1][2] %></td>
+                                <% if(data[counter[i+1]-1][2] == 0) { %>
+                                    <td>撮合成功</td>
+                                <% } else { %>
+                                    <td>撮合失敗</td>
+                                <% } %>
+                            <% } %>
+                        </tr>
+                    </table>
+                    <table class = "datas">
+                        <p>借款者</p>
+                        <tr>
+                            <th>編號</th>
+                            <th>借款者</th>
+                            <th>借款金額</th> 
+                            <th>實際借款金額</th>                
+                        </tr>
+                        <% if(i == 0) { %>
+                            <% for(let j = 0; j < counter[i+1]*5; j+=5) { %>
+                                <tr class = "datas_data"></tr>
+                                    <td><%= j/5+1 %></td>
+                                    <td><%= info[j] %></td>
+                                    <td>$ <%= info[j+1] %></td>
+                                    <td>$ <%= info[j+1]-info[j+2] %></td>
+                                </tr>
+                            <% } %>
+                        <% } else { %>
+                            <% for(let j = counter[i]*5; j < counter[i+1]*5; j+=5) { %>
+                                <tr class = "datas_data"></tr>
+                                    <td><%= j/5+1 %></td>
+                                    <td><%= info[j] %></td>
+                                    <td>$ <%= info[j+1] %></td>
+                                    <td>$ <%= info[j+1]-info[j+2] %></td>
+                                </tr>
+                            <% } %>
+                        <% } %>
+                    </table>
+                <% } %>
+            <% } %>
         </section>
     </main>
 </body>

@@ -8,6 +8,7 @@ var router = express.Router();
 var transaction_addr;
 var match_addr;
 var match_reason;
+var match_mode;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -71,8 +72,6 @@ router.get('/myInvest', function(req, res, next) {
 
 router.get('/transact_Info', function(req, res, next) {
     if(req.session.logined){
-    // if(user.getloginStatus() == 1){
-        // let name = user.getloginAccount();
         console.log("GET address = " + transaction_addr);
         user.getAddressData(transaction_addr, function(err, data){
             if(err){
@@ -89,9 +88,6 @@ router.get('/transact_Info', function(req, res, next) {
                 })
             }
         })       
-        
-
-        // res.render('transactinfo', { title: 'Log out', account: req.session.username, data: ''});
     }
     else{
         res.render('transactinfo', { title: 'Sign in', account: 'Sign up', data: data, info: ''});
@@ -117,12 +113,17 @@ router.post('/transact_Info', function(req, res, next) {
 router.get('/match_Info', function(req, res, next) {
     if(req.session.logined){
     console.log("GET username = " + req.session.username);
-    getMatchInfo(req.session.username, match_addr, function(err, data){
+    getMatchInfo(req.session.username, match_addr, match_mode,function(err, data){
         if(err){
             console.log(err);
         }
         else{
-            res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], reason: match_reason });
+            if(match_mode == "貸款者"){
+                res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], reason: match_reason, mode: "貸款者" });
+            }
+            else{
+                res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "借款者" });
+            }
         }
     });
     // if(user.getloginStatus() == 1){
@@ -140,9 +141,10 @@ router.get('/match_Info', function(req, res, next) {
 router.post('/match_Info', function(req, res, next) {
     match_addr = req.query.addr;
     match_reason = req.query.reason;
+    match_mode = req.query.mode;
     console.log("POST address = " + match_addr);
     console.log("POST reason = " + match_reason);
-
+    console.log("POST mode = " + match_mode);
 });
 
 // formal transaction result
@@ -174,8 +176,8 @@ function getInfo(addr, callback){
     callback(null, result);
 }
 
-
-function getMatchInfo(username, addr, callback){
+// make a match result
+function getMatchInfo(username, addr, match_mode,callback){
     let result_data = matchMaker.getResult(addr);
     console.log(matchMaker.getResult(addr));
     console.log('username : ' + username);
@@ -197,41 +199,108 @@ function getMatchInfo(username, addr, callback){
 
     let return_data = [];
 
-    for(let x = 0; x < size_x; x++){
-        if(username == result_data[x][0][0]){
-            loaner.push(result_data[x][0]);
-            for(let z = 0; z < size_z; z++){
-                if(z == 0){
-                    investor.push(result_data[x][1][z]);
-                }
-                else if(z == 1){
-                    loaner_money = result_data[x][0][1] - result_data[x][0][2];
-                    if(loaner_money >= result_data[x][1][1] - result_data[x][1][2]){
-                        investor.push(result_data[x][1][1]);
+    if(match_mode == "貸款者"){
+
+        for(let x = 0; x < size_x; x++){
+            if(username == result_data[x][0][0]){
+                loaner.push(result_data[x][0]);
+                for(let z = 0; z < size_z; z++){
+                    if(z == 0){
+                        investor.push(result_data[x][1][z]);
+                    }
+                    else if(z == 1){
+                        loaner_money = result_data[x][0][1] - result_data[x][0][2];
+                        if(loaner_money >= result_data[x][1][1] - result_data[x][1][2]){
+                            investor.push(result_data[x][1][1]);
+                        }
+                        else{
+                            investor_money = loaner_money;
+                            investor.push(investor_money);
+                        }
                     }
                     else{
-                        investor_money = loaner_money;
-                        investor.push(investor_money);
+                        investor.push(result_data[x][1][z]);
                     }
-                }
-                else{
-                    investor.push(result_data[x][1][z]);
                 }
             }
         }
+        
+
+        console.log('loaner : ' + loaner);
+        console.log('investor : ' + investor);
+
+        return_data.push(loaner);
+        return_data.push(investor);
+
+        console.log('loaner length : ' + return_data[0].length);
+        console.log('investor length : ' + return_data[1].length);
+        
+        callback(null, return_data);
     }
-    
+    else{
+        let loaner_name = [];
+        let loaner_count = 0;
+        let counter = [];
+        // let last_count = 0;
 
-    console.log('loaner : ' + loaner);
-    console.log('investor : ' + investor);
+        for(let x = 0; x < size_x; x++){
+            if(result_data[x][1][0] == username){
+                loaner_name.push(result_data[x][0][0]);
+            }
+        }
 
-    return_data.push(loaner);
-    return_data.push(investor);
+        loaner_count = loaner_name.length;
+        counter.push(loaner_count);
 
-    console.log('loaner length : ' + return_data[0].length);
-    console.log('investor length : ' + return_data[1].length);
+        for(let i = 0; i < loaner_count; i++){
+            for(let x = 0; x < size_x; x++){
+                if(loaner_name[i] == result_data[x][0][0]){
+                    loaner.push(result_data[x][0]);
+                    for(let z = 0; z < size_z; z++){
+                        if(z == 0){
+                            investor.push(result_data[x][1][z]);
+                        }
+                        else if(z == 1){
+                            loaner_money = result_data[x][0][1] - result_data[x][0][2];
+                            if(loaner_money >= result_data[x][1][1] - result_data[x][1][2]){
+                                investor.push(result_data[x][1][1]);
+                            }
+                            else{
+                                investor_money = loaner_money;
+                                investor.push(investor_money);
+                            }
+                        }
+                        else{
+                            investor.push(result_data[x][1][z]);
+                        }
+                    }
+                }
+            }
 
-    callback(null, return_data);
+            console.log('loaner : ' + loaner);
+            console.log('investor : ' + investor);
+
+            return_data.push(loaner);
+            return_data.push(investor);
+
+            console.log('loaner length : ' + return_data[0].length);
+            console.log('investor length : ' + return_data[1].length);
+
+            // last_count = return_data[0].length - last_count;
+            counter.push(loaner.length);
+
+        }
+        
+        return_data.push(counter);
+
+
+        console.log(return_data);
+        console.log(return_data.length);
+
+
+        callback(null, return_data);
+
+    }
 
 }
 
