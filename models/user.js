@@ -501,8 +501,8 @@ function schedule_event_deploy_constract(){
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
-    rule.hour = 13;
-    rule.minute = 53;
+    rule.hour = 11;
+    rule.minute = 45;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -521,7 +521,6 @@ function schedule_event_deploy_constract(){
                         if(matchMaker == 8){
                             break;
                         }
-                        matchMaker.make_a_match(data[i].address);
                         let modSql = 'contract SET status = ? WHERE address = ?';
                         let modSqlParams = [0, data[i].address];
                         dbConnection.updateData(modSql, modSqlParams);
@@ -584,8 +583,8 @@ function schedule_event_make_a_match(){
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
-    rule.hour = 13;
-    rule.minute = 55;
+    rule.hour = 11;
+    rule.minute = 47;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -603,11 +602,11 @@ function schedule_event_make_a_match(){
                         if(matchMaker == 8){
                             break;
                         }
-                        console.log(data[i].address);
+
+                        console.log(data[i].group_type + ": " + data[i].address);
                         matchMaker.make_a_match(data[i].address);
-                        let modSql = 'contract SET status = ? WHERE address = ?';
-                        let modSqlParams = [-1, data[i].address];
-                        dbConnection.updateData(modSql, modSqlParams);
+                        setTimeout(updateContractStatus, 10000, data[i].address);
+
                         contract_count++;
                     }
                 }
@@ -618,6 +617,20 @@ function schedule_event_make_a_match(){
         }
         console.log('撮合完成');
     });
+}
+
+function updateContractStatus(addr){
+    let modSql = 'contract SET status = ? WHERE address = ?';
+    let modSqlParams = [-1, addr];
+    dbConnection.updateData(modSql, modSqlParams);
+
+    let modSql1 = 'invest SET status = ? WHERE contract_addr = ? and loan_type = ?';
+    let modSqlParams1 = [0, addr, "撮合"];
+    dbConnection.updateData(modSql1, modSqlParams1);
+
+    let modSql2 = 'transaction SET status = ? WHERE contract_addr = ? and loan_type = ?';
+    let modSqlParams2 = [0, addr, "撮合"];
+    dbConnection.updateData(modSql2, modSqlParams2);
 }
 
 function showInfo(addr){

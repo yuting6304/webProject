@@ -82,10 +82,11 @@ var chooseRouter = require('./routes/choose');
 var matchRouter = require('./routes/match');
 var matchTestRouter = require('./routes/match_test');
 
-
 var investRouter = require('./routes/invest');
 var confirmRouter = require('./routes/confirm');
 var logoutRouter = require('./routes/logout');
+
+var investwaitRouter = require('./routes/invest_waiting');
 
 
 app.use('/', indexRouter);
@@ -109,6 +110,8 @@ app.use('/logout', logoutRouter);
 
 
 app.use('/match_test', matchTestRouter);
+app.use('/invest_waiting', investwaitRouter);
+
 
 // app.use('/register1', register1Router);
 // app.use('/register2', register2Router);
@@ -125,8 +128,8 @@ var server = app.listen(8088, function () {
             if(succ == 1){
                 user.initContract();
                 console.log("\nServer start http://127.0.0.1:8088");
-                // user.schedule_event_deploy_constract();
-                // user.schedule_event_make_a_match();
+                user.schedule_event_deploy_constract();
+                user.schedule_event_make_a_match();
             }
         }
     });

@@ -37,10 +37,8 @@ function getValue(val){
         }
     }
 
-    window.setTimeout(function() {
-        window.location = "/invest";
-    }, 5000);
-    // window.location = "/invest";
+    
+    window.location = "/invest_waiting";
 
 }
 

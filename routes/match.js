@@ -45,7 +45,7 @@ router.post('/', function(req, res, next){
                         deploy_contract.unlock_account();
                         matchMaker.addUser('INVESTOR', username, invest_money, rate, reliable, addr);
                         // matchMaker.showAllInfo(addr);
-                        user.invest(username, "平台", reliable, 0, invest_money, rate, period, "撮合", reason, addr);
+                        user.invest(username, "撮合者", reliable, 0, invest_money, rate, period, "撮合", reason, addr);
                         setTimeout(showInfo, 10000, addr);                            
                     }
                     else{

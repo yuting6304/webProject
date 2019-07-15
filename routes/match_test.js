@@ -30,35 +30,40 @@ router.post('/', function(req, res, next){
     // console.log('length 0 : ' + result[0].length);
     // console.log('length 0 : ' + result[0][0].length);
 
+    let modSql = 'users SET reliability = ? WHERE username = ?';
+    let modSqlParams = ['A', 'qweszxc6304'];
+    dbConnection.updateData(modSql, modSqlParams);
+    // user.getWholeContract(function(err, data){
+    //     if(err){
+    //         console.log(err);
+    //     }
+    //     else{
+    //         let size = data.length;
+    //         deploy_contract.unlock_account();
+    //         for(let i = 0; i < size; i++){
+    //             if(data[i].status == 0 /*&& data[i].group_type == "償還債務"*/){
+    //                 console.log(data[i].address);
+    //                 let modSql = 'contract SET status = ? WHERE address = ?';
+    //                 let modSqlParams = [-1, data[i].address];
+    //                 dbConnection.updateData(modSql, modSqlParams);
+    //                 // matchMaker.make_a_match(data[i].address);
+    //                 // let modSql = 'invest SET status = ? WHERE contract_addr = ? and loan_type = ?';
+    //                 // let modSqlParams = [0, data[i].address, "撮合"];
+    //                 // dbConnection.updateData(modSql, modSqlParams);
 
-    user.getWholeContract(function(err, data){
-        if(err){
-            console.log(err);
-        }
-        else{
-            let size = data.length;
-            deploy_contract.unlock_account();
-            for(let i = 0; i < size; i++){
-                if(data[i].status == 1 && data[i].group_type == "投資理財"){
-                    console.log(data[i].address);
-                    // matchMaker.make_a_match(data[i].address);
-                    let modSql = 'invest SET status = ? WHERE contract_addr = ? and loan_type = ?';
-                    let modSqlParams = [0, data[i].address, "撮合"];
-                    dbConnection.updateData(modSql, modSqlParams);
+    //                 // let modSql2 = 'transaction SET status = ? WHERE contract_addr = ? and loan_type = ?';
+    //                 // let modSqlParams2 = [0, data[i].address, "撮合"];
+    //                 // dbConnection.updateData(modSql2, modSqlParams2);
+    //                 // showResult(data[i].address);
+    //                 // updateDB(result, '0x75728475a27a5485dee62691f45a0c2c1578a540');
+    //                 // setTimeout(updateContract, 30000, '0x75728475a27a5485dee62691f45a0c2c1578a540');
+    //                 // setTimeout(showResult, 50000, '0x75728475a27a5485dee62691f45a0c2c1578a540');
+    //                 // setTimeout(showInfo, 70000, '0x75728475a27a5485dee62691f45a0c2c1578a540');
 
-                    let modSql2 = 'transaction SET status = ? WHERE contract_addr = ? and loan_type = ?';
-                    let modSqlParams2 = [0, data[i].address, "撮合"];
-                    dbConnection.updateData(modSql2, modSqlParams2);
-                    showResult(data[i].address);
-                    // updateDB(result, '0x75728475a27a5485dee62691f45a0c2c1578a540');
-                    // setTimeout(updateContract, 30000, '0x75728475a27a5485dee62691f45a0c2c1578a540');
-                    // setTimeout(showResult, 50000, '0x75728475a27a5485dee62691f45a0c2c1578a540');
-                    // setTimeout(showInfo, 70000, '0x75728475a27a5485dee62691f45a0c2c1578a540');
-
-                }
-            }
-        }
-    });
+    //             }
+    //         }
+    //     }
+    // });
 
     res.redirect('/match_test');
 });
