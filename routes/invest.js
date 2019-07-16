@@ -1,5 +1,6 @@
 var app = require('../app')
 var express = require('express');
+var moment = require('moment');
 var dbConnection = require('../models/dbConnection');
 var user = require('../models/user');
 var crowd_fund = require('../geth/call_CrowdFunding');
@@ -45,7 +46,8 @@ router.post('/', function(req, res, next){
     let type = req.query.type;
     let status = req.query.status;
     let msg = parseInt(req.query.msg, 10);
-    
+    let time = moment().format('MMMM Do YYYY, h:mm:ss a');
+
     console.log('index : ' + index);
     console.log('user : ' + loaner);
     console.log('money : ' + money);
@@ -55,6 +57,8 @@ router.post('/', function(req, res, next){
     console.log('type : ' + type);
     console.log('status : ' + status);
     console.log('msg : ' + msg);
+    console.log('time : ' + time);
+
 
     console.log("invest username : " + invest_user);
 
@@ -66,7 +70,7 @@ router.post('/', function(req, res, next){
             console.log(addr);
             deploy_contract.unlock_account();
             crowd_fund.fund(invest_user, msg, addr);
-            user.invest(invest_user, loaner, reliable, money, msg, rate, period, type, reason, addr);
+            user.invest(invest_user, loaner, reliable, money, msg, rate, period, type, reason, addr, time);
             setTimeout(update, 10000, addr, res);            
             // setTimeout(showResult, 20000, addr);
             setTimeout(showResult, 30000, addr);

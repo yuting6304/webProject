@@ -48,19 +48,20 @@
                     <th>期數(期)</th>
                     <th>貸款原因</th>
                     <th>貸款方式</th>
+                    <th>貸款時間</th>
                     <th>狀態</th>
                     <th>查看借貸完成紀錄</th>
                 </tr>
                 <% for(let i = 0; i < data[0].length; i++) { %>
                     <tr class = "datas_data">
-                        <% for(let j = 0; j < 8; j++) { %>
+                        <% for(let j = 0; j < 9; j++) { %>
                             <% if(j == 1) { %>
                                 <td>$ <%= data[j][i] %></td>
                             <% } else if(j == 2) { %>
                                 <td><%= data[j][i] %> %</td>
                             <% } else if(j == 3) { %>
                                 <td><%= data[j][i] %> 期</td>
-                            <% } else if(j == 6) { %>
+                            <% } else if(j == 7) { %>
                                 <% if(data[j][i] == 1) { %>
                                     <td> 等待中 </td>
                                     <td><button type="button" disabled id="click">click</button></td>
@@ -72,7 +73,7 @@
                                         <td><button type="button" id="click" onclick="showMatchInfo(this)">click</button></td>
                                     <% } %>
                                 <% } %>
-                            <% } else if(j == 7) { %>
+                            <% } else if(j == 8) { %>
                                 <td style="display: none"><%= data[j][i] %></td>
                             <% } else { %>
                                 <td><%= data[j][i] %></td>

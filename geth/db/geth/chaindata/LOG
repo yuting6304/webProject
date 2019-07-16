@@ -467,3 +467,21 @@
 12:50:01.275212 table@remove removed @103
 12:57:13.072687 db@close closing
 12:57:13.072897 db@close done T·205.023µs
+=============== Jul 16, 2019 (CST) ===============
+12:45:43.195575 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+12:45:43.225357 version@stat F·[0 2] S·2MiB[0B 2MiB] Sc·[0.00 0.03]
+12:45:43.225396 db@open opening
+12:45:43.225482 journal@recovery F·1
+12:45:43.258116 journal@recovery recovering @105
+12:45:43.381814 memdb@flush created L0@109 N·400 S·58KiB "\x02\xb3\x8a..D\xb9\xde,v49595":"\xfcOl..\xc9\xdc\u007f,v49589"
+12:45:43.384465 version@stat F·[1 2] S·3MiB[58KiB 2MiB] Sc·[0.25 0.03]
+12:45:43.486107 db@janitor F·5 G·0
+12:45:43.486222 db@open done T·260.795909ms
+12:48:34.435064 table@compaction L0·1 -> L1·2 S·3MiB Q·49643
+12:48:34.747367 table@build created L1@112 N·21769 S·2MiB "\x00\x1b\xec..\"\x9f\xba,v31658":"h\x00\x00..\xc3q\xe3,v32666"
+12:48:35.037182 table@build created L1@113 N·11052 S·1010KiB "h\x00\x00..q\xe3t,v32663":"\xffھ..\x92\r@,v31954"
+12:48:35.037308 version@stat F·[0 2] S·3MiB[0B 3MiB] Sc·[0.00 0.03]
+12:48:35.126598 table@compaction committed F-1 S-5KiB Ke·0 D·103 T·691.443529ms
+12:48:35.126826 table@remove removed @109
+12:48:35.127090 table@remove removed @107
+12:48:35.127244 table@remove removed @108

@@ -1,5 +1,6 @@
 var app = require('../app')
 var express = require('express');
+var moment = require('moment');
 var user = require('../models/user');
 var matchMaker = require('../geth/call_MatchMaker');
 var deploy_contract = require('../geth/deploy_contract');
@@ -40,11 +41,14 @@ router.post('/', function(req, res, next){
     let period = req.body['period'];
     let loan_type = req.body['loan_type'];
     let reason = req.body['reason'];
+    let time = moment().format('MMMM Do YYYY, h:mm:ss a');
 
     console.log("username : " + username);
     console.log("money : " + money + ", rate : " + rate);
     console.log("loan type : " + loan_type);
     console.log("period : " + period + ", reason : " + reason);
+    console.log('time : ' + time);
+
 
     user.getUserReliable(username, function(err, reliable){
         if(err){
@@ -62,7 +66,7 @@ router.post('/', function(req, res, next){
                         if(addr != '' || addr != undefined){
                             matchMaker.addUser('BORROWER', username, money, rate, 'A', addr);
                             setTimeout(showInfo, 10000, addr);                            
-                            user.transact(username, reliable, money, rate, period, loan_type, reason, addr);
+                            user.transact(username, reliable, money, rate, period, loan_type, reason, addr, time);
                         }
                         else{
                             console.log('select contract failed!');
@@ -71,7 +75,7 @@ router.post('/', function(req, res, next){
                     
                     else if(loan_type == "一般"){
                         deploy_contract.deploy_contract("CrowdFunding.sol", username, money, rate, period, 259200,  reason, function(addr){
-                            user.transact(username, reliable, money, rate, period, loan_type, reason, addr);
+                            user.transact(username, reliable, money, rate, period, loan_type, reason, addr, time);
                         });
                         // deploy_contract.deploy_crowdfunding_contract(username, money, rate, period, 259200, reason, loan_type);
                         console.log('完成一般貸款');

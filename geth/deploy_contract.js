@@ -140,13 +140,13 @@ function deploy_contract(contract_Name, owner, total_Money, interest, periods, d
 }
 
 
-function deploy_matchmaker_contract(_duration, _kindOfContract){
+function deploy_matchmaker_contract(_duration, _kindOfContract, time){
     deploy_contract("MatchMaker.sol", "", "", "", "", _duration, _kindOfContract, function(RETURN_ADDRESS){
         /*
          * Return ADDRESS to MySql
          */
         //  console.log(RETURN_ADDRESS);
-        user.store_contract(RETURN_ADDRESS, _kindOfContract);
+        user.store_contract(RETURN_ADDRESS, _kindOfContract, time);
     });
 }
 

@@ -2,6 +2,7 @@ var express = require('express');
 var nodemailer = require('nodemailer');
 var xoauth2 = require('xoauth2');
 var handlebars = require('handlebars');
+var moment = require('moment');
 var fs = require('fs');
 var mysql  = require('mysql');  
 var crypto = require('crypto');
@@ -63,22 +64,22 @@ function reg(name, password, reliability, randstr, mailAddr){
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
-function transact(name, reliability, money, rate, period, loan_type, loan_reason, addr){
-    let  addSql = 'transaction(username, reliability, money, rate, period, loan_type, loan_reason, contract_addr) VALUES(?,?,?,?,?,?,?,?)';
-    let  addSqlParams = [name, reliability, money, rate, period, loan_type, loan_reason, addr];
+function transact(name, reliability, money, rate, period, loan_type, loan_reason, addr, time){
+    let  addSql = 'transaction(username, reliability, money, rate, period, loan_type, loan_reason, contract_addr, time) VALUES(?,?,?,?,?,?,?,?,?)';
+    let  addSqlParams = [name, reliability, money, rate, period, loan_type, loan_reason, addr, time];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
 
-function invest(investigator, loaner, reliability, money, invest_money, rate, period, loan_type, loan_reason, addr){
-    let  addSql = 'invest(investigator, loaner, reliability, money, invest_money, rate, period, loan_type, loan_reason, contract_addr) VALUES(?,?,?,?,?,?,?,?,?,?)';
-    let  addSqlParams = [investigator, loaner, reliability, money, invest_money, rate, period, loan_type, loan_reason, addr];
+function invest(investigator, loaner, reliability, money, invest_money, rate, period, loan_type, loan_reason, addr, time){
+    let  addSql = 'invest(investigator, loaner, reliability, money, invest_money, rate, period, loan_type, loan_reason, contract_addr, time) VALUES(?,?,?,?,?,?,?,?,?,?,?)';
+    let  addSqlParams = [investigator, loaner, reliability, money, invest_money, rate, period, loan_type, loan_reason, addr, time];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
-function store_contract(addr, group){
-    let  addSql = 'contract(address, group_type) VALUES(?,?)';
-    let  addSqlParams = [addr, group];
+function store_contract(addr, group, time){
+    let  addSql = 'contract(address, group_type, time) VALUES(?,?,?)';
+    let  addSqlParams = [addr, group, time];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
@@ -317,6 +318,7 @@ function getUserLoanData(username, callback){
             let type = [];
             let status = [];
             let addr = [];
+            let time = [];
             for(let i = 0; i < size; i++){
                 if(data[i].username == username){
                     idx = idx+1;
@@ -328,6 +330,7 @@ function getUserLoanData(username, callback){
                     type.push(data[i].loan_type);
                     status.push(data[i].status);
                     addr.push(data[i].contract_addr);
+                    time.push(data[i].time);
                 }
             }
 
@@ -337,6 +340,7 @@ function getUserLoanData(username, callback){
             result_data.push(period);
             result_data.push(reason);
             result_data.push(type);
+            result_data.push(time);
             result_data.push(status);
             result_data.push(addr);
             callback(null, result_data);
@@ -364,6 +368,7 @@ function getUserInvestData(username, callback){
             let invest_type = [];
             let status = [];
             let addr = [];
+            let time = [];
             for(let i = 0; i < size; i++){
                 if(data[i].investigator == username){
                     idx = idx+1;
@@ -377,6 +382,7 @@ function getUserInvestData(username, callback){
                     invest_reason.push(data[i].loan_reason);
                     invest_type.push(data[i].loan_type)
                     status.push(data[i].status);
+                    time.push(data[i].time);
                     addr.push(data[i].contract_addr);
                 }
             }
@@ -389,6 +395,7 @@ function getUserInvestData(username, callback){
             result_data.push(invest_reason);
             result_data.push(invest_type);
             result_data.push(invest_money);
+            result_data.push(time);
             result_data.push(status);
             result_data.push(addr);
             callback(null, result_data);
@@ -496,7 +503,8 @@ function getWholeContract(callback){
 
 // construct a contract
 function schedule_event_deploy_constract(){
-
+    
+    let time = moment().format('MMMM Do YYYY, h:mm:ss a');
     let rule = new schedule.RecurrenceRule();
     // rule.dayOfWeek = 2;
     // rule.month = 3;
@@ -528,14 +536,14 @@ function schedule_event_deploy_constract(){
                     }
                 }
                 deploy_contract.unlock_account();
-                deploy_contract.deploy_matchmaker_contract(259200, "投資理財");
-                deploy_contract.deploy_matchmaker_contract(259200, "償還債務");                
-                deploy_contract.deploy_matchmaker_contract(259200, "個人家庭週轉");
-                deploy_contract.deploy_matchmaker_contract(259200, "進修/教育支出");
-                deploy_contract.deploy_matchmaker_contract(259200, "醫療支出");
-                deploy_contract.deploy_matchmaker_contract(259200, "購買不動產");
-                deploy_contract.deploy_matchmaker_contract(259200, "裝修房屋");
-                deploy_contract.deploy_matchmaker_contract(259200, "其他");
+                deploy_contract.deploy_matchmaker_contract(259200, "投資理財", time);
+                deploy_contract.deploy_matchmaker_contract(259200, "償還債務", time);                
+                deploy_contract.deploy_matchmaker_contract(259200, "個人家庭週轉", time);
+                deploy_contract.deploy_matchmaker_contract(259200, "進修/教育支出", time);
+                deploy_contract.deploy_matchmaker_contract(259200, "醫療支出", time);
+                deploy_contract.deploy_matchmaker_contract(259200, "購買不動產", time);
+                deploy_contract.deploy_matchmaker_contract(259200, "裝修房屋", time);
+                deploy_contract.deploy_matchmaker_contract(259200, "其他", time);
             }
         });
 
@@ -544,6 +552,7 @@ function schedule_event_deploy_constract(){
 }
 
 function initContract(){
+    let time = moment().format('MMMM Do YYYY, h:mm:ss a');
     let contract_count = 0;
     getWholeContract(function(err, data){
         if(err){
@@ -560,14 +569,14 @@ function initContract(){
                 }
             }
             if(contract_count < 8){
-                deploy_contract.deploy_matchmaker_contract(259200, "投資理財");
-                deploy_contract.deploy_matchmaker_contract(259200, "償還債務");
-                deploy_contract.deploy_matchmaker_contract(259200, "個人家庭週轉");
-                deploy_contract.deploy_matchmaker_contract(259200, "進修/教育支出");
-                deploy_contract.deploy_matchmaker_contract(259200, "醫療支出");
-                deploy_contract.deploy_matchmaker_contract(259200, "購買不動產");
-                deploy_contract.deploy_matchmaker_contract(259200, "裝修房屋");
-                deploy_contract.deploy_matchmaker_contract(259200, "其他");
+                deploy_contract.deploy_matchmaker_contract(259200, "投資理財", time);
+                deploy_contract.deploy_matchmaker_contract(259200, "償還債務", time);
+                deploy_contract.deploy_matchmaker_contract(259200, "個人家庭週轉", time);
+                deploy_contract.deploy_matchmaker_contract(259200, "進修/教育支出", time);
+                deploy_contract.deploy_matchmaker_contract(259200, "醫療支出", time);
+                deploy_contract.deploy_matchmaker_contract(259200, "購買不動產", time);
+                deploy_contract.deploy_matchmaker_contract(259200, "裝修房屋", time);
+                deploy_contract.deploy_matchmaker_contract(259200, "其他", time);
             }
         }
     });
