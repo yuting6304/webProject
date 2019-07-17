@@ -22,8 +22,10 @@ router.get('/', function(req, res, next) {
             else{
                 gethUtil.getCurrentAmount(function(err, amount){
                     invest_user = req.session.username;
-                    // console.log("username : " + req.session.username);
-                    res.render('invest', { title: 'Log out', account: req.session.username, data: data, amount: amount });
+                    gethUtil.getRestTime(function(err, time){
+                        console.log('time : ' + time);
+                        res.render('invest', { title: 'Log out', account: req.session.username, data: data, amount: amount, time: time });
+                    })
                 });
             }
         })       
@@ -48,6 +50,7 @@ router.post('/', function(req, res, next){
     let msg = parseInt(req.query.msg, 10);
     let time = moment().format('MMMM Do YYYY, h:mm:ss a');
 
+
     console.log('index : ' + index);
     console.log('user : ' + loaner);
     console.log('money : ' + money);
@@ -59,7 +62,6 @@ router.post('/', function(req, res, next){
     console.log('msg : ' + msg);
     console.log('time : ' + time);
 
-
     console.log("invest username : " + invest_user);
 
     user.getNormalTransactionAddr(loaner, index, function(err, addr){
@@ -69,6 +71,7 @@ router.post('/', function(req, res, next){
         else{
             console.log(addr);
             deploy_contract.unlock_account();
+
             crowd_fund.fund(invest_user, msg, addr);
             user.invest(invest_user, loaner, reliable, money, msg, rate, period, type, reason, addr, time);
             setTimeout(update, 10000, addr, res);            
@@ -77,7 +80,7 @@ router.post('/', function(req, res, next){
         }
     });
 
-    res.redirect('/');
+    // res.redirect('/');
     
     // crowd_fund.fund(invest_user, msg);
     // user.invest(name, money, rate, period, loan_type, loan_reason, addr);
@@ -88,6 +91,12 @@ router.post('/', function(req, res, next){
 
 });
 
+// function getRestTime(ADDR){
+//     let time = -1;
+//     time = crowd_fund.show_DURATION(ADDR).toNumber();
+//     return time;
+// }
+
 function update(ADDR){
     crowd_fund.upDateContract(ADDR);
     console.log("update finish");
@@ -96,11 +105,12 @@ function update(ADDR){
 function showResult(ADDR){
    
     let rest = crowd_fund.show_RESTAMOUNT(ADDR);
-    
+    let time = crowd_fund.show_DURATION(ADDR).toNumber();
+
     console.log(crowd_fund.getResult(ADDR));
     console.log("rest : " + rest);
 
-    if(rest == 0){
+    if(rest == 0 || time == 0){
         update(ADDR);
         console.log('RESULT : ' + crowd_fund.getResult(ADDR));
         let modSql = 'transaction SET status = ? WHERE contract_addr = ?';

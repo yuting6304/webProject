@@ -161,8 +161,8 @@ function show_PERIODS(){
   return val;
 }
 
-function show_DURATION(){
-  var value = getContractInfo(addr);
+function show_DURATION(ADDR){
+  var value = getContractInfo(ADDR);
   value[0].checkGoalReached({from: address0, gas: value[1]});
   var val = value[0].DURATION({from: address0, gas: value[1]});
   value[0].checkGoalReached({from: address0, gas: value[1]});
@@ -232,3 +232,4 @@ module.exports.show_CURRENTAMOUNT = show_CURRENTAMOUNT;
 module.exports.show_GOALAMOUNT = show_GOALAMOUNT;
 module.exports.show_RESTAMOUNT = show_RESTAMOUNT;
 module.exports.show_INVESTORS = show_INVESTORS;
+module.exports.show_DURATION = show_DURATION;

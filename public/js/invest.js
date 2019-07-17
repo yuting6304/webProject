@@ -1,14 +1,57 @@
+let hours;
+let minutes;
+let seconds;
+let count_down_val = [];
+
+window.onload = function(){
+    let table = document.getElementById('table');
+    let time = document.getElementById('time');
+    let time_value = time.innerHTML.split(',');
+
+    count_down_val = time_value;
+
+    // console.log('here : ' + table.rows[1].cells[12].innerHTML);
+    // console.log('here : ' + table.rows[2].cells[12].innerHTML);
+    // console.log('here : ' + table.rows[3].cells[12].innerHTML);
+    // console.log('here : ' + table.rows[4].cells[12].innerHTML);
+
+    for(let i = 0; i < count_down_val.length; i++){
+
+        seconds = (count_down_val[i]%60);
+        minutes = count_down_val[i]/60;
+        minutes = (parseInt(minutes, 10)%60);
+        hours = count_down_val[i]/3600;
+        hours = (parseInt(hours, 10));
+        console.log('hours : ' + hours + "\nminutes : " + minutes + "\nseconds : " + seconds);
+        
+        table.rows[i+1].cells[11].innerHTML = hours.toString()+":"+minutes.toString()+":"+seconds.toString();
+    
+    }
+
+        window.setTimeout(countdown, 1000, count_down_val);
+}
+
+function countdown(count_down_time){
+    for(let i = 0; i < count_down_time.length; i++){
+        // if(count_down_time[i] == 0 && table.rows[i].cells[9].innerHTML == 1){
+        //     table.rows[i].setAttribute('disabled', '');
+        // }
+        count_down_time[i] = count_down_time[i]-1;
+        if(count_down_time[i] >= 0){
+            seconds = (count_down_val[i]%60);
+            minutes = count_down_val[i]/60;
+            minutes = (parseInt(minutes, 10)%60);
+            hours = count_down_val[i]/3600;
+            hours = (parseInt(hours, 10));
+            table.rows[i+1].cells[11].innerHTML = hours.toString()+":"+minutes.toString()+":"+seconds.toString();
+        }
+    }
+    window.setTimeout(countdown, 1000, count_down_time);
+}
+
+
+
 function getValue(val){
-    // let invest_detail = {
-    //     index : val.parentNode.parentNode.children[0].innerHTML,
-    //     user : val.parentNode.parentNode.children[1].innerHTML,
-    //     money : val.parentNode.parentNode.children[2].innerHTML,
-    //     rate : val.parentNode.parentNode.children[3].innerHTML,
-    //     period : val.parentNode.parentNode.children[4].innerHTML,
-    //     reason : val.parentNode.parentNode.children[5].innerHTML,
-    //     type : val.parentNode.parentNode.children[6].innerHTML,
-    //     status : val.parentNode.parentNode.children[7].innerHTML
-    // };
 
     let invest_money = prompt("輸入想投資的金額", "0");
     if(invest_money == null || invest_money == "" || invest_money == "0") {
