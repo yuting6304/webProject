@@ -49,7 +49,7 @@ router.post('/', function(req, res, next){
                     
                     matchMaker.make_a_match(data[i].address);
                     
-                    setTimeout(updateDBstatus, 10000, data[i].address);
+                    setTimeout(updateDBstatus, 20000, data[i].address);
 
 
                     // let modSql1 = 'invest SET status = ? WHERE contract_addr = ? and loan_type = ?';

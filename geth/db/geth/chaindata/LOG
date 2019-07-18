@@ -567,3 +567,35 @@
 10:58:54.873559 table@remove removed @128
 11:56:56.045355 db@close closing
 11:56:56.045470 db@close done T·111.909µs
+=============== Jul 18, 2019 (CST) ===============
+13:52:45.003737 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+13:52:45.047546 version@stat F·[0 2] S·3MiB[0B 3MiB] Sc·[0.00 0.04]
+13:52:45.047613 db@open opening
+13:52:45.047773 journal@recovery F·1
+13:52:45.053471 journal@recovery recovering @130
+13:52:45.229500 memdb@flush created L0@134 N·1444 S·378KiB "\x03bW..ym&,v55811":"\xff\x8d\xdd..@٫,v55916"
+13:52:45.236384 version@stat F·[1 2] S·4MiB[378KiB 3MiB] Sc·[0.25 0.04]
+13:52:45.321193 db@janitor F·5 G·0
+13:52:45.321282 db@open done T·273.63815ms
+13:53:53.447525 table@compaction L0·1 -> L1·2 S·4MiB Q·56116
+13:53:53.604199 table@build created L1@137 N·17332 S·2MiB "\x00\x1b\xec..\"\x9f\xba,v31658":"h\x00\x00..\xe3\x94\f,v14283"
+13:53:53.761044 table@build created L1@138 N·20113 S·1MiB "h\x00\x00..\x94\ft,v14280":"\xffھ..\x92\r@,v31954"
+13:53:53.761186 version@stat F·[0 2] S·3MiB[0B 3MiB] Sc·[0.00 0.04]
+13:53:53.805665 table@compaction committed F-1 S-186KiB Ke·0 D·518 T·358.062265ms
+13:53:53.806079 table@remove removed @134
+13:53:53.806666 table@remove removed @132
+13:53:53.807118 table@remove removed @133
+14:43:15.286942 db@close closing
+14:43:15.303506 db@close done T·16.55989ms
+=============== Jul 18, 2019 (CST) ===============
+14:43:38.642245 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:43:38.642398 version@stat F·[0 2] S·3MiB[0B 3MiB] Sc·[0.00 0.04]
+14:43:38.642412 db@open opening
+14:43:38.642457 journal@recovery F·1
+14:43:38.644363 journal@recovery recovering @135
+14:43:38.835607 memdb@flush created L0@139 N·2939 S·660KiB "\x00o5..\xb0\x87x,v58135":"\xfe\xb9\x1f..\xae\xafd,v58330"
+14:43:38.841893 version@stat F·[1 2] S·4MiB[660KiB 3MiB] Sc·[0.25 0.04]
+14:43:38.929862 db@janitor F·5 G·0
+14:43:38.929952 db@open done T·287.520892ms
+14:43:54.544733 db@close closing
+14:43:54.544934 db@close done T·197.585µs

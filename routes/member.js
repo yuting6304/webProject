@@ -113,13 +113,13 @@ router.post('/transact_Info', function(req, res, next) {
 router.get('/match_Info', function(req, res, next) {
     if(req.session.logined){
     console.log("GET username = " + req.session.username);
-    getMatchInfo(req.session.username, match_addr, match_mode,function(err, data){
+    getMatchInfo(req.session.username, match_addr, match_mode, function(err, data){
         if(err){
             console.log(err);
         }
         else{
             if(match_mode == "貸款者"){
-                res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], reason: match_reason, mode: "貸款者" });
+                res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "貸款者" });
             }
             else{
                 res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "借款者" });
@@ -178,18 +178,21 @@ function getInfo(addr, callback){
 
 // make a match result
 function getMatchInfo(username, addr, match_mode,callback){
+    deploy_contract.unlock_account();
     let result_data = matchMaker.getResult(addr);
-    console.log(matchMaker.getResult(addr));
+    console.log(result_data);
     console.log('username : ' + username);
 
 
-    let size_x = result_data.length;
+    let size_x = result_data.length-1;
+    console.log('x = ' + size_x);
+
+
     if(size_x > 0){
         let size_y = result_data[0].length;
         let size_z = result_data[0][0].length;
 
 
-        console.log('x = ' + size_x);
         console.log('y = ' + size_y);
         console.log('z = ' + size_z);
 
@@ -304,6 +307,7 @@ function getMatchInfo(username, addr, match_mode,callback){
         }
     }
     else{
+        console.log('callback null array');
         callback(null, [[[['', '', '', '', ''],['', '', '', '', '']]],[0]]);
     }
     
