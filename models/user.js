@@ -462,7 +462,7 @@ function getNormalLoanData(callback){
             let size = data.length;
             let result_data = [];
             for(let i = 0; i < size; i++){
-                if(data[i].loan_type == "一般"){
+                if(data[i].loan_type == "一般" && data[i].status == 1){
                     result_data.push(data[i]);
                 }
             }

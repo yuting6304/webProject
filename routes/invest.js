@@ -20,12 +20,12 @@ router.get('/', function(req, res, next) {
                 console.log(err);
             }
             else{
-                gethUtil.getCurrentAmount(function(err, amount){
+                gethUtil.getCurrentAmount(function(err, result){
                     invest_user = req.session.username;
-                    gethUtil.getRestTime(function(err, time){
-                        console.log('time : ' + time);
-                        res.render('invest', { title: 'Log out', account: req.session.username, data: data, amount: amount, time: time });
-                    })
+                    // gethUtil.getRestTime(function(err, time){
+                        console.log('time : ' + result[1]);
+                        res.render('invest', { title: 'Log out', account: req.session.username, data: data, amount: result[0], time: result[1] });
+                    // });
                 });
             }
         })       
@@ -90,6 +90,39 @@ router.post('/', function(req, res, next){
 
 
 });
+
+router.get('/changeStatus', function(req, res, next) {
+    res.redirect('/');
+});
+
+
+router.post('/changeStatus', function(req, res, next) {
+    let index = req.query.index;
+    let loaner = req.query.user;
+
+    console.log('index : ' + index);
+    console.log('user : ' + loaner);
+
+
+    user.getNormalTransactionAddr(loaner, index, function(err, addr){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(addr);
+            deploy_contract.unlock_account();
+
+            showResult(addr);
+            
+        }
+    });
+
+    res.redirect('/invest');
+});
+
+
+
+
 
 // function getRestTime(ADDR){
 //     let time = -1;

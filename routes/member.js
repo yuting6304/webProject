@@ -184,77 +184,26 @@ function getMatchInfo(username, addr, match_mode,callback){
 
 
     let size_x = result_data.length;
-    let size_y = result_data[0].length;
-    let size_z = result_data[0][0].length;
+    if(size_x > 0){
+        let size_y = result_data[0].length;
+        let size_z = result_data[0][0].length;
 
 
-    console.log('x = ' + size_x);
-    console.log('y = ' + size_y);
-    console.log('z = ' + size_z);
+        console.log('x = ' + size_x);
+        console.log('y = ' + size_y);
+        console.log('z = ' + size_z);
 
-    let loaner = [];
-    let loaner_money = 0;
-    let investor = [];
-    let investor_money = 0;
+        let loaner = [];
+        let loaner_money = 0;
+        let investor = [];
+        let investor_money = 0;
 
-    let return_data = [];
+        let return_data = [];
 
-    if(match_mode == "貸款者"){
+        if(match_mode == "貸款者"){
 
-        for(let x = 0; x < size_x; x++){
-            if(username == result_data[x][0][0]){
-                loaner.push(result_data[x][0]);
-                for(let z = 0; z < size_z; z++){
-                    if(z == 0){
-                        investor.push(result_data[x][1][z]);
-                    }
-                    else if(z == 1){
-                        loaner_money = result_data[x][0][1] - result_data[x][0][2];
-                        if(loaner_money >= result_data[x][1][1] - result_data[x][1][2]){
-                            investor.push(result_data[x][1][1]);
-                        }
-                        else{
-                            investor_money = loaner_money;
-                            investor.push(investor_money);
-                        }
-                    }
-                    else{
-                        investor.push(result_data[x][1][z]);
-                    }
-                }
-            }
-        }
-        
-
-        console.log('loaner : ' + loaner);
-        console.log('investor : ' + investor);
-
-        return_data.push(loaner);
-        return_data.push(investor);
-
-        console.log('loaner length : ' + return_data[0].length);
-        console.log('investor length : ' + return_data[1].length);
-        
-        callback(null, return_data);
-    }
-    else{
-        let loaner_name = [];
-        let loaner_count = 0;
-        let counter = [];
-        // let last_count = 0;
-
-        for(let x = 0; x < size_x; x++){
-            if(result_data[x][1][0] == username){
-                loaner_name.push(result_data[x][0][0]);
-            }
-        }
-
-        loaner_count = loaner_name.length;
-        counter.push(loaner_count);
-
-        for(let i = 0; i < loaner_count; i++){
             for(let x = 0; x < size_x; x++){
-                if(loaner_name[i] == result_data[x][0][0]){
+                if(username == result_data[x][0][0]){
                     loaner.push(result_data[x][0]);
                     for(let z = 0; z < size_z; z++){
                         if(z == 0){
@@ -276,6 +225,7 @@ function getMatchInfo(username, addr, match_mode,callback){
                     }
                 }
             }
+            
 
             console.log('loaner : ' + loaner);
             console.log('investor : ' + investor);
@@ -285,22 +235,78 @@ function getMatchInfo(username, addr, match_mode,callback){
 
             console.log('loaner length : ' + return_data[0].length);
             console.log('investor length : ' + return_data[1].length);
+            
+            callback(null, return_data);
+        }
+        else{
+            let loaner_name = [];
+            let loaner_count = 0;
+            let counter = [];
+            // let last_count = 0;
 
-            // last_count = return_data[0].length - last_count;
-            counter.push(loaner.length);
+            for(let x = 0; x < size_x; x++){
+                if(result_data[x][1][0] == username){
+                    loaner_name.push(result_data[x][0][0]);
+                }
+            }
+
+            loaner_count = loaner_name.length;
+            counter.push(loaner_count);
+
+            for(let i = 0; i < loaner_count; i++){
+                for(let x = 0; x < size_x; x++){
+                    if(loaner_name[i] == result_data[x][0][0]){
+                        loaner.push(result_data[x][0]);
+                        for(let z = 0; z < size_z; z++){
+                            if(z == 0){
+                                investor.push(result_data[x][1][z]);
+                            }
+                            else if(z == 1){
+                                loaner_money = result_data[x][0][1] - result_data[x][0][2];
+                                if(loaner_money >= result_data[x][1][1] - result_data[x][1][2]){
+                                    investor.push(result_data[x][1][1]);
+                                }
+                                else{
+                                    investor_money = loaner_money;
+                                    investor.push(investor_money);
+                                }
+                            }
+                            else{
+                                investor.push(result_data[x][1][z]);
+                            }
+                        }
+                    }
+                }
+
+                console.log('loaner : ' + loaner);
+                console.log('investor : ' + investor);
+
+                return_data.push(loaner);
+                return_data.push(investor);
+
+                console.log('loaner length : ' + return_data[0].length);
+                console.log('investor length : ' + return_data[1].length);
+
+                // last_count = return_data[0].length - last_count;
+                counter.push(loaner.length);
+
+            }
+            
+            return_data.push(counter);
+
+
+            console.log(return_data);
+            console.log(return_data.length);
+
+
+            callback(null, return_data);
 
         }
-        
-        return_data.push(counter);
-
-
-        console.log(return_data);
-        console.log(return_data.length);
-
-
-        callback(null, return_data);
-
     }
+    else{
+        callback(null, [[[['', '', '', '', ''],['', '', '', '', '']]],[0]]);
+    }
+    
 
 }
 

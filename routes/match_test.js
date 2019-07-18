@@ -46,14 +46,19 @@ router.post('/', function(req, res, next){
                     // let modSql = 'contract SET status = ? WHERE address = ?';
                     // let modSqlParams = [-1, data[i].address];
                     // dbConnection.updateData(modSql, modSqlParams);
+                    
                     matchMaker.make_a_match(data[i].address);
-                    let modSql = 'invest SET status = ? WHERE contract_addr = ? and loan_type = ?';
-                    let modSqlParams = [0, data[i].address, "撮合"];
-                    dbConnection.updateData(modSql, modSqlParams);
+                    
+                    setTimeout(updateDBstatus, 10000, data[i].address);
 
-                    let modSql2 = 'transaction SET status = ? WHERE contract_addr = ? and loan_type = ?';
-                    let modSqlParams2 = [0, data[i].address, "撮合"];
-                    dbConnection.updateData(modSql2, modSqlParams2);
+
+                    // let modSql1 = 'invest SET status = ? WHERE contract_addr = ? and loan_type = ?';
+                    // let modSqlParams1 = [0, data[i].address, "撮合"];
+                    // dbConnection.updateData(modSql1, modSqlParams1);
+
+                    // let modSql2 = 'transaction SET status = ? WHERE contract_addr = ? and loan_type = ?';
+                    // let modSqlParams2 = [0, data[i].address, "撮合"];
+                    // dbConnection.updateData(modSql2, modSqlParams2);
                     // showResult(data[i].address);
                     // updateDB(result, '0x75728475a27a5485dee62691f45a0c2c1578a540');
                     // setTimeout(updateContract, 30000, '0x75728475a27a5485dee62691f45a0c2c1578a540');
@@ -67,6 +72,21 @@ router.post('/', function(req, res, next){
 
     res.redirect('/match_test');
 });
+
+function updateDBstatus(addr){
+    let modSql = 'contract SET status = ? WHERE address = ?';
+    let modSqlParams = [-1, addr];
+    dbConnection.updateData(modSql, modSqlParams);
+
+    let modSql1 = 'invest SET status = ? WHERE contract_addr = ? and loan_type = ?';
+    let modSqlParams1 = [0, addr, "撮合"];
+    dbConnection.updateData(modSql1, modSqlParams1);
+
+    let modSql2 = 'transaction SET status = ? WHERE contract_addr = ? and loan_type = ?';
+    let modSqlParams2 = [0, addr, "撮合"];
+    dbConnection.updateData(modSql2, modSqlParams2);
+}
+
 
 function updateDB(result_data, addr){
 

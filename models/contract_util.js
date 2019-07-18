@@ -16,11 +16,19 @@ function getCurrentAmount(callback){
 
             let size = data.length;
             let amount = [];
+            let time = [];
+            let result = [];
             for(let i = 0; i < size; i++){
                 let current = crowd_fund.show_RESTAMOUNT(data[i].contract_addr);
                 amount.push(current);
             }
-            callback(null, amount);
+            for(let i = 0; i < size; i++){
+                let t = crowd_fund.show_DURATION(data[i].contract_addr).toNumber();
+                time.push(t);
+            }
+            result.push(amount);
+            result.push(time);
+            callback(null, result);
         }
     });
 }

@@ -81,6 +81,7 @@ var loanRouter = require('./routes/loan');
 var chooseRouter = require('./routes/choose');
 var matchRouter = require('./routes/match');
 var matchTestRouter = require('./routes/match_test');
+var investStatusRouter = require('./routes/invest');
 
 var investRouter = require('./routes/invest');
 var confirmRouter = require('./routes/confirm');
@@ -106,6 +107,7 @@ app.use('/match', matchRouter);
 
 app.use('/confirm', confirmRouter);
 app.use('/logout', logoutRouter);
+app.use('/invest/changeStatus', investStatusRouter);
 
 
 
@@ -128,8 +130,8 @@ var server = app.listen(8088, function () {
             if(succ == 1){
                 user.initContract();
                 console.log("\nServer start http://127.0.0.1:8088");
-                user.schedule_event_deploy_constract();
-                user.schedule_event_make_a_match();
+                // user.schedule_event_deploy_constract();
+                // user.schedule_event_make_a_match();
             }
         }
     });
