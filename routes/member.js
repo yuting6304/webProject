@@ -205,6 +205,9 @@ function getMatchInfo(username, addr, match_mode,callback){
 
         if(match_mode == "貸款者"){
 
+            let counter = [];
+            counter.push(1);
+
             for(let x = 0; x < size_x; x++){
                 if(username == result_data[x][0][0]){
                     loaner.push(result_data[x][0]);
@@ -235,6 +238,7 @@ function getMatchInfo(username, addr, match_mode,callback){
 
             return_data.push(loaner);
             return_data.push(investor);
+            return_data.push(counter);
 
             console.log('loaner length : ' + return_data[0].length);
             console.log('investor length : ' + return_data[1].length);

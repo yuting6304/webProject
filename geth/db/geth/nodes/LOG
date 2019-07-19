@@ -471,3 +471,39 @@
 14:43:39.322690 table@remove removed @94
 14:43:54.545125 db@close closing
 14:43:54.545343 db@close done T·206.669µs
+=============== Jul 19, 2019 (CST) ===============
+13:33:04.964366 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+13:33:05.057517 version@stat F·[0 1] S·180B[0B 180B] Sc·[0.00 0.00]
+13:33:05.057610 db@open opening
+13:33:05.057840 journal@recovery F·1
+13:33:05.058262 journal@recovery recovering @105
+13:33:05.116049 memdb@flush created L0@108 N·1 S·164B "n:\xdd..seq,v66":"n:\xdd..seq,v66"
+13:33:05.116633 version@stat F·[1 1] S·344B[164B 180B] Sc·[0.25 0.00]
+13:33:05.207174 db@janitor F·4 G·0
+13:33:05.207262 db@open done T·149.624289ms
+14:01:09.680754 db@close closing
+14:01:09.680910 db@close done T·152.758µs
+=============== Jul 19, 2019 (CST) ===============
+14:01:20.528524 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:01:20.528712 version@stat F·[1 1] S·344B[164B 180B] Sc·[0.25 0.00]
+14:01:20.528724 db@open opening
+14:01:20.528766 journal@recovery F·1
+14:01:20.528850 journal@recovery recovering @109
+14:01:20.560814 memdb@flush created L0@111 N·1 S·164B "n:\xdd..seq,v68":"n:\xdd..seq,v68"
+14:01:20.561159 version@stat F·[2 1] S·508B[328B 180B] Sc·[0.50 0.00]
+14:01:20.662643 db@janitor F·5 G·0
+14:01:20.662687 db@open done T·133.95441ms
+14:21:03.295921 db@close closing
+14:21:03.295986 db@close done T·65.093µs
+=============== Jul 19, 2019 (CST) ===============
+14:21:10.487405 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:21:10.487542 version@stat F·[2 1] S·508B[328B 180B] Sc·[0.50 0.00]
+14:21:10.487552 db@open opening
+14:21:10.487604 journal@recovery F·1
+14:21:10.487707 journal@recovery recovering @112
+14:21:10.530343 memdb@flush created L0@114 N·1 S·164B "n:\xdd..seq,v70":"n:\xdd..seq,v70"
+14:21:10.530613 version@stat F·[3 1] S·672B[492B 180B] Sc·[0.75 0.00]
+14:21:10.632427 db@janitor F·6 G·0
+14:21:10.632487 db@open done T·144.924476ms
+14:21:22.299814 db@close closing
+14:21:22.299985 db@close done T·164.876µs

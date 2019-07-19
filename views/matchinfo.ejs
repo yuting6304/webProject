@@ -137,18 +137,18 @@
                             <th>實際借款金額</th>                
                         </tr>
                         <% if(i == 0) { %>
-                            <% for(let j = 0; j < counter[i+1]*5; j+=5) { %>
+                            <% for(let j = 0, k = 1; j < counter[i+1]*5; j+=5, k++) { %>
                                 <tr class = "datas_data"></tr>
-                                    <td><%= j/5+1 %></td>
+                                    <td><%= k %></td>
                                     <td><%= info[j] %></td>
                                     <td>$ <%= info[j+1] %></td>
                                     <td>$ <%= info[j+1]-info[j+2] %></td>
                                 </tr>
                             <% } %>
                         <% } else { %>
-                            <% for(let j = counter[i]*5; j < counter[i+1]*5; j+=5) { %>
+                            <% for(let j = counter[i]*5, k = 1; j < counter[i+1]*5; j+=5, k++) { %>
                                 <tr class = "datas_data"></tr>
-                                    <td><%= j/5+1 %></td>
+                                    <td><%= k %></td>
                                     <td><%= info[j] %></td>
                                     <td>$ <%= info[j+1] %></td>
                                     <td>$ <%= info[j+1]-info[j+2] %></td>
