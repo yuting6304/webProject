@@ -22,7 +22,7 @@ function showMatchInfo(val){
     console.log('type : ' + invest_detail[5]);
     console.log('reason : ' + invest_detail[6]);
 
-    var serverURL = "http://localhost:8088/member/match_Info?"+"addr="+invest_detail[12]+"&reason="+invest_detail[6]+"&mode="+"借款者";
+    var serverURL = "http://localhost:8088/member/match_Info?"+"addr="+invest_detail[12]+"&reason="+invest_detail[6]+"&mode="+"貸款者";
     var xhr = new XMLHttpRequest();
     xhr.open('POST',serverURL,true);
     xhr.withCredentials=false;

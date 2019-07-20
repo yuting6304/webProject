@@ -118,11 +118,11 @@ router.get('/match_Info', function(req, res, next) {
             console.log(err);
         }
         else{
-            if(match_mode == "貸款者"){
-                res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "貸款者" });
+            if(match_mode == "借款者"){
+                res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "借款者" });
             }
             else{
-                res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "借款者" });
+                res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "貸款者" });
             }
         }
     });
@@ -203,7 +203,7 @@ function getMatchInfo(username, addr, match_mode,callback){
 
         let return_data = [];
 
-        if(match_mode == "貸款者"){
+        if(match_mode == "借款者"){
 
             let counter = [];
             counter.push(1);

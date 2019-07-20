@@ -8,3 +8,4 @@ miner.start(3)
 eth.mining
 miner.start(3)
 miner.start(1)
+exut

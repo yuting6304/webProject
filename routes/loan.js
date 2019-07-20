@@ -78,7 +78,7 @@ router.post('/', function(req, res, next){
                             user.transact(username, reliable, money, rate, period, loan_type, reason, addr, time);
                         });
                         // deploy_contract.deploy_crowdfunding_contract(username, money, rate, period, 259200, reason, loan_type);
-                        console.log('完成一般貸款');
+                        console.log('完成一般借款');
                     }
                 }
             });

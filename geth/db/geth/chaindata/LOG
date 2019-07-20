@@ -655,3 +655,39 @@
 14:21:10.352774 db@open done T·258.948886ms
 14:21:22.299433 db@close closing
 14:21:22.299639 db@close done T·202.861µs
+=============== Jul 20, 2019 (CST) ===============
+18:07:08.004038 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+18:07:08.054012 version@stat F·[1 3] S·5MiB[565KiB 4MiB] Sc·[0.25 0.05]
+18:07:08.054073 db@open opening
+18:07:08.054323 journal@recovery F·1
+18:07:08.146679 journal@recovery recovering @155
+18:07:08.308795 memdb@flush created L0@157 N·2 S·243B "Dat..ion,v66962":"Las..der,v66963"
+18:07:08.314996 version@stat F·[2 3] S·5MiB[565KiB 4MiB] Sc·[0.50 0.05]
+18:07:08.600878 db@janitor F·7 G·0
+18:07:08.601006 db@open done T·546.843217ms
+18:09:29.889668 db@close closing
+18:09:29.889896 db@close done T·222.293µs
+=============== Jul 20, 2019 (CST) ===============
+21:37:48.434990 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+21:37:50.202035 version@stat F·[2 3] S·5MiB[565KiB 4MiB] Sc·[0.50 0.05]
+21:37:50.202107 db@open opening
+21:37:50.231712 journal@recovery F·1
+21:37:51.273545 journal@recovery recovering @158
+21:37:55.269502 memdb@flush created L0@160 N·2 S·243B "Dat..ion,v66965":"Las..der,v66966"
+21:37:55.277325 version@stat F·[3 3] S·5MiB[565KiB 4MiB] Sc·[0.75 0.05]
+21:37:56.278889 db@janitor F·8 G·0
+21:37:56.278934 db@open done T·6.076794642s
+21:55:31.354181 table@compaction L0·3 -> L1·3 S·5MiB Q·67248
+21:55:31.536968 table@build created L1@163 N·13916 S·2MiB "\x00\x1b\xec..\"\x9f\xba,v31658":"b\x00\x00..kb!,v59725"
+21:55:31.715697 table@build created L1@164 N·26670 S·2MiB "b\x00\x00..,>\x8d,v59742":"r\x00\x00..1L\xcb,v41956"
+21:55:31.816267 table@build created L1@165 N·3629 S·758KiB "r\x00\x00..ʩ\xb7,v41968":"\xffھ..\x92\r@,v31954"
+21:55:31.816360 version@stat F·[0 3] S·4MiB[0B 4MiB] Sc·[0.00 0.05]
+21:55:31.850067 table@compaction committed F-3 S-192KiB Ke·0 D·2058 T·495.83327ms
+21:55:31.850220 table@remove removed @160
+21:55:31.850275 table@remove removed @157
+21:55:31.850371 table@remove removed @154
+21:55:31.850623 table@remove removed @151
+21:55:31.850896 table@remove removed @152
+21:55:31.850987 table@remove removed @153
+21:59:28.960635 db@close closing
+21:59:28.960854 db@close done T·219.092µs
