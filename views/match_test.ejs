@@ -3,6 +3,7 @@
 <head>
     <title>撮合測試</title>
     <link rel="stylesheet" href="/css/header.css">
+    <script type="text/javascript" src="/js/match_test.js"></script>
 </head>
 
 <body>
@@ -26,9 +27,19 @@
             <% } %>
         </ul>      
     </header>
-    <form method="POST">
-        <input type="submit" value="確定送出">
-    </form>
+    <div>
+        <button onclick="addDefaultUser1()">新增測資1</button>
+        <button onclick="showInfo1()">測資1資訊</button>
+
+        <button onclick="addDefaultUser2()">新增測資2</button>
+        <button onclick="showInfo2()">測資2資訊</button>
+
+        <button onclick="addDefaultUser3()">新增測資3</button>
+        <button onclick="showInfo3()">測資3資訊</button>
+
+
+        <button onclick="start_match()">撮合開始</button>
+    </div>
     
 </body>
 </html>

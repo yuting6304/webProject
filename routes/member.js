@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
             }
             else{
                 // console.log("username : " + data.username + ", mail address : " + data.Email);
-                res.render('member', { title: 'Log out', account: req.session.username, username: data.username, mail_addr: data.Email});
+                res.render('member', { title: 'Log out', account: req.session.username, username: data.username, reliability: data.reliability, mail_addr: data.Email});
             }
         })
             

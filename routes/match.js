@@ -49,7 +49,7 @@ router.post('/', function(req, res, next){
                         deploy_contract.unlock_account();
                         matchMaker.addUser('INVESTOR', username, invest_money, rate, reliable, addr);
                         // matchMaker.showAllInfo(addr);
-                        user.invest(username, "撮合者", reliable, 0, invest_money, rate, period, "撮合", reason, addr, time);
+                        user.invest(username, "撮合者", '無', 0, invest_money, rate, period, "撮合", reason, addr, time);
                         setTimeout(showInfo, 10000, addr);                            
                     }
                     else{
