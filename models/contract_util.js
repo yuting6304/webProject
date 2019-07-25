@@ -83,6 +83,35 @@ function getReturnAmount(username, callback){
 }
 
 
+function getOtherReturnAmount(username, callback){
+    user.getUserMoneyData(username, function(err, data){
+        if(err){
+            console.log(err);
+        }
+        else{
+            deploy_contract.unlock_account();
+            let size = data.length;
+            let result = [];
+            let amount = [];
+            let time = [];
+
+            for(let i = 0; i < size; i++){
+                let rest = return_money.show_RESTAMOUNT(data[i]);
+                amount.push(rest);
+            }
+            for(let i = 0; i < size; i++){
+                let t = return_money.show_DURATION(data[i]).toNumber();
+                time.push(t);
+            }
+
+            result.push(amount);
+            result.push(time);
+            callback(null, result);
+        }
+    });
+}
+
 module.exports.getCurrentAmount = getCurrentAmount;
 module.exports.getRestTime = getRestTime;
 module.exports.getReturnAmount = getReturnAmount;
+module.exports.getOtherReturnAmount = getOtherReturnAmount;

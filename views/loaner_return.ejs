@@ -4,9 +4,9 @@
     <link rel="stylesheet" href="/css/user.css">
     <link rel="stylesheet" href="/css/user_lb.css ">
     <link rel="stylesheet" href="/css/header.css">
-    <script type="text/javascript" src="/js/member_return.js"></script>
+    <script type="text/javascript" src="/js/loaner_return.js"></script>
 
-    <title>My Return Money</title>
+    <title>Other Return Money</title>
 </head>
 <body>
 
@@ -46,16 +46,15 @@
             <table class = "datas" id="table">
                 <tr>
                     <th>編號</th>
-                    <th>貸方</th>
-                    <th>投資金額</th>
+                    <th>借方</th>
+                    <th>借款金額</th>
                     <th>利率</th>
                     <th>期數</th>
-                    <th>投資原因</th>
-                    <th>投資方式</th>
+                    <th>借款原因</th>
+                    <th>借款方式</th>
                     <th>投資時間</th>
                     <th>剩餘需還款金額</th>   
                     <th>剩餘時間</th>
-                    <th>還款</th>   
                     <th>查看還款完成紀錄</th>                    
                 </tr>
                 <% for(let i = 0; i < data[0].length; i++) { %>
@@ -72,12 +71,10 @@
                                 <td><%= time[i] %></td>
 
                                 <% if(data[j][i] == -1) { %>
-                                    <td><button type="button" onclick="reMoney(this)">我要還錢</button></td>
                                     <td><button type="button" id="click" onclick="showReturnInfo(this)">click</button></td>
                                 
                                 <% } else { %>
-                                    <td><button type="button" disabled>我要還錢</button></td>
-                                    <td><button type="button"  id="click">click</button></td>
+                                    <td><button type="button" id="click" onclick="showReturnInfo(this)">click</button></td>
 
                                     <!-- <td>已結束</td>
                                     <% if(data[7][i] == "一般") { %>

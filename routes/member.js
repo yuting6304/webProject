@@ -20,6 +20,7 @@ var getName;
 /* GET home page. */
 router.get('/', function(req, res, next) {
     if(req.session.logined){
+        getName = req.session.username;
         user.getUserData(req.session.username, function(err, data){
             if(err){
                 console.log(err);
@@ -78,7 +79,6 @@ router.get('/myInvest', function(req, res, next) {
 
 router.get('/myReturn', function(req, res, next) {
     if(req.session.logined){
-        getName = req.session.username;
         user.getUserReturnData(req.session.username, function(err, data){
             if(err){
                 console.log(err);
@@ -129,10 +129,43 @@ router.get('/return_waiting', function(req, res, next) {
         res.render('return_waiting', { title: 'Log out', account: req.session.username});
     }
     else{
-        res.render('return_waiting', { title: 'Sign in', account: 'Sign up'});
+        res.redirect('login');
     }
 });
 
+router.get('/myMoney', function(req, res, next) {
+
+    if(req.session.logined){
+        user.getOtherReturnData(req.session.username, function(err, data){
+            if(err){
+                console.log(err);
+            }
+            else{
+                gethUtil.getOtherReturnAmount(req.session.username, function(err, result){
+                    console.log('time : ' + result[1]);
+                    console.log('amount : ' + result[0]);
+                    res.render('loaner_return', { title: 'Log out', account: req.session.username, time: result[1], amount: result[0], data: data });
+                });
+            }
+        })       
+    }
+    else{
+        res.redirect('login');
+    }
+});
+
+router.post('/myMoney', function(req, res, next) {
+
+    let name = req.query.user;
+    let addr = req.query.addr;
+    let time = moment().format('MMMM Do YYYY, h:mm:ss a');
+
+
+    console.log('investigator : ' + name);   
+    console.log('loaner : ' + getName);   
+    console.log('addr : ' + addr);
+    console.log('time : ' + time);
+});
 
 router.get('/transact_Info', function(req, res, next) {
     if(req.session.logined){

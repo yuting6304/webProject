@@ -47,7 +47,7 @@
                 </tr>
                 <tr class = "datas_data">
                     <td><%= investigator.investigator %></td>
-                    <td>＄ <%= investigator.money %></td>
+                    <td>$ <%= investigator.money %></td>
                     <td><%= investigator.rate %> %</td>
                     <td><%= investigator.period %> 期</td>
                     <td><%= investigator.loan_reason %></td>
@@ -56,26 +56,29 @@
                 </tr>
             </table>
             <table class = "datas">
-                <p>我的還款紀錄</p>
+                <p>還款紀錄</p>
                 <tr>
                     <th>編號</th>
                     <th>還款金額</th>
                     <th>還款時間</th>                 
                 </tr>
                 <% let total_money = 0; %>
+                <% let rest_money = 0; %>
+
                 <% for(let i = 0; i < loaner.length; i++) { %>
                     <tr class = "datas_data" id="table_data">
                         <td><%= i+1 %></td>
                         <td>＄ <%= loaner[i].money %></td>
                         <td><%= loaner[i].time %></td>
-                        <% total_money += loaner[i].money %>
+                        <% total_money += loaner[i].money; %>
                     </tr>
                 <% } %>
             </table>
-
+            <% rest_money = investigator.money-total_money; %>
             <br>
-            <span>目前還款金額 ： <%= total_money %></span>
-
+            <span>目前還款金額 ： $ <%= total_money %></span><br>
+            <span>仍需還款金額 ： $ <%= rest_money %></span><br>
+            
         </section>
     </main>
 </body>
