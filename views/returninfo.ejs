@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/css/user.css">
+    <link rel="stylesheet" href="/css/user_lb.css ">
+    <link rel="stylesheet" href="/css/header.css">
+    <!-- <script type="text/javascript" src="/js/member_invest.js"></script> -->
+
+    <title>Return Money Information</title>
+</head>
+<body>
+
+    <header class="nav">
+        <ul>
+            <li><a class="active" href="/">Home</a></li>
+            <li><a href="#news">News</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="/intro">About</a></li>
+
+            <!-- <div class="login">  -->
+
+            <% if(title == "Sign in") { %>
+                <li class="nav_signin"><a href="/login"><%= title%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/logout"><%= title%></a></li>
+            <% } %>
+                
+            <% if(account == "Sign up") { %>
+                <li class="nav_signin"><a href="/register"><%= account%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/member"><%= account%></a></li>
+            <% } %>
+        </ul>    
+    </header>
+    <main class="user">
+        <section class="user_data">
+            <table class = "datas">
+                <p>貸方</p>
+                <tr>
+                    <th>貸方</th>
+                    <th>投資金額</th>
+                    <th>利率</th>
+                    <th>期數</th>
+                    <th>投資原因</th>
+                    <th>投資方式</th>
+                    <th>投資時間</th>
+                </tr>
+                <tr class = "datas_data">
+                    <td><%= investigator.investigator %></td>
+                    <td>＄ <%= investigator.money %></td>
+                    <td><%= investigator.rate %> %</td>
+                    <td><%= investigator.period %> 期</td>
+                    <td><%= investigator.loan_reason %></td>
+                    <td><%= investigator.loan_type %></td>
+                    <td><%= investigator.time %></td>
+                </tr>
+            </table>
+            <table class = "datas">
+                <p>我的還款紀錄</p>
+                <tr>
+                    <th>編號</th>
+                    <th>還款金額</th>
+                    <th>還款時間</th>                 
+                </tr>
+                <% let total_money = 0; %>
+                <% for(let i = 0; i < loaner.length; i++) { %>
+                    <tr class = "datas_data" id="table_data">
+                        <td><%= i+1 %></td>
+                        <td>＄ <%= loaner[i].money %></td>
+                        <td><%= loaner[i].time %></td>
+                        <% total_money += loaner[i].money %>
+                    </tr>
+                <% } %>
+            </table>
+
+            <br>
+            <span>目前還款金額 ： <%= total_money %></span>
+
+        </section>
+    </main>
+</body>
+</html>

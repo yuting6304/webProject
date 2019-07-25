@@ -16,13 +16,13 @@ body{
 }
 
 .user_sidenav{
-    height: 80px;
+    height: 100px;
     width: 10%;
     background-color: #DADAD9;
     border-radius: 5px 0 0 5px;
 }
 .sidenav_block {
-    height: 33.3%;
+    height: 25%;
     text-align: center;
     display: block;
     text-decoration: none;

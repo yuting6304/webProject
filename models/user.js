@@ -83,6 +83,12 @@ function store_contract(addr, group, time){
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
+function return_money(rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, time){
+    let  addSql = 'rtmoney(rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, time) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)';
+    let  addSqlParams = [rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, time];
+    dbConnection.setDBData(addSql, addSqlParams);
+}
+
 function getUserMail(username, callback){
     dbConnection.getDBData('users', function(err, data){
         if(err){
@@ -395,6 +401,55 @@ function getUserInvestData(username, callback){
             result_data.push(invest_reason);
             result_data.push(invest_type);
             result_data.push(invest_money);
+            result_data.push(time);
+            result_data.push(status);
+            result_data.push(addr);
+            callback(null, result_data);
+        }
+    });
+}
+
+function getUserReturnData(username, callback){
+    dbConnection.getDBData('rtmoney', function(err, data){
+        if(err){
+            console.log(err);
+        }
+        else{
+            let size = data.length;
+            let idx = 0;
+            let result_data = [];
+            let index = [];
+            let investigator = [];
+            let money = [];
+            let loan_rate = [];
+            let loan_period = [];
+            let loan_reason = [];
+            let loan_type = [];
+            let status = [];
+            let addr = [];
+            let time = [];
+            for(let i = 0; i < size; i++){
+                if(data[i].loaner == username && data[i].role == "貸方"){
+                    idx = idx+1;
+                    index.push(idx);
+                    investigator.push(data[i].investigator);
+                    money.push(data[i].money);
+                    loan_rate.push(data[i].rate);
+                    loan_period.push(data[i].period);
+                    loan_reason.push(data[i].loan_reason);
+                    loan_type.push(data[i].loan_type)
+                    status.push(data[i].status);
+                    time.push(data[i].time);
+                    addr.push(data[i].contract_addr);
+                }
+            }
+            result_data.push(index);
+            result_data.push(investigator);
+            result_data.push(money);
+            result_data.push(loan_rate);
+            result_data.push(loan_period);
+            result_data.push(loan_reason);
+            result_data.push(loan_type);
             result_data.push(time);
             result_data.push(status);
             result_data.push(addr);
@@ -745,10 +800,67 @@ function getUserLoanRestMoney(username, addr){
     });
 }
 
+function getReturnMoneyData(username, callback){
+    dbConnection.getDBData('rtmoney', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            let addr = [];
+            for(let i = 0; i < size; i++){
+                if(data[i].loaner == username && data[i].role == "貸方"){
+                    addr.push(data[i].contract_addr);
+                }
+            }
+            callback(null, addr);
+        }
+    });
+}
+
+function getReturnInvestigator(addr, callback){
+    dbConnection.getDBData('rtmoney', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            for(let i = 0; i < size; i++){
+                if(data[i].role == "貸方" && data[i].contract_addr == addr){
+                    callback(null, data[i]); 
+                    return;
+                }
+            }
+            callback(null, -1);
+        }
+    });
+}
+
+function getReturnLoaner(addr, callback){
+    dbConnection.getDBData('rtmoney', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            let result = [];
+            for(let i = 0; i < size; i++){
+                if(data[i].role == "借方" && data[i].contract_addr == addr && data[i].rtcontract_addr == addr){
+                    result.push(data[i]);
+                }
+            }
+            callback(null, result);
+
+        }
+    });
+}
+
+
 module.exports.reg = reg;
 module.exports.transact = transact;
 module.exports.invest = invest;
 module.exports.store_contract = store_contract;
+module.exports.return_money = return_money;
 module.exports.getUserMail = getUserMail;
 
 module.exports.regMail = regMail;
@@ -763,6 +875,7 @@ module.exports.getUserData = getUserData;
 module.exports.getUserLoanData = getUserLoanData;
 module.exports.getUserInvestData = getUserInvestData;
 module.exports.getNormalLoanData = getNormalLoanData;
+module.exports.getUserReturnData = getUserReturnData;
 module.exports.getAddressData = getAddressData;
 
 module.exports.getTransaction = getTransaction;
@@ -777,3 +890,8 @@ module.exports.getContractAddr = getContractAddr;
 module.exports.getNormalTransactionAddr = getNormalTransactionAddr;
 module.exports.getUserInvestRestMonry = getUserInvestRestMonry;
 module.exports.getUserLoanRestMoney = getUserLoanRestMoney;
+module.exports.getReturnMoneyData = getReturnMoneyData;
+module.exports.getReturnInvestigator = getReturnInvestigator;
+module.exports.getReturnLoaner = getReturnLoaner;
+
+

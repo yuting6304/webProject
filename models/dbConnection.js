@@ -28,6 +28,7 @@ function connectDB(callback){
         
         let createInvest = 'create table if not exists invest(id int not null auto_increment, investigator varchar(30) not null, loaner varchar(30) not null, reliability varchar(1) not null, money int not null, invest_money int not null, rest_money int not null default -1, rate float not null, period int not null, loan_type varchar(20) not null, loan_reason varchar(250) not null, contract_addr varchar(50) not null, status int not null default 1, time varchar(100) not null, primary key(id)) DEFAULT CHARSET=utf8';        
 
+        let createRTMoney = 'create table if not exists rtmoney(id int not null auto_increment, rtID int not null, role varchar(5) not null, investigator varchar(30) not null, loaner varchar(30) not null, money int not null, rate float not null, period int not null, loan_type varchar(20) not null, loan_reason varchar(250) not null, rtcontract_addr varchar(50) not null, contract_addr varchar(50) not null, status int not null default -1, time varchar(100) not null, primary key(id)) DEFAULT CHARSET=utf8';
 
         connection.query(createUsers, function(err, results, fields){
             if(err){
@@ -59,6 +60,14 @@ function connectDB(callback){
             }
             else{
                 console.log("Mysql(table): contract has been created");
+            }
+        });
+        connection.query(createRTMoney, function(err, results, fields){
+            if(err){
+                console.log(err.message);
+            }
+            else{
+                console.log("Mysql(table): rtmoney has been created");
                 callback(null, 1);
             }
         });

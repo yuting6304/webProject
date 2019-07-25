@@ -3,7 +3,7 @@ var dbConnection = require('./dbConnection');
 var matchMaker = require('../geth/call_MatchMaker');
 var deploy_contract = require('../geth/deploy_contract');
 var crowd_fund = require('../geth/call_CrowdFunding');
-
+var return_money = require('../geth/call_ReturnMoney');
 
 function getCurrentAmount(callback){
     user.getNormalLoanData(function(err, data){
@@ -54,6 +54,35 @@ function getRestTime(callback){
 }
 
 
+function getReturnAmount(username, callback){
+    user.getReturnMoneyData(username, function(err, data){
+        if(err){
+            console.log(err);
+        }
+        else{
+            deploy_contract.unlock_account();
+            let size = data.length;
+            let result = [];
+            let amount = [];
+            let time = [];
+
+            for(let i = 0; i < size; i++){
+                let rest = return_money.show_RESTAMOUNT(data[i]);
+                amount.push(rest);
+            }
+            for(let i = 0; i < size; i++){
+                let t = return_money.show_DURATION(data[i]).toNumber();
+                time.push(t);
+            }
+
+            result.push(amount);
+            result.push(time);
+            callback(null, result);
+        }
+    });
+}
+
 
 module.exports.getCurrentAmount = getCurrentAmount;
 module.exports.getRestTime = getRestTime;
+module.exports.getReturnAmount = getReturnAmount;

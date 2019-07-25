@@ -1,14 +1,21 @@
 var express = require('express');
+var moment = require('moment');
 var user = require('../models/user');
 var crowd_fund = require('../geth/call_CrowdFunding');
 var deploy_contract = require('../geth/deploy_contract');
 var matchMaker = require('../geth/call_MatchMaker');
+var gethUtil = require('../models/contract_util');
+var return_money = require('../geth/call_ReturnMoney');
+
 
 var router = express.Router();
 var transaction_addr;
 var match_addr;
 var match_reason;
 var match_mode;
+var return_addr;
+var return_name;
+var getName;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -66,6 +73,63 @@ router.get('/myInvest', function(req, res, next) {
     else{
         res.redirect('login');
         // res.render('member_loan', { title: 'Sign in', account: 'Sign up', username: '', mail_addr: ''});
+    }
+});
+
+router.get('/myReturn', function(req, res, next) {
+    if(req.session.logined){
+        getName = req.session.username;
+        user.getUserReturnData(req.session.username, function(err, data){
+            if(err){
+                console.log(err);
+            }
+            else{
+                gethUtil.getReturnAmount(req.session.username, function(err, result){
+                    console.log('time : ' + result[1]);
+                    console.log('amount : ' + result[0]);
+                    res.render('member_return', { title: 'Log out', account: req.session.username, time: result[1], amount: result[0], data: data });
+                });
+            }
+        })       
+    }
+    else{
+        res.redirect('login');
+        // res.render('member_loan', { title: 'Sign in', account: 'Sign up', username: '', mail_addr: ''});
+    }
+});
+
+
+router.post('/myReturn', function(req, res, next) {
+    let name = req.query.user;
+    let addr = req.query.addr;
+    let msg = parseInt(req.query.msg, 10);
+    let time = moment().format('MMMM Do YYYY, h:mm:ss a');
+
+
+    console.log('investigator : ' + name);   
+    console.log('loaner : ' + getName);   
+    console.log('msg : ' + msg);
+    console.log('addr : ' + addr);
+    console.log('time : ' + time);
+
+
+    deploy_contract.unlock_account();
+    return_money.fund(getName, msg, addr);
+    user.return_money(0, "借方", name, getName, msg, 0, 0, "一般", 'reason', addr, addr, time);
+
+    setTimeout(update, 10000, addr);            
+    setTimeout(showResult, 30000, addr);
+
+
+});
+
+router.get('/return_waiting', function(req, res, next) {
+
+    if(req.session.logined){
+        res.render('return_waiting', { title: 'Log out', account: req.session.username});
+    }
+    else{
+        res.render('return_waiting', { title: 'Sign in', account: 'Sign up'});
     }
 });
 
@@ -146,6 +210,60 @@ router.post('/match_Info', function(req, res, next) {
     console.log("POST reason = " + match_reason);
     console.log("POST mode = " + match_mode);
 });
+
+router.get('/return_Info', function(req, res, next){
+    if(req.session.logined){
+        showReturnMoneyInfo(return_addr, function(err, data){
+            res.render('returninfo', { title: 'Log out', account: req.session.username, investigator: data[0], loaner: data[1] });
+        });
+    }
+    else{
+        res.render('returninfo', { title: 'Sign in', account: 'Sign up'});
+    }
+
+});
+
+router.post('/return_Info', function(req, res, next){
+    return_name = req.query.user;
+    return_addr = req.query.addr;
+    let time = moment().format('MMMM Do YYYY, h:mm:ss a');
+
+
+    console.log('investigator : ' + return_name);   
+    console.log('loaner : ' + getName);   
+    console.log('addr : ' + return_addr);
+    console.log('time : ' + time);
+
+});
+
+
+function showReturnMoneyInfo(addr, callback){
+    user.getReturnInvestigator(addr, function(err, investigator){
+        if(err){
+            console.log(err);
+        }
+        else{
+            if(investigator == -1){
+                console.log('no data');
+            }
+            else{
+                let return_detail = [];
+
+                user.getReturnLoaner(addr, function(err, loaner){
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        return_detail.push(investigator);
+                        return_detail.push(loaner);
+                        callback(null, return_detail);
+                    }
+                });
+            }
+        }
+    });
+}
+
 
 // formal transaction result
 function getInfo(addr, callback){
@@ -316,6 +434,29 @@ function getMatchInfo(username, addr, match_mode,callback){
     }
     
 
+}
+
+
+function update(ADDR){
+    return_money.upDateContract(ADDR);
+    console.log("update finish");
+}
+
+function showResult(ADDR){
+   
+    let rest = return_money.show_RESTAMOUNT(ADDR);
+    let time = return_money.show_DURATION(ADDR).toNumber();
+
+    console.log(return_money.getResult(ADDR));
+    console.log("rest : " + rest);
+
+    if(rest == 0 || time == 0){
+        update(ADDR);
+        console.log('RESULT : ' + return_money.getResult(ADDR));
+        let modSql = 'rtmoney SET status = ? WHERE contract_addr = ?';
+        let modSqlParams = [1, ADDR];
+        dbConnection.updateData(modSql, modSqlParams);
+    }
 }
 
 

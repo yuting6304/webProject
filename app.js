@@ -73,8 +73,11 @@ var introRouter = require('./routes/intro');
 var memberRouter = require('./routes/member');
 var memberloanRouter = require('./routes/member');
 var memberinvestRouter = require('./routes/member');
+var memberreturnRouter = require('./routes/member');
 var transactinfoRouter = require('./routes/member');
 var matchinfoRouter = require('./routes/member');
+var returninfoRouter = require('./routes/member');
+
 
 var registerRouter = require('./routes/register');
 var loanRouter = require('./routes/loan');
@@ -88,6 +91,7 @@ var confirmRouter = require('./routes/confirm');
 var logoutRouter = require('./routes/logout');
 
 var investwaitRouter = require('./routes/invest_waiting');
+var returnwaitRouter = require('./routes/member');
 
 
 app.use('/', indexRouter);
@@ -96,8 +100,11 @@ app.use('/intro', introRouter);
 app.use('/member', memberRouter);
 app.use('/member/myLoan', memberloanRouter);
 app.use('/member/myInvest', memberinvestRouter);
+app.use('/member/myReturn', memberreturnRouter);
+
 app.use('/member/transact_Info', transactinfoRouter);
 app.use('/member/match_Info', matchinfoRouter);
+app.use('/member/return_Info', returninfoRouter);
 
 app.use('/register', registerRouter);
 app.use('/loan', loanRouter);
@@ -113,6 +120,7 @@ app.use('/invest/changeStatus', investStatusRouter);
 
 app.use('/match_test', matchTestRouter);
 app.use('/invest_waiting', investwaitRouter);
+app.use('/member/return_waiting', returnwaitRouter);
 
 
 // app.use('/register1', register1Router);

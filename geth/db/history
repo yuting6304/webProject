@@ -1,14 +1,7 @@
-
+eth.accounts
 eth.mining
-miner.start(2)
+eth.accounts
 miner.start(1)
-miner.start(3)
 miner.start(10)
-miner.start(3)
-eth.mining
-miner.start(3)
-miner.start(1)
-exut
-miner.start(3)
-exut
+miner.stop()
 miner.start(3)

@@ -27,6 +27,7 @@ router.post('/', function(req, res, next){
     let rate = req.body['rate'];
     let period = req.body['period'];
     let reason = req.body['reason'];
+    let reliability = req.body['reliability'];
     let time = moment().format('MMMM Do YYYY, h:mm:ss a');
 
 
@@ -35,30 +36,24 @@ router.post('/', function(req, res, next){
     console.log("period : " + period + ", reason : " + reason);
     console.log('time : ' + time);
 
-    user.getUserReliable(username, function(err, reliable){
+
+    user.getContractAddr(reason, function(err, addr){
         if(err){
             console.log(err);
         }
         else{
-            user.getContractAddr(reason, function(err, addr){
-                if(err){
-                    console.log(err);
-                }
-                else{
-                    if(addr != '' || addr != undefined){
-                        deploy_contract.unlock_account();
-                        matchMaker.addUser('INVESTOR', username, invest_money, rate, reliable, addr);
-                        // matchMaker.showAllInfo(addr);
-                        user.invest(username, "撮合者", '無', 0, invest_money, rate, period, "撮合", reason, addr, time);
-                        setTimeout(showInfo, 10000, addr);                            
-                    }
-                    else{
-                        console.log('select contract failed!');
-                    }
-                }
-            });
+            if(addr != '' || addr != undefined){
+                deploy_contract.unlock_account();
+                matchMaker.addUser('INVESTOR', username, invest_money, rate, reliability, addr);
+                // matchMaker.showAllInfo(addr);
+                user.invest(username, "撮合者", reliability, 0, invest_money, rate, period, "撮合", reason, addr, time);
+                setTimeout(showInfo, 10000, addr);                            
+            }
+            else{
+                console.log('select contract failed!');
+            }
         }
-    });
+    });   
 
     res.redirect('/');
 });

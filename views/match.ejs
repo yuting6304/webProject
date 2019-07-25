@@ -8,44 +8,6 @@
     <script type="text/javascript" src="/js/loan.js"></script>
 
 </head>
-
-<script>
-
-    // $(document).ready(function(){
-    //     let money, rate, period, /*credit,*/ reason;
-    //     let pass_str;
-        
-    //     $("#nx").click(function(){
-    //         money=$("#money").val();
-    //         rate=$("#rate").val();
-    //         period=$("#period").val();
-    //         // credit=$("#credit").val();
-    //         reason=$("#reason").val();
-    //         pass_str="";
-    //         if(rate>0 && rate<=12 && money!="" && rate!="" && period!="" && reason!="" && pass_str==""){
-    //             $.post("https://localhost:8080/loan",{money: money, rate: rate, period: period, reason: reason, pass_str: pass_str}, function(data){
-    //                 console.log(data);
-    //             });
-    //         }
-            
-    //     });
-
-    //     $("#send").click(function(){
-    //         money=$("#money").val();
-    //         rate=$("#rate").val();
-    //         period=$("#period").val();
-    //         // credit=$("#credit").val();
-    //         reason=$("#reason").val();
-    //         pass_str=$("#pass_str").val();
-    //         if(rate>0 && rate<=12 && money!="" && rate!="" && period!="" && reason!="" && pass_str!=""){
-    //             $.post("https://localhost:8080/loan",{pass_str: pass_str}, function(data){
-    //                 console.log(data);
-    //             });
-    //         }
-    //     });
-    // });
-
-</script>
 <body>
     <header class="nav">
         <ul>
@@ -86,6 +48,14 @@
                 想要投資的期數(每月一期) <span>*</span><br/>
                     <input id="period" name="period" type="text" pattern="[^a-zA-Z]*" required >
                     <span class="ok">ok</span><br/>
+                最低可接受的借方信用評價 <span>*</span><br/>
+                <select id="reliability" name="reliability" required>
+                    <option value=""> Select a reliability level </option>
+                    <option value="A"> A </option>
+                    <option value="B"> B </option>
+                    <option value="C"> C </option>
+                </select> 
+                <br/>
                 有興趣的投資理由 <span>*</span><br/>
                     <select id="reason" name="reason" required>
                         <option value=""> Select your reason </option>

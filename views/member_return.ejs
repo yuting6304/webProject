@@ -4,9 +4,9 @@
     <link rel="stylesheet" href="/css/user.css">
     <link rel="stylesheet" href="/css/user_lb.css ">
     <link rel="stylesheet" href="/css/header.css">
-    <script type="text/javascript" src="/js/member_invest.js"></script>
+    <script type="text/javascript" src="/js/member_return.js"></script>
 
-    <title>My Invest Data</title>
+    <title>My Return Money</title>
 </head>
 <body>
 
@@ -39,45 +39,54 @@
             <a class="sidenav_block" href="/member/myLoan">我的借款</a>
             <a class="sidenav_block" href="/member/myInvest">我的投資</a>
             <a class="sidenav_block" href="/member/myReturn">我要還錢</a>
+
         </div>
+        <span id="time" style="display: none"><%= time %></span>
         <section class="user_data">
-            <table class = "datas">
+            <table class = "datas" id="table">
                 <tr>
                     <th>編號</th>
-                    <th>借方</th>
-                    <th>借方信用評價</th>
-                    <th>借款金額</th>
+                    <th>貸方</th>
+                    <th>投資金額</th>
                     <th>利率</th>
                     <th>期數</th>
-                    <th>借款原因</th>
-                    <th>借款方式</th>
-                    <th>投資金額</th>
+                    <th>投資原因</th>
+                    <th>投資方式</th>
                     <th>投資時間</th>
-                    <th>狀態</th>   
-                    <th>查看貸款完成紀錄</th>                    
+                    <th>剩餘需還款金額</th>   
+                    <th>剩餘時間</th>
+                    <th>還款</th>   
+                    <th>查看還款完成紀錄</th>                    
                 </tr>
                 <% for(let i = 0; i < data[0].length; i++) { %>
                     <tr class = "datas_data">
-                        <% for(let j = 0; j < 12; j++) { %>
-                            <% if(j == 3 || j == 8) { %>
+                        <% for(let j = 0; j < 10; j++) { %>
+                            <% if(j == 2) { %>
                                 <td>$ <%= data[j][i] %></td>
-                            <% } else if(j == 4) { %>
+                            <% } else if(j == 3) { %>
                                 <td><%= data[j][i] %> %</td>
-                            <% } else if(j == 5) { %>
+                            <% } else if(j == 4) { %>
                                 <td><%= data[j][i] %> 期</td>
-                            <% } else if(j == 10) { %>
-                                <% if(data[j][i] == 1) { %>
-                                    <td>等待中</td>
-                                    <td><button type="button" disabled id="click">click</button></td>
+                            <% } else if(j == 8) { %>
+                                <td><%= amount[i] %></td>
+                                <td><%= time[i] %></td>
+
+                                <% if(data[j][i] == -1) { %>
+                                    <td><button type="button" onclick="reMoney(this)">我要還錢</button></td>
+                                    <td><button type="button" id="click" onclick="showReturnInfo(this)">click</button></td>
+                                
                                 <% } else { %>
-                                    <td>已結束</td>
+                                    <td><button type="button" disabled>我要還錢</button></td>
+                                    <td><button type="button"  id="click">click</button></td>
+
+                                    <!-- <td>已結束</td>
                                     <% if(data[7][i] == "一般") { %>
                                         <td><button type="button" id="click" onclick="showTransactInfo(this)">click</button></td>
                                     <% } else { %>
                                         <td><button type="button" id="click" onclick="showMatchInfo(this)">click</button></td>
-                                    <% } %>
+                                    <% } %> -->
                                 <% } %>
-                            <% } else if(j == 11) { %>
+                            <% } else if(j == 9) { %>
                                 <td style="display: none"><%= data[j][i] %></td>
                             <% } else { %>
                                 <td><%= data[j][i] %></td>
