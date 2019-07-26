@@ -60,3 +60,37 @@ function showInfo3(){
     xhr.send();
 }
 
+
+function result1(){
+    var serverURL = "http://localhost:8088/match_test?"+"option="+"結果1";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST',serverURL,true);
+    xhr.withCredentials=false;
+    xhr.send();
+}
+
+function result2(){
+    var serverURL = "http://localhost:8088/match_test?"+"option="+"結果2";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST',serverURL,true);
+    xhr.withCredentials=false;
+    xhr.send();
+}
+
+
+function result3(){
+    var serverURL = "http://localhost:8088/match_test?"+"option="+"結果3";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST',serverURL,true);
+    xhr.withCredentials=false;
+    xhr.send();
+}
+
+function reviseDB(){
+    var serverURL = "http://localhost:8088/match_test?"+"option="+"改DB";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST',serverURL,true);
+    xhr.withCredentials=false;
+    xhr.send();
+}
+

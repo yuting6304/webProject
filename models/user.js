@@ -718,7 +718,8 @@ function schedule_event_make_a_match(){
 
                         console.log(data[i].group_type + ": " + data[i].address);
                         matchMaker.make_a_match(data[i].address);
-                        setTimeout(updateContractStatus, 10000, data[i].address);
+                        setTimeout(updateContractStatus, 20000, data[i].address);
+                        setTimeout(addResultInDB, 30000, data[i].address, data[i].group_type);
 
                         contract_count++;
                     }
@@ -755,6 +756,61 @@ function showResult(addr){
     matchMaker.getResult(addr);
 }
 
+function addResultInDB(addr, reason){
+    deploy_contract.unlock_account();
+    let result_data = matchMaker.getResult(addr);
+    console.log('reason : ' + reason);
+    console.log(result_data);
+
+
+    let size_x = result_data.length-1;
+    console.log('x = ' + size_x);
+
+
+    if(size_x > 0){
+        let size_y = result_data[0].length;
+        let size_z = result_data[0][0].length;
+
+
+        // console.log('y = ' + size_y);
+        // console.log('z = ' + size_z);
+
+        for(let i = 0; i < size_x; i++){
+            let time = moment().format('MMMM Do YYYY, h:mm:ss a');
+            let loaner = result_data[i][0][0];
+            let investigator = result_data[i][1][0];
+            let loaner_restMoney = result_data[i][0][1]-result_data[i][0][2];
+            let investigator_restMoney = result_data[i][1][1]-result_data[i][1][2];
+            let rest_money = 0;
+            let rate = result_data[i][0][3];
+            find_period(loaner, result_data[i][0][1], addr, function(err, period){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    if(loaner_restMoney > investigator_restMoney){
+                        rest_money = investigator_restMoney;
+                    }
+                    else{
+                        rest_money = loaner_restMoney;
+                    }
+                    console.log('loaner : ' + loaner);
+                    console.log('investigator : ' + investigator);
+                    console.log('money : ' + rest_money);
+                    console.log('rate : ' + rate);
+                    console.log('period : ' + period);
+                    console.log('reason : ' + reason);
+                    console.log('addr : ' + addr);
+                    console.log('time : ' + time);
+        
+                    deploy_contract.deploy_contract("ReturnMoney.sol", investigator, rest_money, rate, period, period*2592000, reason, function(rtaddr){
+                        return_money(-1, "貸方", investigator, loaner, rest_money, rate, period, "撮合", reason, addr, rtaddr, time);                
+                    });
+                }
+            });
+        }
+    }
+}
 
 function getUserReliable(name, callback){
     dbConnection.getDBData('users', function(err, data){
@@ -922,6 +978,23 @@ function getReturnLoaner(addr, callback){
     });
 }
 
+function find_period(username, money, addr, callback){
+    dbConnection.getDBData('transaction', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            for(let i = 0; i < size; i++){
+                if(data[i].username == username && data[i].money == money && data[i].contract_addr == addr){
+                    callback(null, data[i].period);
+                    return;
+                }
+            }
+        }
+    });
+}
+
 
 module.exports.reg = reg;
 module.exports.transact = transact;
@@ -963,3 +1036,4 @@ module.exports.getReturnLoaner = getReturnLoaner;
 module.exports.getOtherReturnData = getOtherReturnData;
 module.exports.getUserMoneyData = getUserMoneyData;
 
+module.exports.find_period = find_period;

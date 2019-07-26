@@ -48,7 +48,6 @@ router.post('/', function(req, res, next){
     let type = req.query.type;
     let status = req.query.status;
     let msg = parseInt(req.query.msg, 10);
-    let time = moment().format('MMMM Do YYYY, h:mm:ss a');
 
 
     console.log('index : ' + index);

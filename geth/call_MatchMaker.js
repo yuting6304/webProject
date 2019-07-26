@@ -289,3 +289,4 @@ module.exports.make_a_match = make_a_match;
 module.exports.getResult = getResult;
 module.exports.upDateContract = upDateContract;
 module.exports.show_INVESTORS = show_INVESTORS;
+module.exports.show_DURATION = show_DURATION;
