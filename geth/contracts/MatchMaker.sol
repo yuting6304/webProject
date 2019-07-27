@@ -34,6 +34,7 @@ contract MatchMaker {
 	STATUS public status; // 募資活動的狀態
 	string newRecord = "";
 
+
 	uint public numInvestors; // 投資家數目
 	uint public numBorrowers; // 借錢家數目
 	mapping (uint => Investor) public investors; // 管理投資家的對應表（map）
@@ -53,7 +54,6 @@ contract MatchMaker {
 		numInvestors = 0;
 		numBorrowers = 0;
 		newRecord = concatString(TRANSACTION, "|");
-
 	}
 
 	function addUserInContract (string _id, string _name, uint _totalAmount, uint _interest, uint _creditRating) public aLive{
@@ -81,7 +81,7 @@ contract MatchMaker {
 		string memory Info = "";
 		uint[2] memory interest;
 		sortedUsers(true, true); // 依照利率由高到低排序好投資方跟借錢人
-		checkEqualAmount(); // 比較相等的金錢的雙方
+		Info = checkEqualAmount(); // 比較相等的金錢的雙方
 		updateCluster();
 		for (uint i = 0; i<numBorrowers; i++){
 			if (startIndex_for_borrowers[i] == 99) continue;
@@ -354,12 +354,11 @@ contract MatchMaker {
             quickSort(arr1, i, right, _id, preIndex);
     }
 
-	function checkEqualAmount() internal {
+	function checkEqualAmount() internal returns(string){
+		string memory tmpTRANSACTION = "";
 		uint interest0;
 		uint interest1;
 		for (uint i = 0; i<numBorrowers; i++){
-			interest0 = 0;
-			interest1 = 0;
 			if (borrowers[i].restAmount == 0) break;
 			for (uint j = 0; j<numInvestors; j++){
 				if (investors[j].restAmount == 0) break;
@@ -370,13 +369,14 @@ contract MatchMaker {
 					investors[j].restAmount = 0;
 					borrowers[i].interest = 0; // 為了排序的時候會跑到最後面，因此要歸0
 					investors[j].interest = 0;
-					TRANSACTION = addInTransactionRecord(TRANSACTION, i, j, interest0, interest1);
+					tmpTRANSACTION = addInTransactionRecord(tmpTRANSACTION, i, j, interest0, interest1);
 					sortedUsers(true, true);
 					i--; // 因為這個borrower重新sorted跑到最後面了，所以同一個位置要從新弄
 					break;
 				}
 			}
 		}
+		return tmpTRANSACTION;
 	}
 
 	function updateCluster() internal {
@@ -403,7 +403,6 @@ contract MatchMaker {
 
 	// name totalAmount restAmount interest creditRating
 	function addInTransactionRecord(string input, uint i, uint j, uint interest0, uint interest1) internal view returns(string){
-		
 		newRecord = concatString(newRecord, borrowers[i].name);newRecord = concatString(newRecord, "&");
 		newRecord = concatString(newRecord, convertIntToString(borrowers[i].totalAmount));newRecord = concatString(newRecord, "&");
 		newRecord = concatString(newRecord, convertIntToString(borrowers[i].restAmount));newRecord = concatString(newRecord, "&");
@@ -414,9 +413,9 @@ contract MatchMaker {
 		newRecord = concatString(newRecord, convertIntToString(investors[j].totalAmount));newRecord = concatString(newRecord, "&");
 		newRecord = concatString(newRecord, convertIntToString(investors[j].restAmount));newRecord = concatString(newRecord, "&");
 		newRecord = concatString(newRecord, convertIntToString(interest1));newRecord = concatString(newRecord, "&");
-		newRecord = concatString(newRecord, convertIntToString(investors[j].creditRating));newRecord = concatString(newRecord, "|");
+		newRecord = concatString(newRecord, convertIntToString(investors[j].creditRating));
+		newRecord = concatString(newRecord, "|");
 		return newRecord;
 	}
 
 }
-
