@@ -41,19 +41,37 @@
                     <th>借方</th>
                     <th>借方信用評價</th>
                     <th>借款金額</th>
+                    <th>最低可接受借款金額</th>
                     <th>利率</th>
                     <th>期數</th>
                     <th>借款原因</th>
-                    <th>借款方式</th>                
+                    <th>借款方式</th>
+                    <th>借款結果</th>             
                 </tr>
                 <tr class = "datas_data">
+                    <% let total_amount = 0; %>
                     <% for(let i = 0; i < 7; i++) { %>
                         <% if(i == 2) { %>
                             <td>$ <%= data[i] %></td>
+                            <td>$ <%= data[7] %></td>
                         <% } else if(i == 3) { %>
                             <td><%= data[i] %> %</td>
                         <% } else if(i == 4) { %>
                             <td><%= data[i] %> 期</td>
+                        <% } else if(i == 6) { %>
+                            <td><%= data[i] %></td>
+                            <% for(let k = 1; k < info[0].length; k++) { %>
+                                <% for(let j = 0; j < info[1].length-1; j+=3) { %>
+                                    <% if(info[0][k] == info[1][j]) { %>
+                                        <% total_amount = total_amount + parseInt(info[1][j+1]-info[1][j+2], 10); %>
+                                    <% } %>
+                                <% } %>
+                            <% } %>
+                            <% if(total_amount >= data[7]) { %>
+                                <td><%= "借款成功" %></td>
+                            <% } else { %>
+                                <td><%= "借款失敗" %></td>
+                            <% } %>
                         <% } else { %>
                             <td><%= data[i] %></td>
                         <% } %>

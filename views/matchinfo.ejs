@@ -43,6 +43,7 @@
                             <th>借方</th>
                             <th>借方信用評價</th>
                             <th>借款金額</th>
+                            <th>最低可接受借款金額</th>
                             <th>利率</th>
                             <th>借款原因</th>
                             <th>借款方式</th>
@@ -53,11 +54,12 @@
                             <td><%= data[0][0] %></td>
                             <td><%= data[0][4] %></td>
                             <td>$ <%= data[0][1] %></td>
+                            <td>$ <%= rest_money %></td>
                             <td><%= data[0][3] %> %</td>
                             <td><%= reason %></td>
                             <td>撮合</td>
                             <td>$ <%= data[0][1]-data[data.length-1][2] %></td>
-                            <% if(data[data.length-1][2] == 0) { %>
+                            <% if(data[0][1]-data[data.length-1][2] >= rest_money) { %>
                                 <td>撮合成功</td>
                             <% } else { %>
                                 <td>撮合失敗</td>
@@ -92,6 +94,7 @@
                             <th>借方</th>
                             <th>借方信用評價</th>
                             <th>借款金額</th>
+                            <th>最低可接受借款金額</th>
                             <th>利率</th>
                             <th>借款原因</th>
                             <th>借款方式</th>
@@ -103,11 +106,12 @@
                                 <td><%= data[0][0] %></td>
                                 <td><%= data[0][4] %></td>
                                 <td>$ <%= data[0][1] %></td>
+                                <td>$ <%= rest_money[i] %></td>
                                 <td><%= data[0][3] %> %</td>
                                 <td><%= reason %></td>
                                 <td>撮合</td>
                                 <td>$ <%= data[0][1]-data[counter[i+1]-1][2] %></td>
-                                <% if(data[counter[i+1]-1][2] == 0) { %>
+                                <% if(data[0][1]-data[counter[i+1]-1][2] >= rest_money[i]) { %>
                                     <td>撮合成功</td>
                                 <% } else { %>
                                     <td>撮合失敗</td>
@@ -116,6 +120,7 @@
                                 <td><%= data[counter[i]][0] %></td>
                                 <td><%= data[counter[i]][4] %></td>
                                 <td>$ <%= data[counter[i]][1] %></td>
+                                <td>$ <%= rest_money[i] %></td>
                                 <td><%= data[counter[i]][3] %> %</td>
                                 <td><%= reason %></td>
                                 <td>撮合</td>

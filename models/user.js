@@ -64,9 +64,9 @@ function reg(name, password, reliability, randstr, mailAddr){
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
-function transact(name, reliability, money, rate, period, loan_type, loan_reason, addr, time){
-    let  addSql = 'transaction(username, reliability, money, rate, period, loan_type, loan_reason, contract_addr, time) VALUES(?,?,?,?,?,?,?,?,?)';
-    let  addSqlParams = [name, reliability, money, rate, period, loan_type, loan_reason, addr, time];
+function transact(name, reliability, money, rest_money, rate, period, loan_type, loan_reason, addr, time){
+    let  addSql = 'transaction(username, reliability, money, rest_money, rate, period, loan_type, loan_reason, contract_addr, time) VALUES(?,?,?,?,?,?,?,?,?,?)';
+    let  addSqlParams = [name, reliability, money, rest_money, rate, period, loan_type, loan_reason, addr, time];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
@@ -86,6 +86,12 @@ function store_contract(addr, group, time){
 function return_money(rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, time){
     let  addSql = 'rtmoney(rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, time) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)';
     let  addSqlParams = [rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, time];
+    dbConnection.setDBData(addSql, addSqlParams);
+}
+
+function return_money_status(rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, status, time){
+    let  addSql = 'rtmoney(rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, status, time) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)';
+    let  addSqlParams = [rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, status, time];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
@@ -325,6 +331,7 @@ function getUserLoanData(username, callback){
             let status = [];
             let addr = [];
             let time = [];
+            let rest_money = [];
             for(let i = 0; i < size; i++){
                 if(data[i].username == username){
                     idx = idx+1;
@@ -337,6 +344,7 @@ function getUserLoanData(username, callback){
                     status.push(data[i].status);
                     addr.push(data[i].contract_addr);
                     time.push(data[i].time);
+                    rest_money.push(data[i].rest_money);
                 }
             }
 
@@ -349,6 +357,7 @@ function getUserLoanData(username, callback){
             result_data.push(time);
             result_data.push(status);
             result_data.push(addr);
+            result_data.push(rest_money);
             callback(null, result_data);
         }
     });
@@ -429,7 +438,7 @@ function getUserReturnData(username, callback){
             let addr = [];
             let time = [];
             for(let i = 0; i < size; i++){
-                if(data[i].loaner == username && data[i].role == "貸方"){
+                if(data[i].loaner == username && data[i].role == "貸方" && data[i].status != -1){
                     idx = idx+1;
                     index.push(idx);
                     investigator.push(data[i].investigator);
@@ -478,7 +487,7 @@ function getOtherReturnData(username, callback){
             let addr = [];
             let time = [];
             for(let i = 0; i < size; i++){
-                if(data[i].investigator == username && data[i].role == "貸方"){
+                if(data[i].investigator == username && data[i].role == "貸方" && data[i].status != -1){
                     idx = idx+1;
                     index.push(idx);
                     loaner.push(data[i].loaner);
@@ -522,6 +531,7 @@ function getAddressData(addr, callback){
             let invest_period = [];
             let invest_reason = [];
             let invest_type = [];
+            let min_money = [];
             for(let i = 0; i < size; i++){
                 if(data[i].contract_addr == addr){
                     loaner.push(data[i].username);
@@ -530,7 +540,8 @@ function getAddressData(addr, callback){
                     invest_rate.push(data[i].rate);
                     invest_period.push(data[i].period);
                     invest_reason.push(data[i].loan_reason);
-                    invest_type.push(data[i].loan_type)
+                    invest_type.push(data[i].loan_type);
+                    min_money.push(data[i].rest_money);
                 }
             }
             result_data.push(loaner);
@@ -540,6 +551,7 @@ function getAddressData(addr, callback){
             result_data.push(invest_period);
             result_data.push(invest_reason);
             result_data.push(invest_type);
+            result_data.push(min_money);
             callback(null, result_data);
         }
     });
@@ -794,17 +806,17 @@ function addResultInDB(addr, reason){
                     else{
                         rest_money = loaner_restMoney;
                     }
-                    console.log('loaner : ' + loaner);
-                    console.log('investigator : ' + investigator);
-                    console.log('money : ' + rest_money);
-                    console.log('rate : ' + rate);
-                    console.log('period : ' + period);
-                    console.log('reason : ' + reason);
-                    console.log('addr : ' + addr);
-                    console.log('time : ' + time);
+                    // console.log('loaner : ' + loaner);
+                    // console.log('investigator : ' + investigator);
+                    // console.log('money : ' + rest_money);
+                    // console.log('rate : ' + rate);
+                    // console.log('period : ' + period);
+                    // console.log('reason : ' + reason);
+                    // console.log('addr : ' + addr);
+                    // console.log('time : ' + time);
         
                     deploy_contract.deploy_contract("ReturnMoney.sol", investigator, rest_money, rate, period, period*2592000, reason, function(rtaddr){
-                        return_money(-1, "貸方", investigator, loaner, rest_money, rate, period, "撮合", reason, addr, rtaddr, time);                
+                        return_money_status(-1, "貸方", investigator, loaner, rest_money, rate, period, "撮合", reason, addr, rtaddr, 1, time);                
                     });
                 }
             });
@@ -914,7 +926,7 @@ function getReturnMoneyData(username, callback){
             let size = data.length;
             let addr = [];
             for(let i = 0; i < size; i++){
-                if(data[i].loaner == username && data[i].role == "貸方"){
+                if(data[i].loaner == username && data[i].role == "貸方" && data[i].status != -1){
                     addr.push(data[i].contract_addr);
                 }
             }
@@ -932,7 +944,7 @@ function getUserMoneyData(username, callback){
             let size = data.length;
             let addr = [];
             for(let i = 0; i < size; i++){
-                if(data[i].investigator == username && data[i].role == "貸方"){
+                if(data[i].investigator == username && data[i].role == "貸方" && data[i].status != -1){
                     addr.push(data[i].contract_addr);
                 }
             }
@@ -995,12 +1007,75 @@ function find_period(username, money, addr, callback){
     });
 }
 
+function getRestMoney(username, addr, type, callback){
+    dbConnection.getDBData('transaction', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            for(let i = 0; i < size; i++){
+                if(type == "一般"){
+                    if(data[i].contract_addr == addr){
+                        callback(null, data[i].rest_money);
+                        return;
+                    }
+                }
+                else{
+                    if(data[i].username == username && data[i].contract_addr == addr){
+                        callback(null, data[i].rest_money);
+                        return;
+                    }
+                }
+            }
+        }
+    });
+}
+
+function getMakeMatchSucc(loaner, counter, addr, callback){
+    dbConnection.getDBData('transaction', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            let counter_size = counter[0];
+            // let money = 0;
+            // let succ = [];
+            let min_money = [];
+            // console.log('here : ' + addr);            
+            // console.log('here : ' + loaner);
+            // console.log('here : ' + counter);
+
+            for(let i = 1; i <= counter_size; i++){
+                // money = loaner[counter[i]-1][1] - loaner[counter[i]-1][2];
+                // console.log('here money : ' + money);
+                for(let j = 0; j < size; j++){
+                    if(data[j].username == loaner[counter[i]-1][0] && data[j].contract_addr == addr){
+                        // if(money >= data[j].rest_money){
+                        //     succ.push(1);
+                        // }
+                        // else{
+                        //     succ.push(0);
+                        // }
+                        min_money.push(data[j].rest_money);
+                        break;
+                    }
+                }
+            }
+            // console.log('here succ :' + succ);
+            callback(null, min_money);
+        }
+    });
+}
+
 
 module.exports.reg = reg;
 module.exports.transact = transact;
 module.exports.invest = invest;
 module.exports.store_contract = store_contract;
 module.exports.return_money = return_money;
+module.exports.return_money_status = return_money_status;
 module.exports.getUserMail = getUserMail;
 
 module.exports.regMail = regMail;
@@ -1037,3 +1112,7 @@ module.exports.getOtherReturnData = getOtherReturnData;
 module.exports.getUserMoneyData = getUserMoneyData;
 
 module.exports.find_period = find_period;
+module.exports.getRestMoney = getRestMoney;
+module.exports.getMakeMatchSucc = getMakeMatchSucc;
+
+

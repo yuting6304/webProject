@@ -37,6 +37,7 @@ router.post('/', function(req, res, next){
     // let reason = req.body.reason;
     // let pass_str = req.body.pass_str;
     let money = req.body['money'];
+    let min_money = req.body['min_money'];
     let rate = req.body['rate'];
     let period = req.body['period'];
     let loan_type = req.body['loan_type'];
@@ -64,9 +65,9 @@ router.post('/', function(req, res, next){
                     if(loan_type == "撮合"){
 
                         if(addr != '' || addr != undefined){
-                            matchMaker.addUser('BORROWER', username, money, rate, 'A', addr);
+                            matchMaker.addUser('BORROWER', username, money, rate, reliable, addr);
                             setTimeout(showInfo, 10000, addr);                            
-                            user.transact(username, reliable, money, rate, period, loan_type, reason, addr, time);
+                            user.transact(username, reliable, money, min_money, rate, period, loan_type, reason, addr, time);
                         }
                         else{
                             console.log('select contract failed!');
@@ -75,7 +76,7 @@ router.post('/', function(req, res, next){
                     
                     else if(loan_type == "一般"){
                         deploy_contract.deploy_contract("CrowdFunding.sol", username, money, rate, period, 259200,  reason, function(addr){
-                            user.transact(username, reliable, money, rate, period, loan_type, reason, addr, time);
+                            user.transact(username, reliable, money, min_money, rate, period, loan_type, reason, addr, time);
                         });
                         // deploy_contract.deploy_crowdfunding_contract(username, money, rate, period, 259200, reason, loan_type);
                         console.log('完成一般借款');

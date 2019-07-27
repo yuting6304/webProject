@@ -79,94 +79,192 @@ router.post('/', function(req, res, next){
         });
     }
     else if(opt == "測資1"){
-        matchMaker.addUser('INVESTOR', "aaa", 260000, 11, "A", '0xcb786908a083781b8f1d560e96c5d126f7c485c4');
-        matchMaker.addUser('INVESTOR', "bbb", 220000, 22, "B", '0xcb786908a083781b8f1d560e96c5d126f7c485c4');
-        matchMaker.addUser('INVESTOR', "ccc", 700000, 33, "B", '0xcb786908a083781b8f1d560e96c5d126f7c485c4');    
-        matchMaker.addUser('INVESTOR', "ddd", 250000, 11, "B", '0xcb786908a083781b8f1d560e96c5d126f7c485c4');
-        matchMaker.addUser('INVESTOR', "eee", 1, 11, "B", '0xcb786908a083781b8f1d560e96c5d126f7c485c4');
-        matchMaker.addUser('INVESTOR', "fff", 1, 11, "C", '0xcb786908a083781b8f1d560e96c5d126f7c485c4');
-        matchMaker.addUser('INVESTOR', "ggg", 1, 11, "B", '0xcb786908a083781b8f1d560e96c5d126f7c485c4');
+        user.getWholeContract(function(err, data){
+            if(err){
+                console.log(err);
+            }
+            else{
+                let size = data.length;
+                deploy_contract.unlock_account();
+                for(let i = 0; i < size; i++){
+                    if(data[i].status == 1 && data[i].group_type == "投資理財"){
+                        console.log(data[i].address);
+                        matchMaker.addUser('INVESTOR', "aaa", 260000, 11, "A", data[i].address);
+                        matchMaker.addUser('INVESTOR', "bbb", 220000, 22, "B", data[i].address);
+                        matchMaker.addUser('INVESTOR', "ccc", 700000, 33, "B", data[i].address);    
+                        matchMaker.addUser('INVESTOR', "ddd", 250000, 11, "B", data[i].address);
+                        matchMaker.addUser('INVESTOR', "eee", 1, 11, "B", data[i].address);
+                        matchMaker.addUser('INVESTOR', "fff", 1, 11, "C", data[i].address);
+                        matchMaker.addUser('INVESTOR', "ggg", 1, 11, "B", data[i].address);
 
-        matchMaker.addUser('BORROWER', "123", 200000, 11, "A", '0xcb786908a083781b8f1d560e96c5d126f7c485c4');
-        matchMaker.addUser('BORROWER', "qweszxc6304", 500000, 11, "A", '0xcb786908a083781b8f1d560e96c5d126f7c485c4');
+                        matchMaker.addUser('BORROWER', "123", 200000, 11, "A", data[i].address);
+                        matchMaker.addUser('BORROWER', "qweszxc6304", 500000, 11, "A", data[i].address);
 
 
-        user.invest('aaa', "撮合者", '無', 0, 260000, 11, 1, "撮合", '投資理財', '0xcb786908a083781b8f1d560e96c5d126f7c485c4', time);
-        user.invest('bbb', "撮合者", '無', 0, 220000, 22, 1, "撮合", '投資理財', '0xcb786908a083781b8f1d560e96c5d126f7c485c4', time);
-        user.invest('ccc', "撮合者", '無', 0, 700000, 33, 1, "撮合", '投資理財', '0xcb786908a083781b8f1d560e96c5d126f7c485c4', time);
-        user.invest('ddd', "撮合者", '無', 0, 250000, 11, 1, "撮合", '投資理財', '0xcb786908a083781b8f1d560e96c5d126f7c485c4', time);
-        user.invest('eee', "撮合者", '無', 0, 1, 11, 1, "撮合", '投資理財', '0xcb786908a083781b8f1d560e96c5d126f7c485c4', time);
-        user.invest('fff', "撮合者", '無', 0, 1, 11, 1, "撮合", '投資理財', '0xcb786908a083781b8f1d560e96c5d126f7c485c4', time);
-        user.invest('ggg', "撮合者", '無', 0, 1, 11, 1, "撮合", '投資理財', '0xcb786908a083781b8f1d560e96c5d126f7c485c4', time);
-        
-        user.transact('123', 'A', 200000, 11, 1, '撮合', '投資理財', '0xcb786908a083781b8f1d560e96c5d126f7c485c4', time);
-        user.transact('qweszxc6304', 'A', 500000, 11, 1, '撮合', '投資理財', '0xcb786908a083781b8f1d560e96c5d126f7c485c4', time);
+                        user.invest('aaa', "撮合者", '無', 0, 260000, 11, 1, "撮合", '投資理財', data[i].address, time);
+                        user.invest('bbb', "撮合者", '無', 0, 220000, 22, 1, "撮合", '投資理財', data[i].address, time);
+                        user.invest('ccc', "撮合者", '無', 0, 700000, 33, 1, "撮合", '投資理財', data[i].address, time);
+                        user.invest('ddd', "撮合者", '無', 0, 250000, 11, 1, "撮合", '投資理財', data[i].address, time);
+                        user.invest('eee', "撮合者", '無', 0, 1, 11, 1, "撮合", '投資理財', data[i].address, time);
+                        user.invest('fff', "撮合者", '無', 0, 1, 11, 1, "撮合", '投資理財', data[i].address, time);
+                        user.invest('ggg', "撮合者", '無', 0, 1, 11, 1, "撮合", '投資理財', data[i].address, time);
+                        
+                        user.transact('123', 'A', 200000, 20000, 11, 1, '撮合', '投資理財', data[i].address, time);
+                        user.transact('qweszxc6304', 'A', 500000, 50000, 11, 1, '撮合', '投資理財', data[i].address, time);
+                        break;
+                    }
+                }
+            }
+        });
         
     }
     else if(opt == "測資2"){
-        matchMaker.addUser('INVESTOR', "aaa", 260000, 11, "A", '0x24a163f30a4ee5ed2344b132726f377ec2967140');       
-        matchMaker.addUser('INVESTOR', "bbb", 220000, 22, "B", '0x24a163f30a4ee5ed2344b132726f377ec2967140');
-        matchMaker.addUser('INVESTOR', "ccc", 700000, 33, "B", '0x24a163f30a4ee5ed2344b132726f377ec2967140');       
-        matchMaker.addUser('INVESTOR', "ddd", 250000, 11, "B", '0x24a163f30a4ee5ed2344b132726f377ec2967140');
-        matchMaker.addUser('INVESTOR', "eee", 1, 11, "B", '0x24a163f30a4ee5ed2344b132726f377ec2967140');
-        matchMaker.addUser('INVESTOR', "fff", 1, 11, "C", '0x24a163f30a4ee5ed2344b132726f377ec2967140');       
-        matchMaker.addUser('INVESTOR', "ggg", 1, 11, "B", '0x24a163f30a4ee5ed2344b132726f377ec2967140');
+        user.getWholeContract(function(err, data){
+            if(err){
+                console.log(err);
+            }
+            else{
+                let size = data.length;
+                deploy_contract.unlock_account();
+                for(let i = 0; i < size; i++){
+                    if(data[i].status == 1 && data[i].group_type == "裝修房屋"){
+                        console.log(data[i].address);
+                        matchMaker.addUser('INVESTOR', "aaa", 260000, 11, "A", data[i].address);
+                        matchMaker.addUser('INVESTOR', "bbb", 220000, 22, "B", data[i].address);
+                        matchMaker.addUser('INVESTOR', "ccc", 700000, 33, "B", data[i].address);    
+                        matchMaker.addUser('INVESTOR', "ddd", 250000, 11, "B", data[i].address);
+                        matchMaker.addUser('INVESTOR', "eee", 1, 11, "B", data[i].address);
+                        matchMaker.addUser('INVESTOR', "fff", 1, 11, "C", data[i].address);
+                        matchMaker.addUser('INVESTOR', "ggg", 1, 11, "B", data[i].address);
 
-        matchMaker.addUser('BORROWER', "123", 260000, 11, "A", '0x24a163f30a4ee5ed2344b132726f377ec2967140');
-        matchMaker.addUser('BORROWER', "qweszxc6304", 500000, 11, "A", '0x24a163f30a4ee5ed2344b132726f377ec2967140');
+                        matchMaker.addUser('BORROWER', "123", 260000,  11, "A", data[i].address);
+                        matchMaker.addUser('BORROWER', "qweszxc6304", 500000, 11, "A", data[i].address);
 
-        user.invest('aaa', "撮合者", '無', 0, 260000, 11, 1, "撮合", '裝修房屋', '0x24a163f30a4ee5ed2344b132726f377ec2967140', time);
-        user.invest('bbb', "撮合者", '無', 0, 220000, 22, 1, "撮合", '裝修房屋', '0x24a163f30a4ee5ed2344b132726f377ec2967140', time);
-        user.invest('ccc', "撮合者", '無', 0, 700000, 33, 1, "撮合", '裝修房屋', '0x24a163f30a4ee5ed2344b132726f377ec2967140', time);
-        user.invest('ddd', "撮合者", '無', 0, 250000, 11, 1, "撮合", '裝修房屋', '0x24a163f30a4ee5ed2344b132726f377ec2967140', time);
-        user.invest('eee', "撮合者", '無', 0, 1, 11, 1, "撮合", '裝修房屋', '0x24a163f30a4ee5ed2344b132726f377ec2967140', time);
-        user.invest('fff', "撮合者", '無', 0, 1, 11, 1, "撮合", '裝修房屋', '0x24a163f30a4ee5ed2344b132726f377ec2967140', time);
-        user.invest('ggg', "撮合者", '無', 0, 1, 11, 1, "撮合", '裝修房屋', '0x24a163f30a4ee5ed2344b132726f377ec2967140', time);
 
-        user.transact('123', 'A', 260000, 11, 1, '撮合', '裝修房屋', '0x24a163f30a4ee5ed2344b132726f377ec2967140', time);
-        user.transact('qweszxc6304', 'A', 500000, 11, 1, '撮合', '裝修房屋', '0x24a163f30a4ee5ed2344b132726f377ec2967140', time);
+                        user.invest('aaa', "撮合者", '無', 0, 260000, 11, 1, "撮合", '裝修房屋', data[i].address, time);
+                        user.invest('bbb', "撮合者", '無', 0, 220000, 22, 1, "撮合", '裝修房屋', data[i].address, time);
+                        user.invest('ccc', "撮合者", '無', 0, 700000, 33, 1, "撮合", '裝修房屋', data[i].address, time);
+                        user.invest('ddd', "撮合者", '無', 0, 250000, 11, 1, "撮合", '裝修房屋', data[i].address, time);
+                        user.invest('eee', "撮合者", '無', 0, 1, 11, 1, "撮合", '裝修房屋', data[i].address, time);
+                        user.invest('fff', "撮合者", '無', 0, 1, 11, 1, "撮合", '裝修房屋', data[i].address, time);
+                        user.invest('ggg', "撮合者", '無', 0, 1, 11, 1, "撮合", '裝修房屋', data[i].address, time);
+                        
+                        user.transact('123', 'A', 260000, 20000, 11, 1, '撮合', '裝修房屋', data[i].address, time);
+                        user.transact('qweszxc6304', 'A', 500000, 50000, 11, 1, '撮合', '裝修房屋', data[i].address, time);
+                        break;
+                    }
+                }
+            }
+        });
+        
     }
     else if(opt == "測資3"){
-        matchMaker.addUser('INVESTOR', "aaa", 260000, 11, "A", '0xcad9ac6bbe9570f800099e78577ab59c27ce813a');
-        matchMaker.addUser('INVESTOR', "bbb", 220000, 22, "B", '0xcad9ac6bbe9570f800099e78577ab59c27ce813a');
-        matchMaker.addUser('INVESTOR', "ccc", 700000, 33, "B", '0xcad9ac6bbe9570f800099e78577ab59c27ce813a'); 
-        matchMaker.addUser('INVESTOR', "ddd", 250000, 11, "B", '0xcad9ac6bbe9570f800099e78577ab59c27ce813a');
-        matchMaker.addUser('INVESTOR', "eee", 1, 11, "B", '0xcad9ac6bbe9570f800099e78577ab59c27ce813a');
-        matchMaker.addUser('INVESTOR', "fff", 1, 11, "C", '0xcad9ac6bbe9570f800099e78577ab59c27ce813a');    
-        matchMaker.addUser('INVESTOR', "ggg", 1, 11, "B", '0xcad9ac6bbe9570f800099e78577ab59c27ce813a');
+        user.getWholeContract(function(err, data){
+            if(err){
+                console.log(err);
+            }
+            else{
+                let size = data.length;
+                deploy_contract.unlock_account();
+                for(let i = 0; i < size; i++){
+                    if(data[i].status == 1 && data[i].group_type == "進修/教育支出"){
+                        console.log(data[i].address);
+                        matchMaker.addUser('INVESTOR', "aaa", 260000, 11, "A", data[i].address);
+                        matchMaker.addUser('INVESTOR', "bbb", 220000, 22, "B", data[i].address);
+                        matchMaker.addUser('INVESTOR', "ccc", 700000, 33, "B", data[i].address);    
+                        matchMaker.addUser('INVESTOR', "ddd", 250000, 11, "B", data[i].address);
+                        matchMaker.addUser('INVESTOR', "eee", 1, 11, "B", data[i].address);
+                        matchMaker.addUser('INVESTOR', "fff", 1, 11, "C", data[i].address);
+                        matchMaker.addUser('INVESTOR', "ggg", 1, 11, "B", data[i].address);
 
-        matchMaker.addUser('BORROWER', "123", 200000, 36, "A", '0xcad9ac6bbe9570f800099e78577ab59c27ce813a');       
-        matchMaker.addUser('BORROWER', "qweszxc6304", 500000, 36, "A", '0xcad9ac6bbe9570f800099e78577ab59c27ce813a');
+                        matchMaker.addUser('BORROWER', "123", 200000, 36, "A", data[i].address);
+                        matchMaker.addUser('BORROWER', "qweszxc6304", 500000, 36, "A", data[i].address);
 
-        user.invest('aaa', "撮合者", '無', 0, 260000, 11, 1, "撮合", '進修/教育支出', '0xcad9ac6bbe9570f800099e78577ab59c27ce813a', time);
-        user.invest('bbb', "撮合者", '無', 0, 220000, 22, 1, "撮合", '進修/教育支出', '0xcad9ac6bbe9570f800099e78577ab59c27ce813a', time);
-        user.invest('ccc', "撮合者", '無', 0, 700000, 33, 1, "撮合", '進修/教育支出', '0xcad9ac6bbe9570f800099e78577ab59c27ce813a', time);
-        user.invest('ddd', "撮合者", '無', 0, 250000, 11, 1, "撮合", '進修/教育支出', '0xcad9ac6bbe9570f800099e78577ab59c27ce813a', time);
-        user.invest('eee', "撮合者", '無', 0, 1, 11, 1, "撮合", '進修/教育支出', '0xcad9ac6bbe9570f800099e78577ab59c27ce813a', time);
-        user.invest('fff', "撮合者", '無', 0, 1, 11, 1, "撮合", '進修/教育支出', '0xcad9ac6bbe9570f800099e78577ab59c27ce813a', time);
-        user.invest('ggg', "撮合者", '無', 0, 1, 11, 1, "撮合", '進修/教育支出', '0xcad9ac6bbe9570f800099e78577ab59c27ce813a', time);
 
-        user.transact('123', 'A', 200000, 36, 1, '撮合', '進修/教育支出', '0xcad9ac6bbe9570f800099e78577ab59c27ce813a', time);
-        user.transact('qweszxc6304', 'A', 500000, 36, 1, '撮合', '進修/教育支出', '0xcad9ac6bbe9570f800099e78577ab59c27ce813a', time);
+                        user.invest('aaa', "撮合者", '無', 0, 260000, 11, 1, "撮合", '進修/教育支出', data[i].address, time);
+                        user.invest('bbb', "撮合者", '無', 0, 220000, 22, 1, "撮合", '進修/教育支出', data[i].address, time);
+                        user.invest('ccc', "撮合者", '無', 0, 700000, 33, 1, "撮合", '進修/教育支出', data[i].address, time);
+                        user.invest('ddd', "撮合者", '無', 0, 250000, 11, 1, "撮合", '進修/教育支出', data[i].address, time);
+                        user.invest('eee', "撮合者", '無', 0, 1, 11, 1, "撮合", '進修/教育支出', data[i].address, time);
+                        user.invest('fff', "撮合者", '無', 0, 1, 11, 1, "撮合", '進修/教育支出', data[i].address, time);
+                        user.invest('ggg', "撮合者", '無', 0, 1, 11, 1, "撮合", '進修/教育支出', data[i].address, time);
+                        
+                        user.transact('123', 'A', 200000, 20000, 36, 1, '撮合', '進修/教育支出', data[i].address, time);
+                        user.transact('qweszxc6304', 'A', 500000, 50000, 36, 1, '撮合', '進修/教育支出', data[i].address, time);
+                        break;
+                    }
+                }
+            }
+        });
     }
     else if(opt == "資訊1"){
-        showInfo('0xcb786908a083781b8f1d560e96c5d126f7c485c4');
+        user.getWholeContract(function(err, data){
+            if(err){
+                console.log(err);
+            }
+            else{
+                let size = data.length;
+                deploy_contract.unlock_account();
+                for(let i = 0; i < size; i++){
+                    if(data[i].status == 1 && data[i].group_type == "投資理財"){
+                        console.log(data[i].address);
+                        showInfo(data[i].address);
+                        break;
+                    }
+                }
+            }
+        });
     }
     else if(opt == "資訊2"){
-        showInfo('0x24a163f30a4ee5ed2344b132726f377ec2967140');
+        user.getWholeContract(function(err, data){
+            if(err){
+                console.log(err);
+            }
+            else{
+                let size = data.length;
+                deploy_contract.unlock_account();
+                for(let i = 0; i < size; i++){
+                    if(data[i].status == 1 && data[i].group_type == "裝修房屋"){
+                        console.log(data[i].address);
+                        showInfo(data[i].address);
+                        break;
+                    }
+                }
+            }
+        });
     }
     else if(opt == "資訊3"){
-        showInfo('0xcad9ac6bbe9570f800099e78577ab59c27ce813a');
+        user.getWholeContract(function(err, data){
+            if(err){
+                console.log(err);
+            }
+            else{
+                let size = data.length;
+                deploy_contract.unlock_account();
+                for(let i = 0; i < size; i++){
+                    if(data[i].status == 1 && data[i].group_type == "進修/教育支出"){
+                        console.log(data[i].address);
+                        showInfo(data[i].address);
+                        break;
+                    }
+                }
+            }
+        });
     }
     else if(opt == "結果1"){
+        
+        setTimeout(showResult, 1000, '0x0791a7eb71b00b8beff503eb2298f738e0b9385a', '投資理財');
+                       
         // showResult('0xcb786908a083781b8f1d560e96c5d126f7c485c4', '投資理財');
-        setTimeout(showResult, 1000, '0xcb786908a083781b8f1d560e96c5d126f7c485c4', '投資理財');
     }
     else if(opt == "結果2"){
-        showResult('0x24a163f30a4ee5ed2344b132726f377ec2967140', '裝修房屋');
+        
+        setTimeout(showResult, 1000, '0xbb20e8731c259d4d92bb04000c44c87238fdc291', '裝修房屋');
     }
     else if(opt == "結果3"){
-        showResult('0xcad9ac6bbe9570f800099e78577ab59c27ce813a', '進修/教育支出');        
+        
+        setTimeout(showResult, 1000, '0xfcdbd5d99c60ec7f811643edabe773a832e116a2', '進修/教育支出');
+        // showResult('0xcad9ac6bbe9570f800099e78577ab59c27ce813a', '進修/教育支出');        
     }
     else if(opt == "改DB"){
         let modSql = 'rtmoney SET period = ? WHERE rtID = ?';
@@ -255,7 +353,7 @@ function addResultInDB(addr, reason){
                     console.log('time : ' + time);
         
                     deploy_contract.deploy_contract("ReturnMoney.sol", investigator, rest_money, rate, period, period*2592000, reason, function(rtaddr){
-                        user.return_money(-1, "貸方", investigator, loaner, rest_money, rate, period, "撮合", reason, addr, rtaddr, time);                
+                        user.return_money_status(-1, "貸方", investigator, loaner, rest_money, rate, period, "撮合", reason, addr, rtaddr, 1, time);                
                     });
                 }
             });

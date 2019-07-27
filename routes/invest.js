@@ -48,6 +48,7 @@ router.post('/', function(req, res, next){
     let type = req.query.type;
     let status = req.query.status;
     let msg = parseInt(req.query.msg, 10);
+    let time = moment().format('MMMM Do YYYY, h:mm:ss a');
 
 
     console.log('index : ' + index);
@@ -144,6 +145,7 @@ function showResult(ADDR){
    
     let rest = crowd_fund.show_RESTAMOUNT(ADDR);
     let time = crowd_fund.show_DURATION(ADDR).toNumber();
+    let cur_amount = crowd_fund.show_CURRENTAMOUNT(ADDR);
 
     console.log(crowd_fund.getResult(ADDR));
     console.log("rest : " + rest);
@@ -158,6 +160,20 @@ function showResult(ADDR){
         let modSql2 = 'invest SET status = ? WHERE contract_addr = ?';
         let modSqlParams2 = [0, ADDR];
         dbConnection.updateData(modSql2, modSqlParams2);
+
+        user.getRestMoney('username', ADDR, '一般',function(err, rest_amount){
+            if(err){
+                console.log(err);
+            }
+            else{
+                if(cur_amount >= rest_amount){
+                    let modSql3 = 'rtmoney SET status = ? WHERE rtcontract_addr = ?';
+                    let modSqlParams3 = [1, ADDR];
+                    dbConnection.updateData(modSql3, modSqlParams3);
+                }
+            }
+        });
+
     }
 }
 

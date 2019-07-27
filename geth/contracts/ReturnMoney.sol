@@ -99,7 +99,7 @@ contract ReturnMoney {
 	// 回傳：borrowerName&borrowerAmount,investorName&investorAmount,investorName&investorAmount
 	function get_TRANSACTION() public view returns(string) {
 		TRANSACTION = "";
-		if (status == STATUS.SUCCESS || status == STATUS.FAILED){
+		//if (status == STATUS.SUCCESS || status == STATUS.FAILED){
 			TRANSACTION = concatString(TRANSACTION, OWNER);
 			TRANSACTION = concatString(TRANSACTION, ",");
 			for (uint i = 0; i<numInvestors; i++) {
@@ -107,9 +107,9 @@ contract ReturnMoney {
 				if (i < numInvestors-1) TRANSACTION = concatString(TRANSACTION, ",");
 			}
 			return TRANSACTION;
-		} else {
-			return "";
-		}
+		//} else {
+		//	return "";
+		//}
 	}
 
 	function afterGet_TRANSACTION(string _TRANSACTION) public {

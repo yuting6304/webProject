@@ -71,13 +71,14 @@
                                 <td><%= amount[i] %></td>
                                 <td><%= time[i] %></td>
 
-                                <% if(data[j][i] == -1) { %>
+                                <% if(data[j][i] == 1) { %>
                                     <td><button type="button" onclick="reMoney(this)">我要還錢</button></td>
                                     <td><button type="button" id="click" onclick="showReturnInfo(this)">click</button></td>
                                 
                                 <% } else { %>
                                     <td><button type="button" disabled>我要還錢</button></td>
-                                    <td><button type="button"  id="click">click</button></td>
+                                    <td><button type="button" id="click" onclick="showReturnInfo(this)">click</button></td>
+                                    <!-- <td><button type="button" onclick="testVal(this)">我要還錢</button></td> -->
 
                                     <!-- <td>已結束</td>
                                     <% if(data[7][i] == "一般") { %>

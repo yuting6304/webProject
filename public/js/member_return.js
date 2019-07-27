@@ -102,3 +102,12 @@ function showReturnInfo(val){
     window.location = "/member/return_Info";
 
 }
+
+function testVal(val){
+    let invest_detail = [];
+    for(let i = 0; i < 14; i++){
+        invest_detail.push(val.parentNode.parentNode.children[i].innerHTML)
+        console.log(invest_detail[i]);
+    }
+}
+

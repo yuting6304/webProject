@@ -150,3 +150,39 @@
 10:48:48.079880 table@remove removed @27
 12:35:32.158039 db@close closing
 12:35:32.188179 db@close done T·30.136331ms
+=============== Jul 27, 2019 (CST) ===============
+11:27:13.391359 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+11:27:13.441968 version@stat F·[0 1] S·634KiB[0B 634KiB] Sc·[0.00 0.01]
+11:27:13.442050 db@open opening
+11:27:13.442247 journal@recovery F·1
+11:27:13.461079 journal@recovery recovering @32
+11:27:13.581469 memdb@flush created L0@35 N·1960 S·386KiB "\x00\xdc\xce..\f\x9ej,v6743":"\xff\xa9\"..Mɣ,v6532"
+11:27:13.583750 version@stat F·[1 1] S·1020KiB[386KiB 634KiB] Sc·[0.25 0.01]
+11:27:13.685980 db@janitor F·4 G·0
+11:27:13.686079 db@open done T·243.995891ms
+11:28:20.208461 table@compaction L0·1 -> L1·1 S·1020KiB Q·6855
+11:28:20.483421 table@build created L1@38 N·4811 S·862KiB "\x00,\xf1..\xe4\xf5\xb8,v3232":"\xff\xa9\"..Mɣ,v6532"
+11:28:20.483592 version@stat F·[0 1] S·862KiB[0B 862KiB] Sc·[0.00 0.01]
+11:28:20.653376 table@compaction committed F-1 S-157KiB Ke·0 D·759 T·444.811579ms
+11:28:20.653719 table@remove removed @35
+11:28:20.653831 table@remove removed @34
+13:59:36.926999 db@close closing
+13:59:36.944210 db@close done T·17.203348ms
+=============== Jul 27, 2019 (CST) ===============
+14:10:11.521473 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:10:11.538251 version@stat F·[0 1] S·862KiB[0B 862KiB] Sc·[0.00 0.01]
+14:10:11.538292 db@open opening
+14:10:11.538377 journal@recovery F·1
+14:10:11.540417 journal@recovery recovering @36
+14:10:11.604816 memdb@flush created L0@39 N·2888 S·613KiB "\x00\x87u..\x11\xfd\xde,v9478":"\xff\xb1\xcd..\xa3Jv,v9741"
+14:10:11.610484 version@stat F·[1 1] S·1MiB[613KiB 862KiB] Sc·[0.25 0.01]
+14:10:11.707956 db@janitor F·4 G·0
+14:10:11.708057 db@open done T·169.740406ms
+14:25:46.435790 table@compaction L0·1 -> L1·1 S·1MiB Q·9938
+14:25:46.654590 table@build created L1@42 N·6495 S·1MiB "\x00,\xf1..\xe4\xf5\xb8,v3232":"\xff\xb1\xcd..\xa3Jv,v9741"
+14:25:46.654770 version@stat F·[0 1] S·1MiB[0B 1MiB] Sc·[0.00 0.01]
+14:25:46.688136 table@compaction committed F-1 S-271KiB Ke·0 D·1204 T·252.209716ms
+14:25:46.688761 table@remove removed @39
+14:25:46.689240 table@remove removed @38
+15:35:04.515849 db@close closing
+15:35:04.544066 db@close done T·28.212609ms

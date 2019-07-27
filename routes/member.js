@@ -216,10 +216,25 @@ router.get('/match_Info', function(req, res, next) {
         }
         else{
             if(match_mode == "借款者"){
-                res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "借款者" });
+                user.getRestMoney(req.session.username, match_addr, "撮合", function(err, rest_money){
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "借款者", rest_money: rest_money });
+                    }
+                });
             }
             else{
-                res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "貸款者" });
+                user.getMakeMatchSucc(data[0], data[data.length-1], match_addr, function(err, rest_money){
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        // console.log('rest_money : ' + rest_money);
+                        res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "貸款者", rest_money: rest_money });
+                    }
+                });
             }
         }
     });
@@ -247,7 +262,7 @@ router.post('/match_Info', function(req, res, next) {
 router.get('/return_Info', function(req, res, next){
     if(req.session.logined){
         showReturnMoneyInfo(return_addr, function(err, data){
-            res.render('returninfo', { title: 'Log out', account: req.session.username, investigator: data[0], loaner: data[1] });
+            res.render('returninfo', { title: 'Log out', account: req.session.username, investigator: data[0], loaner: data[1], time: data[2] });
         });
     }
     else{
@@ -271,6 +286,33 @@ router.post('/return_Info', function(req, res, next){
 
 
 function showReturnMoneyInfo(addr, callback){
+
+
+    let info = [];
+    let detail = [];
+    let result = [];
+
+    deploy_contract.unlock_account();
+    info = return_money.getResult(addr);
+    detail = return_money.show_INVESTORS(addr);
+
+
+    // console.log("info : " + info);
+    // console.log("info length : " + info.length);
+    // console.log("detail : " + detail);    
+    // console.log("detail length : " + detail.length);
+
+    result.push(info);
+    result.push(detail);
+
+    // console.log(result[0].length);
+    // console.log(result[1].length);
+
+
+    // console.log(result);
+
+    // callback(null, result);
+
     user.getReturnInvestigator(addr, function(err, investigator){
         if(err){
             console.log(err);
@@ -282,12 +324,14 @@ function showReturnMoneyInfo(addr, callback){
             else{
                 let return_detail = [];
 
+                return_detail.push(investigator);
+                return_detail.push(result);
+
                 user.getReturnLoaner(addr, function(err, loaner){
                     if(err){
                         console.log(err);
                     }
                     else{
-                        return_detail.push(investigator);
                         return_detail.push(loaner);
                         callback(null, return_detail);
                     }
@@ -382,8 +426,8 @@ function getMatchInfo(username, addr, match_mode,callback){
                     }
                 }
             }
-            
 
+            
             console.log('loaner : ' + loaner);
             console.log('investor : ' + investor);
 
@@ -395,6 +439,7 @@ function getMatchInfo(username, addr, match_mode,callback){
             console.log('investor length : ' + return_data[1].length);
             
             callback(null, return_data);
+            
         }
         else{
             let loaner_name = [];
@@ -436,6 +481,7 @@ function getMatchInfo(username, addr, match_mode,callback){
                     }
                 }
 
+
                 console.log('loaner : ' + loaner);
                 console.log('investor : ' + investor);
 
@@ -447,7 +493,6 @@ function getMatchInfo(username, addr, match_mode,callback){
 
                 // last_count = return_data[0].length - last_count;
                 counter.push(loaner.length);
-
             }
             
             return_data.push(counter);
