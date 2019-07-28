@@ -68,12 +68,18 @@
                                 <td><%= data[j][i] %> 期</td>
                             <% } else if(j == 8) { %>
                                 <td><%= amount[i] %></td>
-                                <td><%= time[i] %></td>
 
-                                <% if(data[j][i] == -1) { %>
+                                <% if(data[j][i] == 1) { %>
+                                    <td><%= time[i] %></td>
                                     <td><button type="button" id="click" onclick="showReturnInfo(this)">click</button></td>
-                                
+                                    <!-- <td><button type="button" onclick="testVal(this)">我要還錢</button></td> -->
+                                    
                                 <% } else { %>
+                                    <% if(data[j][i] == 0) { %>
+                                        <td>還款成功</td>
+                                    <% } else { %>
+                                        <td>還款失敗</td>                                    
+                                    <% } %>
                                     <td><button type="button" id="click" onclick="showReturnInfo(this)">click</button></td>
 
                                     <!-- <td>已結束</td>
@@ -85,6 +91,7 @@
                                 <% } %>
                             <% } else if(j == 9) { %>
                                 <td style="display: none"><%= data[j][i] %></td>
+                                <td style="display: none"><%= data[8][i] %></td>                            
                             <% } else { %>
                                 <td><%= data[j][i] %></td>
                             <% } %>

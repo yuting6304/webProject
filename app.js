@@ -94,7 +94,7 @@ var logoutRouter = require('./routes/logout');
 
 var investwaitRouter = require('./routes/invest_waiting');
 var returnwaitRouter = require('./routes/member');
-
+var retrunStatusRouter = require('./routes/member');
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
@@ -108,6 +108,7 @@ app.use('/member/myMoney', membermoneyRouter);
 app.use('/member/transact_Info', transactinfoRouter);
 app.use('/member/match_Info', matchinfoRouter);
 app.use('/member/return_Info', returninfoRouter);
+app.use('/member/return_status', retrunStatusRouter);
 
 app.use('/register', registerRouter);
 app.use('/loan', loanRouter);

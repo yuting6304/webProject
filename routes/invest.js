@@ -72,7 +72,7 @@ router.post('/', function(req, res, next){
             console.log(addr);
             deploy_contract.unlock_account();
             
-            deploy_contract.deploy_contract("ReturnMoney.sol", invest_user, msg, rate, period, period*2592000, reason, function(rtaddr){
+            deploy_contract.deploy_contract("ReturnMoney.sol", invest_user, msg, rate, period, 180/*period*2592000*/, reason, function(rtaddr){
                 user.return_money(index, "貸方", invest_user, loaner, msg, rate, period, "一般", reason, addr, rtaddr, time);
                 crowd_fund.fund(invest_user, msg, addr);
                 user.invest(invest_user, loaner, reliable, money, msg, rate, period, type, reason, addr, time);

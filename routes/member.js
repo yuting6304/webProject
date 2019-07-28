@@ -6,6 +6,8 @@ var deploy_contract = require('../geth/deploy_contract');
 var matchMaker = require('../geth/call_MatchMaker');
 var gethUtil = require('../models/contract_util');
 var return_money = require('../geth/call_ReturnMoney');
+var dbConnection = require('../models/dbConnection');
+
 
 
 var router = express.Router();
@@ -117,9 +119,22 @@ router.post('/myReturn', function(req, res, next) {
     return_money.fund(getName, msg, addr);
     user.return_money(0, "借方", name, getName, msg, 0, 0, "一般", 'reason', addr, addr, time);
 
-    setTimeout(update, 10000, addr);            
+    setTimeout(update, 5000, addr);            
     setTimeout(showResult, 30000, addr);
 
+
+});
+
+router.post('/return_status', function(req, res, next){
+    let name = req.query.user;
+    let addr = req.query.addr;
+    let role = req.query.role;
+
+    console.log('name : ' + name);
+    console.log('addr : ' + addr);
+    console.log('role : ' + role);
+
+    change_returninfo_status(addr);
 
 });
 
@@ -284,6 +299,36 @@ router.post('/return_Info', function(req, res, next){
 
 });
 
+
+function change_returninfo_status(addr){
+
+    let rest = return_money.show_RESTAMOUNT(addr);
+    let time = return_money.show_DURATION(addr).toNumber();
+
+    console.log(return_money.getResult(addr));
+    console.log("rest : " + rest);
+
+    if(rest == 0 || time == 0){
+        update(addr);
+        console.log('RESULT : ' + return_money.getResult(addr));
+
+        if(rest == 0){
+            let modSql = 'rtmoney SET status = ? WHERE contract_addr = ? and role = ?';
+            let modSqlParams = [0, addr, '貸方'];
+            dbConnection.updateData(modSql, modSqlParams);
+        }
+        else{
+            let modSql = 'rtmoney SET status = ? WHERE contract_addr = ? and role = ?';
+            let modSqlParams = [2, addr, '貸方'];
+            dbConnection.updateData(modSql, modSqlParams);
+        }
+    }
+}
+
+function update(ADDR){
+    return_money.upDateContract(ADDR);
+    console.log("update finish");
+}
 
 function showReturnMoneyInfo(addr, callback){
 

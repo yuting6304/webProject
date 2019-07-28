@@ -33,16 +33,17 @@ window.onload = function(){
 
 function countdown(count_down_time){
     for(let i = 0; i < count_down_time.length; i++){
-        // if(count_down_time[i] == 0 && table.rows[i+1].cells[9].innerHTML == 1){
-        //     console.log(count_down_time[i]);
-        //     console.log(table.rows[i].cells[9].innerHTML);
+        if(count_down_time[i] == 0 && table.rows[i+1].cells[12].innerHTML == 1){
+            // console.log(count_down_time[i]);
+            // console.log(table.rows[i].cells[9].innerHTML);
 
-        //     var serverURL = "http://localhost:8088/invest/changeStatus?"+"user="+table.rows[i+1].cells[1].innerHTML+"&index="+table.rows[i+1].cells[10].innerHTML;
-        //     var xhr = new XMLHttpRequest();
-        //     xhr.open('POST',serverURL,true);
-        //     xhr.withCredentials=false;
-        //     xhr.send();
-        // }
+            var serverURL = "http://localhost:8088/member/return_status?"+"user="+table.rows[i+1].cells[1].innerHTML+"&addr="+table.rows[i+1].cells[12].innerHTML+"&role="+"貸方";
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST',serverURL,true);
+            xhr.withCredentials=false;
+            xhr.send();
+            window.setTimeout(redirect_page, 5000);
+        }
         count_down_time[i] = count_down_time[i]-1;
         if(count_down_time[i] >= 0){
             seconds = (count_down_val[i]%60);
@@ -75,4 +76,18 @@ function showReturnInfo(val){
 
     window.location = "/member/return_Info";
 
+}
+
+
+function testVal(val){
+    let invest_detail = [];
+    for(let i = 0; i < 14; i++){
+        invest_detail.push(val.parentNode.parentNode.children[i].innerHTML)
+        console.log(invest_detail[i]);
+    }
+}
+
+
+function redirect_page(){
+    window.location = '/member/myMoney';
 }
