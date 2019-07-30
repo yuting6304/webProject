@@ -142,8 +142,8 @@ var server = app.listen(8088, function () {
             if(succ == 1){
                 user.initContract();
                 console.log("\nServer start http://127.0.0.1:8088");
-                // user.schedule_event_deploy_constract();
-                // user.schedule_event_make_a_match();
+                user.schedule_event_deploy_constract();
+                user.schedule_event_make_a_match();
             }
         }
     });

@@ -253,17 +253,17 @@ router.post('/', function(req, res, next){
     }
     else if(opt == "結果1"){
         
-        setTimeout(showResult, 1000, '0xd38ecaee25e61659410aefb24098acb09883cf3c', '投資理財');
+        setTimeout(showResult, 1000, '0x79529661ff2607f39f3c7e8454409037473812f5', '投資理財');
                        
         // showResult('0xcb786908a083781b8f1d560e96c5d126f7c485c4', '投資理財');
     }
     else if(opt == "結果2"){
         
-        setTimeout(showResult, 1000, '0x6cdc4a831914d02a4a549146c8d586d0030257c7', '裝修房屋');
+        setTimeout(showResult, 1000, '0x80b9c216a49442a91ddfe4b6b85e924cdfbd2706', '裝修房屋');
     }
     else if(opt == "結果3"){
         
-        setTimeout(showResult, 1000, '0xf92602d620f9105d63f8e176b8a58cbe09037b15', '進修/教育支出');
+        setTimeout(showResult, 1000, '0x39de0a08d95fa4945dfc472ff100c925a0ecb91c', '進修/教育支出');
         // showResult('0xcad9ac6bbe9570f800099e78577ab59c27ce813a', '進修/教育支出');        
     }
     else if(opt == "改DB"){
@@ -317,47 +317,66 @@ function addResultInDB(addr, reason){
 
 
     if(size_x > 0){
-        let size_y = result_data[0].length;
-        let size_z = result_data[0][0].length;
 
+        let flag_name = result_data[0][0][0];
 
-        // console.log('y = ' + size_y);
-        // console.log('z = ' + size_z);
+        for(let flag = 0; flag < 2; flag++){
+            for(let i = 0; i < size_x; i++){
 
-        for(let i = 0; i < size_x; i++){
-            let time = moment().format('MMMM Do YYYY, h:mm:ss a');
-            let loaner = result_data[i][0][0];
-            let investigator = result_data[i][1][0];
-            let loaner_restMoney = result_data[i][0][1]-result_data[i][0][2];
-            let investigator_restMoney = result_data[i][1][1]-result_data[i][1][2];
-            let rest_money = 0;
-            let rate = result_data[i][0][3];
-            user.find_period(loaner, result_data[i][0][1], addr, function(err, period){
-                if(err){
-                    console.log(err);
-                }
-                else{
-                    if(loaner_restMoney > investigator_restMoney){
-                        rest_money = investigator_restMoney;
-                    }
-                    else{
-                        rest_money = loaner_restMoney;
-                    }
-                    console.log('loaner : ' + loaner);
-                    console.log('investigator : ' + investigator);
-                    console.log('money : ' + rest_money);
-                    console.log('rate : ' + rate);
-                    console.log('period : ' + period);
-                    console.log('reason : ' + reason);
-                    console.log('addr : ' + addr);
-                    console.log('time : ' + time);
-        
-                    deploy_contract.deploy_contract("ReturnMoney.sol", investigator, rest_money, rate, period, period*2592000, reason, function(rtaddr){
-                        user.return_money_status(-1, "貸方", investigator, loaner, rest_money, rate, period, "撮合", reason, addr, rtaddr, 1, time);                
+                let time = moment().format('MMMM Do YYYY, h:mm:ss a');
+                let loaner = result_data[i][0][0];
+                let investigator = result_data[i][1][0];
+                let loaner_restMoney = result_data[i][0][1]-result_data[i][0][2];
+                let investigator_restMoney = result_data[i][1][1]-result_data[i][1][2];
+                let rest_money = 0;
+                let rate = result_data[i][0][3];
+    
+                if(flag == 0){
+                    user.find_period(loaner, result_data[i][0][1], addr, function(err, period){
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            if(loaner_restMoney > investigator_restMoney){
+                                rest_money = investigator_restMoney;
+                            }
+                            else{
+                                rest_money = loaner_restMoney;
+                            }
+                            console.log('loaner : ' + loaner);
+                            console.log('investigator : ' + investigator);
+                            console.log('money : ' + rest_money);
+                            console.log('rate : ' + rate);
+                            console.log('period : ' + period);
+                            console.log('reason : ' + reason);
+                            console.log('addr : ' + addr);
+                            console.log('time : ' + time);
+                            deploy_contract.deploy_contract("ReturnMoney.sol", investigator, rest_money, rate, period, period*2592000, reason, function(rtaddr){
+                                user.return_money_status(-1, "貸方", investigator, loaner, rest_money, rate, period, "撮合", reason, addr, rtaddr, 1, time);                
+                            });
+                        }
                     });
                 }
-            });
+                else{
+                    if(flag_name != loaner){
+                        user.getRestMoney(loaner, addr, '撮合',function(err, min_money){
+                            if(result_data[i-1][0][1]-result_data[i-1][0][2] < min_money){
+                                user.update_returnMoneyStatus(flag_name, addr);
+                            }
+                        });
+                    }
+                    flag_name = result_data[i][0][0];
+                }
+                
+            }
         }
+        
+        
+        user.getRestMoney(result_data[size_x-1][0][0], addr, '撮合',function(err, min_money){
+            if(result_data[size_x-1][0][1]-result_data[size_x-1][0][2] < min_money){
+                user.update_returnMoneyStatus(result_data[size_x-1][0][0], addr);
+            }
+        });
     }
 }
 

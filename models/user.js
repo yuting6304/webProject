@@ -626,7 +626,7 @@ function schedule_event_deploy_constract(){
     // rule.month = 3;
     // rule.dayOfMonth = 1;
     rule.hour = 11;
-    rule.minute = 45;
+    rule.minute = 51;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -705,11 +705,13 @@ function initContract(){
 function schedule_event_make_a_match(){
 
     let rule = new schedule.RecurrenceRule();
+    let delay_time = 30000;
+    let status_time = 150000;
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
     rule.hour = 11;
-    rule.minute = 47;
+    rule.minute = 52;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -731,8 +733,10 @@ function schedule_event_make_a_match(){
                         console.log(data[i].group_type + ": " + data[i].address);
                         matchMaker.make_a_match(data[i].address);
                         setTimeout(updateContractStatus, 20000, data[i].address);
-                        setTimeout(addResultInDB, 30000, data[i].address, data[i].group_type);
-
+                        setTimeout(addResultInDB, delay_time, data[i].address, data[i].group_type);
+                        delay_time += 10000;
+                        setTimeout(update_rtstatus, status_time, data[i].address);
+                        status_time += 2000;
                         contract_count++;
                     }
                 }
@@ -780,14 +784,9 @@ function addResultInDB(addr, reason){
 
 
     if(size_x > 0){
-        let size_y = result_data[0].length;
-        let size_z = result_data[0][0].length;
-
-
-        // console.log('y = ' + size_y);
-        // console.log('z = ' + size_z);
 
         for(let i = 0; i < size_x; i++){
+
             let time = moment().format('MMMM Do YYYY, h:mm:ss a');
             let loaner = result_data[i][0][0];
             let investigator = result_data[i][1][0];
@@ -795,6 +794,7 @@ function addResultInDB(addr, reason){
             let investigator_restMoney = result_data[i][1][1]-result_data[i][1][2];
             let rest_money = 0;
             let rate = result_data[i][0][3];
+
             find_period(loaner, result_data[i][0][1], addr, function(err, period){
                 if(err){
                     console.log(err);
@@ -814,14 +814,55 @@ function addResultInDB(addr, reason){
                     // console.log('reason : ' + reason);
                     // console.log('addr : ' + addr);
                     // console.log('time : ' + time);
-        
                     deploy_contract.deploy_contract("ReturnMoney.sol", investigator, rest_money, rate, period, period*2592000, reason, function(rtaddr){
                         return_money_status(-1, "貸方", investigator, loaner, rest_money, rate, period, "撮合", reason, addr, rtaddr, 1, time);                
                     });
                 }
             });
-        }
+            
+        }        
     }
+}
+
+function update_rtstatus(addr){
+
+    deploy_contract.unlock_account();
+    let result_data = matchMaker.getResult(addr);
+    
+    let size_x = result_data.length-1;
+
+    if(size_x > 0){
+
+        let flag_name = result_data[0][0][0];
+
+        for(let i = 0; i < size_x; i++){
+
+            let loaner = result_data[i][0][0];
+   
+            if(flag_name != loaner){
+                getRestMoney(flag_name, addr, '撮合',function(err, min_money){
+                    if(result_data[i-1][0][1]-result_data[i-1][0][2] < min_money){
+                        update_returnMoneyStatus(flag_name, addr);
+                    }
+                });
+            }
+            flag_name = result_data[i][0][0];
+        }            
+        
+        
+        getRestMoney(result_data[size_x-1][0][0], addr, '撮合',function(err, min_money){
+            if(result_data[size_x-1][0][1]-result_data[size_x-1][0][2] < min_money){
+                update_returnMoneyStatus(result_data[size_x-1][0][0], addr);
+            }
+        });
+    }
+
+}
+
+function update_returnMoneyStatus(loaner, addr){
+    let modSql = 'rtmoney SET status = ? WHERE rtcontract_addr = ? and loaner = ?';
+    let modSqlParams = [-1, addr, loaner];
+    dbConnection.updateData(modSql, modSqlParams);
 }
 
 function getUserReliable(name, callback){
@@ -1115,4 +1156,4 @@ module.exports.find_period = find_period;
 module.exports.getRestMoney = getRestMoney;
 module.exports.getMakeMatchSucc = getMakeMatchSucc;
 
-
+module.exports.update_returnMoneyStatus = update_returnMoneyStatus;

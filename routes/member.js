@@ -119,7 +119,7 @@ router.post('/myReturn', function(req, res, next) {
     return_money.fund(getName, msg, addr);
     user.return_money(0, "借方", name, getName, msg, 0, 0, "一般", 'reason', addr, addr, time);
 
-    setTimeout(update, 5000, addr);            
+    setTimeout(update, 7000, addr);            
     setTimeout(showResult, 30000, addr);
 
 
