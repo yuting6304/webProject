@@ -44,6 +44,12 @@ function countdown(count_down_time){
             xhr.send();
             window.setTimeout(redirect_page, 5000);
         }
+        if(table.rows[i+1].cells[12].innerHTML == 0){
+            table.rows[i+1].style.color = 'green';
+        }
+        if(table.rows[i+1].cells[12].innerHTML == 2){
+            table.rows[i+1].style.color = 'red';
+        }
         count_down_time[i] = count_down_time[i]-1;
         if(count_down_time[i] >= 0){
             seconds = (count_down_val[i]%60);

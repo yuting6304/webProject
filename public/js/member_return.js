@@ -44,6 +44,9 @@ function countdown(count_down_time){
             xhr.send();
             window.setTimeout(redirect_page, 5000);
         }
+        if(table.rows[i+1].cells[13].innerHTML == 0){
+            table.rows[i+1].style.color = 'green';
+        }
         if(table.rows[i+1].cells[13].innerHTML == 2){
             table.rows[i+1].style.color = 'red';
         }

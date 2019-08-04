@@ -625,8 +625,8 @@ function schedule_event_deploy_constract(){
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
-    rule.hour = 11;
-    rule.minute = 51;
+    rule.hour = 10;
+    rule.minute = 58;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -711,7 +711,7 @@ function schedule_event_make_a_match(){
     // rule.month = 3;
     // rule.dayOfMonth = 1;
     rule.hour = 11;
-    rule.minute = 52;
+    rule.minute = 0;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){

@@ -10,3 +10,5 @@ eth.mining
 miner.start(1)
 eth.mining
 miner.start(1)
+miner.start()
+miner.start(3)
