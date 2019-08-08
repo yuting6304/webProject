@@ -76,7 +76,8 @@ router.post('/', function(req, res, next){
                 user.return_money(index, "貸方", invest_user, loaner, msg, rate, period, "一般", reason, addr, rtaddr, time);
                 crowd_fund.fund(invest_user, msg, addr);
                 user.invest(invest_user, loaner, reliable, money, msg, rate, period, type, reason, addr, time);
-            
+                user.save_expire_time(invest_user, loaner, period, rtaddr);
+                
                 setTimeout(update, 7000, addr);            
                 // setTimeout(showResult, 20000, addr);
                 setTimeout(showResult, 30000, addr);
@@ -170,6 +171,30 @@ function showResult(ADDR){
                     let modSql3 = 'rtmoney SET status = ? WHERE rtcontract_addr = ?';
                     let modSqlParams3 = [1, ADDR];
                     dbConnection.updateData(modSql3, modSqlParams3);
+
+                    user.getLoanerANDInvestigator(ADDR, function(err, name){
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            let size = name.length;
+                            for(let i = 0; i < size; i++){
+                                user.getUserMail(name[i], function(err, mail_addr){
+                                    if(err){
+                                        console.log(err);
+                                    }
+                                    else{
+                                        if(i == 0){
+                                            user.transactMail(mail_addr, '借方');
+                                        }
+                                        else{
+                                            user.transactMail(mail_addr, '貸方');
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    })
                 }
             }
         });

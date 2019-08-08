@@ -267,8 +267,8 @@ router.post('/', function(req, res, next){
         // showResult('0xcad9ac6bbe9570f800099e78577ab59c27ce813a', '進修/教育支出');        
     }
     else if(opt == "改DB"){
-        let modSql = 'rtmoney SET period = ? WHERE rtID = ?';
-        let modSqlParams = [1, -1];
+        let modSql = 'rtexpire SET day = ? WHERE contract_addr = ?';
+        let modSqlParams = [10, '0x9b68c2448212151033d30e3aee7c177c65a887f0'];
         dbConnection.updateData(modSql, modSqlParams);
     }
 

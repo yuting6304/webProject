@@ -95,6 +95,12 @@ function return_money_status(rtID, role, investigator, loaner, money, rate, peri
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
+function return_money_expire(investigator, loaner, year, month, day, contract_addr){
+    let  addSql = 'rtexpire(investigator, loaner, year, month, day, contract_addr) VALUES(?,?,?,?,?,?)';
+    let  addSqlParams = [investigator, loaner, year, month, day, contract_addr];
+    dbConnection.setDBData(addSql, addSqlParams);
+}
+
 function getUserMail(username, callback){
     dbConnection.getDBData('users', function(err, data){
         if(err){
@@ -203,27 +209,17 @@ function readHTML(path, callback){
 
 // send a confirm mail to user to get start their account
 function confirmMail(mailAddr, randstr){
-    readHTML(__dirname + '/mail/mail.html', function(err, html) {
-        var template = handlebars.compile(html);
-        var replacements = {
+    readHTML(__dirname + '/mail/register_mail.html', function(err, html) {
+        let template = handlebars.compile(html);
+        let replacements = {
             randstr: randstr
         };
-        var htmlToSend = template(replacements);
-        var mailOptions = {
+        let htmlToSend = template(replacements);
+        let mailOptions = {
             from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
             to : mailAddr,
             subject : 'Confirm Email from P2P_Borrowing_Platform',
             html : htmlToSend
-            // attachments:[{
-            //     filename : 'mail.png',
-            //     path: __dirname + '/mail/mail.png',
-            //     cid : 'https://i.imgur.com/ckZHOKo.jpg'
-            // },
-            // {
-            //     filename : 'logo.png',
-            //     path: __dirname + '/mail/logo.png',
-            //     cid : 'https://i.imgur.com/bGJGS9q.png'
-            // }]
          };
         smtpTransport.sendMail(mailOptions, function (err, info) {
             if (err) {
@@ -236,24 +232,196 @@ function confirmMail(mailAddr, randstr){
     });
 }
 
-function transactMail(mailAddr){
-    let mailOptions = {
-        from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
-        to: mailAddr,
-        subject: 'Transaction notification from P2P_Borrowing_Platform',
-        html: '<h1>Welcome to P2P_Borrowing_Platform</h1><p>You had successful loan</p>'
-    };
-      
-    transport.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
+function transactMail(mailAddr, opt){
+    readHTML(__dirname + '/mail/transaction_mail.html', function(err, html) {
+        // var template = handlebars.compile(html);
+        
+        if(opt == '借方'){
+            let mailOptions = {
+                from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+                to : mailAddr,
+                subject : 'Loan success from P2P_Borrowing_Platform',
+                html : html
+            };
+
+            smtpTransport.sendMail(mailOptions, function (err, info) {
+                if (err) {
+                    console.log(err);
+                }
+                else{
+                    consol.log('Email sent: ' + info.response);
+                }
+            });
+
+        }
+        else if(opt == '貸方'){
+            let mailOptions = {
+                from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+                to : mailAddr,
+                subject : 'Invest success from P2P_Borrowing_Platform',
+                html : html
+            };
+
+            smtpTransport.sendMail(mailOptions, function (err, info) {
+                if (err) {
+                    console.log(err);
+                }
+                else{
+                    consol.log('Email sent: ' + info.response);
+                }
+            });
+
         }
     });
 }
 
+function matchMail(mailAddr){
+    readHTML(__dirname + '/mail/match_mail.html', function(err, html) {
+        // var template = handlebars.compile(html);
+        
+        
+        let mailOptions = {
+            from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+            to : mailAddr,
+            subject : 'Make a Match finished from P2P_Borrowing_Platform',
+            html : html
+        };
 
+        smtpTransport.sendMail(mailOptions, function (err, info) {
+            if (err) {
+                console.log(err);
+            }
+            else{
+                consol.log('Email sent: ' + info.response);
+            }
+        });
+
+    });
+}
+
+function returnSuccMail(mailAddr, opt, succ){
+    readHTML(__dirname + '/mail/returnSucc_mail.html', function(err, html) {
+        let template = handlebars.compile(html);
+        
+        if(opt == '借方'){
+            if(succ == 1){
+                var replacements = {
+                    succ_str: '您的還錢已完成'
+                };
+            }
+            else{
+                var replacements = {
+                    succ_str: '您的還錢未完成'
+                };
+            }
+            
+            let htmlToSend = template(replacements);
+
+            let mailOptions = {
+                from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+                to : mailAddr,
+                subject : 'Return money success from P2P_Borrowing_Platform',
+                html : htmlToSend
+            };
+
+            smtpTransport.sendMail(mailOptions, function (err, info) {
+                if (err) {
+                    console.log(err);
+                }
+                else{
+                    consol.log('Email sent: ' + info.response);
+                }
+            });
+
+        }
+        else if(opt == '貸方'){
+            if(succ == 1){
+                var replacements = {
+                    succ_str: '他人還錢已完成'
+                };
+            }
+            else{
+                var replacements = {
+                    succ_str: '他人還錢未完成'
+                };
+            }
+            
+            let htmlToSend = template(replacements);
+
+            let mailOptions = {
+                from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+                to : mailAddr,
+                subject : 'Return money success from P2P_Borrowing_Platform',
+                html : htmlToSend
+            };
+
+            smtpTransport.sendMail(mailOptions, function (err, info) {
+                if (err) {
+                    console.log(err);
+                }
+                else{
+                    consol.log('Email sent: ' + info.response);
+                }
+            });
+
+        }
+    });
+}
+
+function returnRemiderMail(mailAddr, name, opt){
+    readHTML(__dirname + '/mail/return_remindMail.html', function(err, html) {
+        let template = handlebars.compile(html);
+        
+        if(opt == '借方'){
+
+            let replacements = {
+                remind_str: '您還有未還清的借款，貸款人: ' + name + '，將在三天之內到期，請盡速還清剩餘借款金額'
+            };
+            let htmlToSend = template(replacements);
+
+            let mailOptions = {
+                from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+                to : mailAddr,
+                subject : 'Return reminder from P2P_Borrowing_Platform',
+                html : htmlToSend
+            };
+
+            smtpTransport.sendMail(mailOptions, function (err, info) {
+                if (err) {
+                    console.log(err);
+                }
+                else{
+                    consol.log('Email sent: ' + info.response);
+                }
+            });
+
+        }
+        else if(opt == '貸方'){
+
+            let replacements = {
+                remind_str: name + '還有未還清的借款，將在三天之內到期'
+            };
+            let htmlToSend = template(replacements);
+            
+            let mailOptions = {
+                from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+                to : mailAddr,
+                subject : 'Return reminder from P2P_Borrowing_Platform',
+                html : htmlToSend
+            };
+
+            smtpTransport.sendMail(mailOptions, function (err, info) {
+                if (err) {
+                    console.log(err);
+                }
+                else{
+                    consol.log('Email sent: ' + info.response);
+                }
+            });
+
+        }
+    });
+}
 
 function memberConfirm(name, pass, token, callback){
     dbConnection.getDBData('users', function(err, data){
@@ -625,8 +793,8 @@ function schedule_event_deploy_constract(){
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
-    rule.hour = 10;
-    rule.minute = 58;
+    rule.hour = 15;
+    rule.minute = 19;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -710,8 +878,8 @@ function schedule_event_make_a_match(){
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
-    rule.hour = 11;
-    rule.minute = 0;
+    rule.hour = 15;
+    rule.minute = 20;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -816,12 +984,87 @@ function addResultInDB(addr, reason){
                     // console.log('time : ' + time);
                     deploy_contract.deploy_contract("ReturnMoney.sol", investigator, rest_money, rate, period, period*2592000, reason, function(rtaddr){
                         return_money_status(-1, "貸方", investigator, loaner, rest_money, rate, period, "撮合", reason, addr, rtaddr, 1, time);                
+                        save_expire_time(investigator, loaner, period, addr);
                     });
                 }
-            });
-            
+            });      
         }        
     }
+}
+
+function save_expire_time(investigator, loaner, period, addr){
+    let dateTime = new Date().getTime();
+    let timestamp = Math.floor(dateTime / 1000);
+    timestamp = timestamp + (period*2592000);
+
+    let date = new Date(timestamp*1000);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+
+    return_money_expire(investigator, loaner, year, month, day, addr);
+}
+
+function schedule_event_check_return_expire(){
+
+    let rule = new schedule.RecurrenceRule();
+    
+    rule.hour = 0;
+    rule.minute = 0;
+    rule.second = 0;
+    
+    schedule.scheduleJob(rule, function(){
+        console.log('scheduleRecurrenceRule:' + new Date());
+        console.log('Send return money expire remind mail');
+        dbConnection.getDBData('rtexpire', function(err, data){
+            if(err){
+                callback(err, null);
+            }
+            else{
+                let size = data.length;
+
+                let dateTime = new Date().getTime();
+                let timestamp = Math.floor(dateTime / 1000);
+
+                // let date = new Date(timestamp*1000);
+                // let year = date.getFullYear();
+                // let month = date.getMonth() + 1;
+                // let day = date.getDate();
+
+                for(let i = 0; i < size; i++){
+                    if(data[i].status == -1){
+                        let remind_timeSrt = data[i].year+'-'+data[i].month+'-'+data[i].day;
+                        let remind_Time = +new Date(remind_timeSrt);
+                        let remind_timestamp = Math.floor(remind_Time / 1000);
+                        remind_timestamp = remind_timestamp - 259200;
+                        if(timestamp >= remind_timestamp){
+                            let modSql = 'rtexpire SET status = ? WHERE contract_addr = ?';
+                            let modSqlParams = [1, data[i].contract_addr];
+                            dbConnection.updateData(modSql, modSqlParams);
+
+                            getUserMail(data[i].loaner, function(err, mailAddr){
+                                if(err){
+                                    console.log(err);
+                                }
+                                else{
+                                    returnRemiderMail(mailAddr, data[i].investigator, '借方');
+                                }
+                            });
+
+                            getUserMail(data[i].investigator, function(err, mailAddr){
+                                if(err){
+                                    console.log(err);
+                                }
+                                else{
+                                    returnRemiderMail(mailAddr, data[i].loaner, '貸方');
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
+    });
 }
 
 function update_rtstatus(addr){
@@ -855,6 +1098,9 @@ function update_rtstatus(addr){
                 update_returnMoneyStatus(result_data[size_x-1][0][0], addr);
             }
         });
+
+        sendMatchMail(addr);
+
     }
 
 }
@@ -863,6 +1109,51 @@ function update_returnMoneyStatus(loaner, addr){
     let modSql = 'rtmoney SET status = ? WHERE rtcontract_addr = ? and loaner = ?';
     let modSqlParams = [-1, addr, loaner];
     dbConnection.updateData(modSql, modSqlParams);
+}
+
+
+function sendMatchMail(addr){
+    dbConnection.getDBData('transaction', function(err, loaner){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            dbConnection.getDBData('invest', function(err, investigator){
+                if(err){
+                    callback(err, null);
+                }
+                else{
+                    let loaner_size = loaner.length;
+                    let investigator_size = investigator.length;
+                    for(let i = 0; i < loaner_size; i++){
+                        if(loaner[i].contract_addr == addr){
+                            getUserMail(loaner[i].username, function(err, mail_addr){
+                                if(err){
+                                    console.log(err);
+                                }
+                                else{
+                                    matchMail(mail_addr);
+                                }
+                            })
+                        }
+                    }
+
+                    for(let i = 0; i < investigator_size; i++){
+                        if(investigator[i].contract_addr == addr){
+                            getUserMail(investigator[i].investigator, function(err, mail_addr){
+                                if(err){
+                                    console.log(err);
+                                }
+                                else{
+                                    matchMail(mail_addr);
+                                }
+                            })
+                        }
+                    }
+                }
+            });
+        }
+    });
 }
 
 function getUserReliable(name, callback){
@@ -1110,6 +1401,52 @@ function getMakeMatchSucc(loaner, counter, addr, callback){
     });
 }
 
+function getLoanerANDInvestigator(addr, callback){
+    dbConnection.getDBData('invest', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            let flag = 0;
+            let name = [];
+            for(let i = 0; i < size; i++){
+                if(data[i].contract_addr == addr && data[i].loan_type == '一般'){
+                    if(flag == 0){
+                        name.push(data[i].loaner);
+                        name.push(data[i].investigator);
+                        flag = 1;
+                    }
+                    else{
+                        name.push(data[i].investigator);
+                    }
+                }
+            }
+            callback(null, name);
+        }
+    });
+}
+
+function getUserfromReturn(addr, callback){
+    dbConnection.getDBData('rtmoney', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            let name = [];
+            for(let i = 0; i < size; i++){
+                if(data[i].contract_addr == addr && data[i].role == '貸方'){
+                    name.push(data[i].loaner);
+                    name.push(data[i].investigator);
+                    break;
+                }
+            }
+            callback(null, name);
+        }
+    });
+}
+
 
 module.exports.reg = reg;
 module.exports.transact = transact;
@@ -1117,6 +1454,8 @@ module.exports.invest = invest;
 module.exports.store_contract = store_contract;
 module.exports.return_money = return_money;
 module.exports.return_money_status = return_money_status;
+module.exports.return_money_expire = return_money_expire;
+
 module.exports.getUserMail = getUserMail;
 
 module.exports.regMail = regMail;
@@ -1124,6 +1463,9 @@ module.exports.regUsername = regUsername;
 module.exports.reuseMail = reuseMail;
 module.exports.confirmMail = confirmMail;
 module.exports.transactMail = transactMail;
+module.exports.returnSuccMail = returnSuccMail;
+
+
 module.exports.memberLogin = memberLogin;
 module.exports.memberConfirm = memberConfirm;
 
@@ -1140,8 +1482,11 @@ module.exports.getUserReliable = getUserReliable;
 
 module.exports.initContract = initContract;
 module.exports.getWholeContract = getWholeContract;
+
 module.exports.schedule_event_make_a_match = schedule_event_make_a_match;
 module.exports.schedule_event_deploy_constract = schedule_event_deploy_constract;
+module.exports.schedule_event_check_return_expire = schedule_event_check_return_expire;
+
 module.exports.getContractAddr = getContractAddr;
 module.exports.getNormalTransactionAddr = getNormalTransactionAddr;
 module.exports.getUserInvestRestMonry = getUserInvestRestMonry;
@@ -1157,3 +1502,7 @@ module.exports.getRestMoney = getRestMoney;
 module.exports.getMakeMatchSucc = getMakeMatchSucc;
 
 module.exports.update_returnMoneyStatus = update_returnMoneyStatus;
+module.exports.getLoanerANDInvestigator = getLoanerANDInvestigator;
+module.exports.getUserfromReturn = getUserfromReturn;
+module.exports.save_expire_time = save_expire_time;
+

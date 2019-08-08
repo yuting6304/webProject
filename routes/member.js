@@ -120,7 +120,7 @@ router.post('/myReturn', function(req, res, next) {
     user.return_money(0, "借方", name, getName, msg, 0, 0, "一般", 'reason', addr, addr, time);
 
     setTimeout(update, 7000, addr);            
-    setTimeout(showResult, 30000, addr);
+    // setTimeout(showResult, 30000, addr);
 
 
 });
@@ -316,11 +316,58 @@ function change_returninfo_status(addr){
             let modSql = 'rtmoney SET status = ? WHERE contract_addr = ? and role = ?';
             let modSqlParams = [0, addr, '貸方'];
             dbConnection.updateData(modSql, modSqlParams);
+            user.getUserfromReturn(addr, function(err, name){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    let name_size = name.length;
+                    for(let i = 0; i < name_size; i++){
+                        user.getUserMail(name[i], function(err, mail_addr){
+                            if(err){
+                                console.log(err);
+                            }
+                            else{
+                                if(i == 0){
+                                    user.returnSuccMail(mail_addr, '借方', 1);
+                                }
+                                else{
+                                    user.returnSuccMail(mail_addr, '貸方', 1);
+                                }
+                            }
+                        })
+                    }
+                }
+            });
         }
         else{
             let modSql = 'rtmoney SET status = ? WHERE contract_addr = ? and role = ?';
             let modSqlParams = [2, addr, '貸方'];
             dbConnection.updateData(modSql, modSqlParams);
+
+            user.getUserfromReturn(addr, function(err, name){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    let name_size = name.length;
+                    for(let i = 0; i < name_size; i++){
+                        user.getUserMail(name[i], function(err, mail_addr){
+                            if(err){
+                                console.log(err);
+                            }
+                            else{
+                                if(i == 0){
+                                    user.returnSuccMail(mail_addr, '借方', -1);
+                                }
+                                else{
+                                    user.returnSuccMail(mail_addr, '貸方', -1);
+                                }
+                            }
+                        })
+                    }
+                }
+            });
         }
     }
 }
