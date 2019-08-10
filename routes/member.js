@@ -361,7 +361,7 @@ function change_returninfo_status(addr){
                                     user.returnSuccMail(mail_addr, '借方', -1);
                                 }
                                 else{
-                                    user.returnSuccMail(mail_addr, '貸方', -1);
+                                    user.returnFailMail(mail_addr, '貸方', -1);
                                 }
                             }
                         })

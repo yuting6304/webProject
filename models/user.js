@@ -306,12 +306,12 @@ function returnSuccMail(mailAddr, opt, succ){
         if(opt == '借方'){
             if(succ == 1){
                 var replacements = {
-                    succ_str: '您的還錢已完成'
+                    succ_str: '您的還錢已完成，請到會員中心查看完整紀錄'
                 };
             }
             else{
                 var replacements = {
-                    succ_str: '您的還錢未完成'
+                    succ_str: '您的還錢未完成，請到會員中心查看完整紀錄'
                 };
             }
             
@@ -337,12 +337,12 @@ function returnSuccMail(mailAddr, opt, succ){
         else if(opt == '貸方'){
             if(succ == 1){
                 var replacements = {
-                    succ_str: '他人還錢已完成'
+                    succ_str: '他人還錢已完成，請到會員中心查看完整紀錄'
                 };
             }
             else{
                 var replacements = {
-                    succ_str: '他人還錢未完成'
+                    succ_str: '他人還錢未完成,請跟徵信中心聯絡走法律途徑</br><a href="https://www.jcic.org.tw/main_ch/index.aspx" style="margin: 3px; width: 80px;    display: inline-block; color: white; background-color: #ADADAD; text-decoration: none; text-align: center; padding: 2.5% 8%; border-radius: 2px;">前往徵信中心</a>'
                 };
             }
             
@@ -367,6 +367,75 @@ function returnSuccMail(mailAddr, opt, succ){
         }
     });
 }
+
+function returnFailMail(mailAddr, opt, succ){
+    readHTML(__dirname + '/mail/returnFail_mail.html', function(err, html) {
+        let template = handlebars.compile(html);
+        
+        if(opt == '借方'){
+            if(succ == 1){
+                var replacements = {
+                    succ_str: '您的還錢已完成，請到會員中心查看完整紀錄'
+                };
+            }
+            else{
+                var replacements = {
+                    succ_str: '您的還錢未完成，請到會員中心查看完整紀錄'
+                };
+            }
+            
+            let htmlToSend = template(replacements);
+
+            let mailOptions = {
+                from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+                to : mailAddr,
+                subject : 'Return money success from P2P_Borrowing_Platform',
+                html : htmlToSend
+            };
+
+            smtpTransport.sendMail(mailOptions, function (err, info) {
+                if (err) {
+                    console.log(err);
+                }
+                else{
+                    consol.log('Email sent: ' + info.response);
+                }
+            });
+
+        }
+        else if(opt == '貸方'){
+            if(succ == 1){
+                var replacements = {
+                    succ_str: '他人還錢已完成，請到會員中心查看完整紀錄'
+                };
+            }
+            else{
+                var replacements = {
+                    succ_str: '他人還錢未完成,請跟徵信中心聯絡走法律途徑'
+                };
+            }
+            let htmlToSend = template(replacements);
+
+            let mailOptions = {
+                from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+                to : mailAddr,
+                subject : 'Return money success from P2P_Borrowing_Platform',
+                html : htmlToSend
+            };
+
+            smtpTransport.sendMail(mailOptions, function (err, info) {
+                if (err) {
+                    console.log(err);
+                }
+                else{
+                    consol.log('Email sent: ' + info.response);
+                }
+            });
+
+        }
+    });
+}
+
 
 function returnRemiderMail(mailAddr, name, opt){
     readHTML(__dirname + '/mail/return_remindMail.html', function(err, html) {
@@ -1464,7 +1533,7 @@ module.exports.reuseMail = reuseMail;
 module.exports.confirmMail = confirmMail;
 module.exports.transactMail = transactMail;
 module.exports.returnSuccMail = returnSuccMail;
-
+module.exports.returnFailMail = returnFailMail;
 
 module.exports.memberLogin = memberLogin;
 module.exports.memberConfirm = memberConfirm;
