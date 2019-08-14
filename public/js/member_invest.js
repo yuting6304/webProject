@@ -41,7 +41,7 @@ function cancelBtn(val){
         return;
     }
     else{
-        alert('投資已取消')ㄤ
+        alert('投資已取消');
     }
     var serverURL = "http://localhost:8088/member/cancel_transaction?"+"addr="+invest_detail[12]+"&money="+invest_detail[8]+"&mode="+"貸款者"+"&time="+invest_detail[9]+"&type="+invest_detail[7];
     var xhr = new XMLHttpRequest();
