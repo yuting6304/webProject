@@ -48,12 +48,14 @@ router.post('/', function(req, res, next){
     let type = req.query.type;
     let status = req.query.status;
     let msg = parseInt(req.query.msg, 10);
+    let rest_money = req.query.rest_money;
     let time = moment().format('MMMM Do YYYY, h:mm:ss a');
-
+    let fund_money = msg;
 
     console.log('index : ' + index);
     console.log('user : ' + loaner);
     console.log('money : ' + money);
+    console.log('rest money : ' + rest_money);
     console.log('rate : ' + rate);
     console.log('period : ' + period);
     console.log('reason : ' + reason);
@@ -72,13 +74,20 @@ router.post('/', function(req, res, next){
             console.log(addr);
             deploy_contract.unlock_account();
             
-            deploy_contract.deploy_contract("ReturnMoney.sol", invest_user, msg, rate, period, 120/*period*2592000*/, reason, function(rtaddr){
-                user.return_money(index, "貸方", invest_user, loaner, msg, rate, period, "一般", reason, addr, rtaddr, time);
-                crowd_fund.fund(invest_user, msg, addr);
-                user.invest(invest_user, loaner, reliable, money, msg, rate, period, type, reason, addr, time);
-                user.save_expire_time(invest_user, loaner, period, rtaddr);
+            if(msg >= rest_money){
+                fund_money = rest_money;
+            }
+            else{
+                fund_money = msg;
+            }
+
+            deploy_contract.deploy_contract("ReturnMoney.sol", invest_user, fund_money, rate, period, period*2592000, reason, function(rtaddr){
+                user.return_money(index, "貸方", invest_user, loaner, fund_money, rate, period, "一般", reason, addr, rtaddr, time);
+                crowd_fund.fund(invest_user, fund_money, addr);
+                user.invest(invest_user, loaner, reliable, money, fund_money, rate, period, type, reason, addr, time);
+                user.save_expire_time(invest_user, loaner, period, addr, rtaddr);
                 
-                setTimeout(update, 10000, addr);            
+                setTimeout(update, 8000, addr);            
                 // setTimeout(showResult, 20000, addr);
                 setTimeout(showResult, 30000, addr);
             });

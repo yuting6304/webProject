@@ -95,9 +95,9 @@ function return_money_status(rtID, role, investigator, loaner, money, rate, peri
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
-function return_money_expire(investigator, loaner, year, month, day, contract_addr){
-    let  addSql = 'rtexpire(investigator, loaner, year, month, day, contract_addr) VALUES(?,?,?,?,?,?)';
-    let  addSqlParams = [investigator, loaner, year, month, day, contract_addr];
+function return_money_expire(investigator, loaner, year, month, day, rtcontract_addr, contract_addr){
+    let  addSql = 'rtexpire(investigator, loaner, year, month, day, rtcontract_addr, contract_addr) VALUES(?,?,?,?,?,?,?)';
+    let  addSqlParams = [investigator, loaner, year, month, day, rtcontract_addr, contract_addr];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
@@ -569,6 +569,7 @@ function getUserLoanData(username, callback){
             let addr = [];
             let time = [];
             let rest_money = [];
+            let cancel = [];
             for(let i = 0; i < size; i++){
                 if(data[i].username == username){
                     idx = idx+1;
@@ -582,6 +583,7 @@ function getUserLoanData(username, callback){
                     addr.push(data[i].contract_addr);
                     time.push(data[i].time);
                     rest_money.push(data[i].rest_money);
+                    cancel.push(data[i].cancel);
                 }
             }
 
@@ -595,6 +597,7 @@ function getUserLoanData(username, callback){
             result_data.push(status);
             result_data.push(addr);
             result_data.push(rest_money);
+            result_data.push(cancel);
             callback(null, result_data);
         }
     });
@@ -621,6 +624,7 @@ function getUserInvestData(username, callback){
             let status = [];
             let addr = [];
             let time = [];
+            let cancel = [];
             for(let i = 0; i < size; i++){
                 if(data[i].investigator == username){
                     idx = idx+1;
@@ -636,6 +640,7 @@ function getUserInvestData(username, callback){
                     status.push(data[i].status);
                     time.push(data[i].time);
                     addr.push(data[i].contract_addr);
+                    cancel.push(data[i].cancel);
                 }
             }
             result_data.push(index);
@@ -650,6 +655,7 @@ function getUserInvestData(username, callback){
             result_data.push(time);
             result_data.push(status);
             result_data.push(addr);
+            result_data.push(cancel);
             callback(null, result_data);
         }
     });
@@ -815,7 +821,7 @@ function getNormalLoanData(callback){
             let size = data.length;
             let result_data = [];
             for(let i = 0; i < size; i++){
-                if(data[i].loan_type == "一般" && data[i].status == 1){
+                if(data[i].loan_type == "一般" && data[i].status == 1 && data[i].cancel == -1){
                     result_data.push(data[i]);
                 }
             }
@@ -862,8 +868,8 @@ function schedule_event_deploy_constract(){
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
-    rule.hour = 15;
-    rule.minute = 19;
+    rule.hour = 19;
+    rule.minute = 40;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -947,8 +953,8 @@ function schedule_event_make_a_match(){
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
-    rule.hour = 15;
-    rule.minute = 20;
+    rule.hour = 19;
+    rule.minute = 41;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -1053,7 +1059,7 @@ function addResultInDB(addr, reason){
                     // console.log('time : ' + time);
                     deploy_contract.deploy_contract("ReturnMoney.sol", investigator, rest_money, rate, period, period*2592000, reason, function(rtaddr){
                         return_money_status(-1, "貸方", investigator, loaner, rest_money, rate, period, "撮合", reason, addr, rtaddr, 1, time);                
-                        save_expire_time(investigator, loaner, period, addr);
+                        save_expire_time(investigator, loaner, period, addr, rtaddr);
                     });
                 }
             });      
@@ -1061,7 +1067,7 @@ function addResultInDB(addr, reason){
     }
 }
 
-function save_expire_time(investigator, loaner, period, addr){
+function save_expire_time(investigator, loaner, period, rtaddr, addr){
     let dateTime = new Date().getTime();
     let timestamp = Math.floor(dateTime / 1000);
     timestamp = timestamp + (period*2592000);
@@ -1071,7 +1077,7 @@ function save_expire_time(investigator, loaner, period, addr){
     let month = date.getMonth() + 1;
     let day = date.getDate();
 
-    return_money_expire(investigator, loaner, year, month, day, addr);
+    return_money_expire(investigator, loaner, year, month, day, rtaddr,addr);
 }
 
 function schedule_event_check_return_expire(){
@@ -1101,36 +1107,66 @@ function schedule_event_check_return_expire(){
                 // let day = date.getDate();
 
                 for(let i = 0; i < size; i++){
-                    if(data[i].status == -1){
-                        let remind_timeSrt = data[i].year+'-'+data[i].month+'-'+data[i].day;
-                        let remind_Time = +new Date(remind_timeSrt);
-                        let remind_timestamp = Math.floor(remind_Time / 1000);
-                        remind_timestamp = remind_timestamp - 259200;
-                        if(timestamp >= remind_timestamp){
-                            let modSql = 'rtexpire SET status = ? WHERE contract_addr = ?';
-                            let modSqlParams = [1, data[i].contract_addr];
-                            dbConnection.updateData(modSql, modSqlParams);
+                    if(data[i].cancel == -1){
+                        if(data[i].succ == -1){
+                            let remind_timeSrt = data[i].year+'-'+data[i].month+'-'+data[i].day;
+                            let remind_Time = +new Date(remind_timeSrt);
+                            let remind_timestamp = Math.floor(remind_Time / 1000);
+                            let remind_timestamp_th = remind_timestamp - 259200;
+                            if(timestamp >= remind_timestamp){
+                                if(data[i].status == 0){
+                                    let modSql = 'rtexpire SET status = ? WHERE contract_addr = ?';
+                                    let modSqlParams = [1, data[i].contract_addr];
+                                    dbConnection.updateData(modSql, modSqlParams);
 
-                            getUserMail(data[i].loaner, function(err, mailAddr){
-                                if(err){
-                                    console.log(err);
-                                }
-                                else{
-                                    returnRemiderMail(mailAddr, data[i].investigator, '借方');
-                                }
-                            });
+                                    user.getUserMail(data[i].loaner, function(err, mail_addr){
+                                        if(err){
+                                            console.log(err);
+                                        }
+                                        else{
+                                            returnSuccMail(mailAddr, '借方', -1);
+                                        }
+                                    });
 
-                            getUserMail(data[i].investigator, function(err, mailAddr){
-                                if(err){
-                                    console.log(err);
+                                    getUserMail(data[i].investigator, function(err, mailAddr){
+                                        if(err){
+                                            console.log(err);
+                                        }
+                                        else{
+                                            returnFailMail(mailAddr, '貸方', -1);
+                                        }
+                                    });
                                 }
-                                else{
-                                    returnRemiderMail(mailAddr, data[i].loaner, '貸方');
+                            }
+                            if(timestamp >= remind_timestamp_th){
+                                if(data[i].status == -1){
+                                    let modSql = 'rtexpire SET status = ? WHERE contract_addr = ?';
+                                    let modSqlParams = [0, data[i].contract_addr];
+                                    dbConnection.updateData(modSql, modSqlParams);
+
+                                    getUserMail(data[i].loaner, function(err, mailAddr){
+                                        if(err){
+                                            console.log(err);
+                                        }
+                                        else{
+                                            returnRemiderMail(mailAddr, data[i].investigator, '借方');
+                                        }
+                                    });
+
+                                    getUserMail(data[i].investigator, function(err, mailAddr){
+                                        if(err){
+                                            console.log(err);
+                                        }
+                                        else{
+                                            returnRemiderMail(mailAddr, data[i].loaner, '貸方');
+                                        }
+                                    });
                                 }
-                            });
+                            }
                         }
                     }
                 }
+                    
             }
         });
     });

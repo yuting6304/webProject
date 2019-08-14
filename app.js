@@ -75,6 +75,7 @@ var memberloanRouter = require('./routes/member');
 var memberinvestRouter = require('./routes/member');
 var memberreturnRouter = require('./routes/member');
 var membermoneyRouter = require('./routes/member');
+var transcancelRouter = require('./routes/member');
 
 var transactinfoRouter = require('./routes/member');
 var matchinfoRouter = require('./routes/member');
@@ -109,6 +110,7 @@ app.use('/member/transact_Info', transactinfoRouter);
 app.use('/member/match_Info', matchinfoRouter);
 app.use('/member/return_Info', returninfoRouter);
 app.use('/member/return_status', retrunStatusRouter);
+app.use('/member/cancel_transaction', transcancelRouter);
 
 app.use('/register', registerRouter);
 app.use('/loan', loanRouter);
@@ -142,8 +144,8 @@ var server = app.listen(8088, function () {
             if(succ == 1){
                 user.initContract();
                 console.log("\nServer start http://127.0.0.1:8088");
-                // user.schedule_event_deploy_constract();
-                // user.schedule_event_make_a_match();
+                user.schedule_event_deploy_constract();
+                user.schedule_event_make_a_match();
                 // user.schedule_event_check_return_expire();
             }
         }

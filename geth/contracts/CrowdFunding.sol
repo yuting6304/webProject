@@ -9,6 +9,7 @@ contract CrowdFunding {
 		string name; // 投資家的位址
 		uint amount; // 投資額
 		uint restAmount; // 剩餘的錢
+		uint cancelFlag; // 取消
 	}
 
 	/********** 合約參數 **********/
@@ -60,6 +61,7 @@ contract CrowdFunding {
 			Investor inv = investors[numInvestors++];
 			inv.name = _name;
 			inv.amount = _fundMoney;
+			inv.cancelFlag = 0;
 			if (currentAmount + inv.amount > GOALAMOUNT) {
 				inv.restAmount = inv.amount - GOALAMOUNT;
 				inv.restAmount = inv.restAmount + currentAmount;
@@ -77,6 +79,28 @@ contract CrowdFunding {
 			}
 		}
 	}
+
+
+	function cancel_fund(string _name, uint _fundMoney) public payable aLive{
+		// 若是活動已結束的話就中斷處理
+		if (!(status == STATUS.SUCCESS || status == STATUS.FAILED)){
+			for (uint i = 0; i<numInvestors; i++){
+				if(investors[i].cancelFlag == 0){
+					if(compareString(investors[i].name, _name) && investors[i].amount == _fundMoney){
+						investors[i].restAmount = investors[i].restAmount + _fundMoney;
+						currentAmount = currentAmount - _fundMoney;
+						rest_Amount = GOALAMOUNT - currentAmount;
+						investors[i].cancelFlag = 1;
+					}
+				}
+			}
+		}
+	}
+
+	function cancel_loan() public payable aLive{
+		status = STATUS.FAILED;
+	}
+
 	/// 確認是否已達成目標金額
 	/// 此外，根據活動的成功於否進行ether的匯款
 	function checkGoalReached () public {
@@ -103,8 +127,10 @@ contract CrowdFunding {
 			TRANSACTION = concatString(TRANSACTION, OWNER);
 			TRANSACTION = concatString(TRANSACTION, ",");
 			for (uint i = 0; i<numInvestors; i++) {
-				TRANSACTION = concatString(TRANSACTION, investors[i].name);
-				if (i < numInvestors-1) TRANSACTION = concatString(TRANSACTION, ",");
+				if(investors[i].cancelFlag == 0){
+					TRANSACTION = concatString(TRANSACTION, investors[i].name);
+					if (i < numInvestors-1) TRANSACTION = concatString(TRANSACTION, ",");
+				}
 			}
 			return TRANSACTION;
 		} else {
@@ -160,18 +186,19 @@ contract CrowdFunding {
 	function get_INVESTORS() public view returns(string) {
 		string memory Info = "";
 		for (uint i = 0; i<numInvestors; i++){
-			
-			/*Info = concatString(Info, "name     : ");*/
-			Info = concatString(Info, investors[i].name);
-			Info = concatString(Info, ",");
+			if(investors[i].cancelFlag == 0){
+				/*Info = concatString(Info, "name     : ");*/
+				Info = concatString(Info, investors[i].name);
+				Info = concatString(Info, ",");
 
-			/*Info = concatString(Info, "totalAmount : ");*/
-			Info = concatString(Info, convertIntToString(investors[i].amount));
-			Info = concatString(Info, ",");
+				/*Info = concatString(Info, "totalAmount : ");*/
+				Info = concatString(Info, convertIntToString(investors[i].amount));
+				Info = concatString(Info, ",");
 
-			/*Info = concatString(Info, "restAmount  : ");*/
-			Info = concatString(Info, convertIntToString(investors[i].restAmount));
-			Info = concatString(Info, ",");
+				/*Info = concatString(Info, "restAmount  : ");*/
+				Info = concatString(Info, convertIntToString(investors[i].restAmount));
+				Info = concatString(Info, ",");
+			}
 		}
 		return Info;
 	}

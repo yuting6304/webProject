@@ -30,3 +30,25 @@ function showMatchInfo(val){
     
     window.location = "/member/match_Info";
 }
+
+function cancelBtn(val){
+    let invest_detail = [];
+    for(let i = 0; i < 13; i++){
+        invest_detail.push(val.parentNode.parentNode.children[i].innerHTML);
+        console.log(invest_detail[i]);
+    }
+    if (!confirm("取消投資！！")) {
+        return;
+    }
+    else{
+        alert('投資已取消')ㄤ
+    }
+    var serverURL = "http://localhost:8088/member/cancel_transaction?"+"addr="+invest_detail[12]+"&money="+invest_detail[8]+"&mode="+"貸款者"+"&time="+invest_detail[9]+"&type="+invest_detail[7];
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST',serverURL,true);
+    xhr.withCredentials=false;
+    xhr.send();
+
+    window.location = '/member/myInvest';
+}
+

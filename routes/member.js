@@ -43,6 +43,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/myLoan', function(req, res, next) {
     if(req.session.logined){
+        getName = req.session.username;
         user.getUserLoanData(req.session.username, function(err, data){
             if(err){
                 console.log(err);
@@ -62,6 +63,7 @@ router.get('/myLoan', function(req, res, next) {
 
 router.get('/myInvest', function(req, res, next) {
     if(req.session.logined){
+        getName = req.session.username;
         user.getUserInvestData(req.session.username, function(err, data){
             if(err){
                 console.log(err);
@@ -81,6 +83,7 @@ router.get('/myInvest', function(req, res, next) {
 
 router.get('/myReturn', function(req, res, next) {
     if(req.session.logined){
+        getName = req.session.username;
         user.getUserReturnData(req.session.username, function(err, data){
             if(err){
                 console.log(err);
@@ -105,19 +108,29 @@ router.post('/myReturn', function(req, res, next) {
     let name = req.query.user;
     let addr = req.query.addr;
     let msg = parseInt(req.query.msg, 10);
+    let rest_money = req.query.rest_money;
     let time = moment().format('MMMM Do YYYY, h:mm:ss a');
 
+    let rt_money = msg;
 
     console.log('investigator : ' + name);   
     console.log('loaner : ' + getName);   
     console.log('msg : ' + msg);
     console.log('addr : ' + addr);
     console.log('time : ' + time);
+    console.log('rest_money : ' + rest_money);
 
+
+    if(msg >= rest_money){
+        rt_money = rest_money;
+    }
+    else{
+        rt_money = msg;
+    }
 
     deploy_contract.unlock_account();
-    return_money.fund(getName, msg, addr);
-    user.return_money(0, "借方", name, getName, msg, 0, 0, "一般", 'reason', addr, addr, time);
+    return_money.fund(getName, rt_money, addr);
+    user.return_money(0, "借方", name, getName, rt_money, 0, 0, "一般", 'reason', addr, addr, time);
 
     setTimeout(update, 7000, addr);            
     // setTimeout(showResult, 30000, addr);
@@ -139,8 +152,8 @@ router.post('/return_status', function(req, res, next){
 });
 
 router.get('/return_waiting', function(req, res, next) {
-
     if(req.session.logined){
+        getName = req.session.username;
         res.render('return_waiting', { title: 'Log out', account: req.session.username});
     }
     else{
@@ -151,6 +164,7 @@ router.get('/return_waiting', function(req, res, next) {
 router.get('/myMoney', function(req, res, next) {
 
     if(req.session.logined){
+        getName = req.session.username;
         user.getOtherReturnData(req.session.username, function(err, data){
             if(err){
                 console.log(err);
@@ -184,6 +198,7 @@ router.post('/myMoney', function(req, res, next) {
 
 router.get('/transact_Info', function(req, res, next) {
     if(req.session.logined){
+        getName = req.session.username;
         console.log("GET address = " + transaction_addr);
         user.getAddressData(transaction_addr, function(err, data){
             if(err){
@@ -224,35 +239,36 @@ router.post('/transact_Info', function(req, res, next) {
 
 router.get('/match_Info', function(req, res, next) {
     if(req.session.logined){
-    console.log("GET username = " + req.session.username);
-    getMatchInfo(req.session.username, match_addr, match_mode, function(err, data){
-        if(err){
-            console.log(err);
-        }
-        else{
-            if(match_mode == "借款者"){
-                user.getRestMoney(req.session.username, match_addr, "撮合", function(err, rest_money){
-                    if(err){
-                        console.log(err);
-                    }
-                    else{
-                        res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "借款者", rest_money: rest_money });
-                    }
-                });
+        getName = req.session.username;
+        console.log("GET username = " + req.session.username);
+        getMatchInfo(req.session.username, match_addr, match_mode, function(err, data){
+            if(err){
+                console.log(err);
             }
             else{
-                user.getMakeMatchSucc(data[0], data[data.length-1], match_addr, function(err, rest_money){
-                    if(err){
-                        console.log(err);
-                    }
-                    else{
-                        // console.log('rest_money : ' + rest_money);
-                        res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "貸款者", rest_money: rest_money });
-                    }
-                });
+                if(match_mode == "借款者"){
+                    user.getRestMoney(req.session.username, match_addr, "撮合", function(err, rest_money){
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "借款者", rest_money: rest_money });
+                        }
+                    });
+                }
+                else{
+                    user.getMakeMatchSucc(data[0], data[data.length-1], match_addr, function(err, rest_money){
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            // console.log('rest_money : ' + rest_money);
+                            res.render('matchinfo', { title: 'Log out', account: req.session.username, data: data[0], info: data[1], counter: data[data.length-1], reason: match_reason, mode: "貸款者", rest_money: rest_money });
+                        }
+                    });
+                }
             }
-        }
-    });
+        });
     // if(user.getloginStatus() == 1){
         // let name = user.getloginAccount();
                     
@@ -276,6 +292,7 @@ router.post('/match_Info', function(req, res, next) {
 
 router.get('/return_Info', function(req, res, next){
     if(req.session.logined){
+        getName = req.session.username;
         showReturnMoneyInfo(return_addr, function(err, data){
             res.render('returninfo', { title: 'Log out', account: req.session.username, investigator: data[0], loaner: data[1], time: data[2] });
         });
@@ -300,6 +317,111 @@ router.post('/return_Info', function(req, res, next){
 });
 
 
+router.get('/cancel_transaction', function(req, res, next){
+    if(req.session.logined){
+        getName = req.session.username;
+        res.render('cancel_transaction', { title: 'Log out', account: req.session.username});
+    }
+    else{
+        res.redirect('login');
+    }
+});
+
+router.post('/cancel_transaction', function(req, res, next){
+    let addr = req.query.addr;
+    let money = req.query.money;
+    let mode = req.query.mode;
+    let name = getName;
+    let time = req.query.time;
+    let type = req.query.type;
+
+    money = money.substr(2, money.length-2);
+
+    console.log('name : ', name);
+    console.log('addr : ' + addr);
+    console.log('money : ' + money);
+    console.log('mode : ' + mode);
+    console.log('type : ' + type);
+
+    console.log('time : ' + time);
+
+    cancel_transaction(name, mode, addr, time, type);
+
+    if(type == '一般'){
+        deploy_contract.unlock_account();
+        if(mode == '借款者'){
+            crowd_fund.cancel_LOAN(addr);
+        }
+        else{
+            crowd_fund.cancel_fund(name, money, addr);
+            // return_money.cancel_INVEST(addr);
+        }
+    }
+    else{
+        deploy_contract.unlock_account();
+        if(mode == '借款者'){
+            matchMaker.cancel_makeMatch('BORROWER', name, money, addr);
+        }
+        else{
+            matchMaker.cancel_makeMatch('INVESTOR', name, money, addr);
+        }
+    }
+
+});
+
+function cancel_transaction(name, role, addr, time, type){
+    update_cancel_flag(name, role, addr, time, type);
+}
+
+function update_cancel_flag(name, role, addr, time, type){
+    if(type == '一般'){
+        if(role == '借款者'){
+            let modSql = 'transaction SET cancel = ? WHERE contract_addr = ? and username = ?';
+            let modSqlParams = [1, addr, name];
+            dbConnection.updateData(modSql, modSqlParams);
+    
+            let modSql1 = 'rtmoney SET cancel = ? WHERE rtcontract_addr = ? and loaner = ?';
+            let modSqlParams1 = [1, addr, name];
+            dbConnection.updateData(modSql1, modSqlParams1);
+    
+            let modSql2 = 'rtexpire SET cancel = ? WHERE rtcontract_addr = ? and loaner = ?';
+            let modSqlParams2 = [1, addr, name];
+            dbConnection.updateData(modSql2, modSqlParams2);
+    
+            let modSql3 = 'invest SET cancel = ? WHERE contract_addr = ? and loaner = ?';
+            let modSqlParams3 = [1, addr, name];
+            dbConnection.updateData(modSql3, modSqlParams3);
+    
+        }
+        else{
+            let modSql = 'invest SET cancel = ? WHERE contract_addr = ? and time = ?';
+            let modSqlParams = [1, addr, time];
+            dbConnection.updateData(modSql, modSqlParams);
+    
+            let modSql1 = 'rtmoney SET cancel = ? WHERE rtcontract_addr = ? and investigator = ?';
+            let modSqlParams1 = [1, addr, name];
+            dbConnection.updateData(modSql1, modSqlParams1);
+    
+            let modSql2 = 'rtexpire SET cancel = ? WHERE rtcontract_addr = ? and investigator = ?';
+            let modSqlParams2 = [1, addr, name];
+            dbConnection.updateData(modSql2, modSqlParams2);
+        }
+    }
+    else{
+        if(role == '借款者'){
+            let modSql = 'transaction SET cancel = ? WHERE contract_addr = ? and username = ?';
+            let modSqlParams = [1, addr, name];
+            dbConnection.updateData(modSql, modSqlParams);
+        }
+        else{
+            let modSql = 'invest SET cancel = ? WHERE contract_addr = ? and investigator = ?';
+            let modSqlParams = [1, addr, name];
+            dbConnection.updateData(modSql, modSqlParams);
+        }
+    }
+}
+
+
 function change_returninfo_status(addr){
 
     let rest = return_money.show_RESTAMOUNT(addr);
@@ -316,6 +438,11 @@ function change_returninfo_status(addr){
             let modSql = 'rtmoney SET status = ? WHERE contract_addr = ? and role = ?';
             let modSqlParams = [0, addr, '貸方'];
             dbConnection.updateData(modSql, modSqlParams);
+
+            let modSql1 = 'rtexpire SET succ = ? WHERE contract_addr = ?';
+            let modSqlParams1 = [1, addr];
+            dbConnection.updateData(modSql1, modSqlParams1);
+
             user.getUserfromReturn(addr, function(err, name){
                 if(err){
                     console.log(err);
@@ -345,32 +472,33 @@ function change_returninfo_status(addr){
             let modSqlParams = [2, addr, '貸方'];
             dbConnection.updateData(modSql, modSqlParams);
 
-            user.getUserfromReturn(addr, function(err, name){
-                if(err){
-                    console.log(err);
-                }
-                else{
-                    let name_size = name.length;
-                    for(let i = 0; i < name_size; i++){
-                        user.getUserMail(name[i], function(err, mail_addr){
-                            if(err){
-                                console.log(err);
-                            }
-                            else{
-                                if(i == 0){
-                                    user.returnSuccMail(mail_addr, '借方', -1);
-                                }
-                                else{
-                                    user.returnFailMail(mail_addr, '貸方', -1);
-                                }
-                            }
-                        })
-                    }
-                }
-            });
+            // user.getUserfromReturn(addr, function(err, name){
+            //     if(err){
+            //         console.log(err);
+            //     }
+            //     else{
+            //         let name_size = name.length;
+            //         for(let i = 0; i < name_size; i++){
+            //             user.getUserMail(name[i], function(err, mail_addr){
+            //                 if(err){
+            //                     console.log(err);
+            //                 }
+            //                 else{
+            //                     if(i == 0){
+            //                         user.returnSuccMail(mail_addr, '借方', -1);
+            //                     }
+            //                     else{
+            //                         user.returnFailMail(mail_addr, '貸方', -1);
+            //                     }
+            //                 }
+            //             })
+            //         }
+            //     }
+            // });
         }
     }
 }
+
 
 function update(ADDR){
     return_money.upDateContract(ADDR);

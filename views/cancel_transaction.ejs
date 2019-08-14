@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Return Money Waiting</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <script type="text/javascript" src="/js/cancel_transaction.js"></script>
+</head>
+
+<body>
+
+    <header class="nav">
+        <ul>
+            <li><a class="active" href="/">Home</a></li>
+            <li><a href="#news">News</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="/intro">About</a></li>
+            <% if(title == "Sign in") { %>
+                <li class="nav_signin"><a href="/login"><%= title%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/logout"><%= title%></a></li>
+            <% } %>
+
+            <% if(account == "Sign up") { %>
+                <li class="nav_signin"><a href="/register"><%= account%></a></li>
+            <% } else { %>
+                <li class="nav_signin"><a href="/member"><%= account%></a></li>
+            <% } %>
+        </ul>        
+    </header>
+    <main class="chooses">
+        <section class="chooses_choose choose" onmouseover="document.getElementById('word').style.opacity='1';" onmouseout="document.getElementById('word').style.opacity='0';">
+            <span>正在取消,網頁將於 </span>
+            <span id="timer" style='color:red; font-size: 18px'>10</span>
+            <span> 秒後跳轉確認</span><br/>
+            <span>若未跳轉請按下方按鈕</span><br>
+            <button id="button" onclick="gotoReturn()">按此返回</button>
+            
+        </section>
+    </main>
+</body>
+</html>

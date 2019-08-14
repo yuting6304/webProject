@@ -28,6 +28,9 @@ window.onload = function(){
     if(confirm('前往徵信中心進行身份認證\n'+'https://apply.jcic.org.tw/CreditQueryInput.do\n'+'完成徵信中心認證後再至此平台完成帳號註冊')){
         window.open('https://apply.jcic.org.tw/CreditQueryInput.do');
     }
+    else{
+        window.location = '/';
+    }
 
 }
 

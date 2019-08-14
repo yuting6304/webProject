@@ -55,7 +55,8 @@
                     <th>投資金額</th>
                     <th>投資時間</th>
                     <th>狀態</th>   
-                    <th>查看貸款完成紀錄</th>                    
+                    <th>查看貸款完成紀錄</th>  
+                    <th>取消投資</th>                  
                 </tr>
                 <% for(let i = 0; i < data[0].length; i++) { %>
                     <tr class = "datas_data">
@@ -68,14 +69,27 @@
                                 <td><%= data[j][i] %> 期</td>
                             <% } else if(j == 10) { %>
                                 <% if(data[j][i] == 1) { %>
-                                    <td>等待中</td>
+                                    <% if(data[12][i] == 1) { %>
+                                        <td>已取消</td>
+                                    <% } else { %>
+                                        <td>等待中</td>
+                                    <% } %>
                                     <td><button type="button" disabled id="click">click</button></td>
                                 <% } else { %>
-                                    <td>已結束</td>
-                                    <% if(data[7][i] == "一般") { %>
-                                        <td><button type="button" id="click" onclick="showTransactInfo(this)">click</button></td>
+                                    <% if(data[12][i] == 1) { %>
+                                        <td>已取消</td>
+                                        <% if(data[7][i] == "一般") { %>
+                                            <td><button type="button" id="click" onclick="showTransactInfo(this)" disabled>click</button></td>
+                                        <% } else { %>
+                                            <td><button type="button" id="click" onclick="showMatchInfo(this)" disabled>click</button></td>
+                                        <% } %>
                                     <% } else { %>
-                                        <td><button type="button" id="click" onclick="showMatchInfo(this)">click</button></td>
+                                        <td>已結束</td>
+                                        <% if(data[7][i] == "一般") { %>
+                                            <td><button type="button" id="click" onclick="showTransactInfo(this)">click</button></td>
+                                        <% } else { %>
+                                            <td><button type="button" id="click" onclick="showMatchInfo(this)">click</button></td>
+                                        <% } %>
                                     <% } %>
                                 <% } %>
                             <% } else if(j == 11) { %>
@@ -83,6 +97,11 @@
                             <% } else { %>
                                 <td><%= data[j][i] %></td>
                             <% } %>
+                        <% } %>
+                        <% if(data[12][i] == 1 || data[10][i] == 0) { %>
+                            <td><button type="button" disabled id="cancel_btn" onclick="cancelBtn(this)">取消</button></td>
+                        <% } else { %>
+                            <td><button type="button" id="cancel_btn" onclick="cancelBtn(this)">取消</button></td>
                         <% } %>
                     </tr>
                 <% } %>

@@ -39,7 +39,11 @@ const address0 =  web3.eth.accounts[0];// user
 /*********************************************************/
 
 
-
+function cancel_INVEST(ADDR){
+  var value = getContractInfo(ADDR);
+  value[0].cancel_invest({from: address0, gas: value[1]});
+  value[0].checkGoalReached({from: address0, gas: value[1]});
+}
 
 
 function fund(_name, _fundMoney, ADDR){
@@ -223,6 +227,8 @@ function getContractInfo(Contract_Address) {
   return [contract, gasestimate];
 }
 
+
+module.exports.cancel_INVEST = cancel_INVEST;
 
 module.exports.fund = fund;
 module.exports.getResult = getResult;

@@ -74,6 +74,22 @@ contract MatchMaker {
 		}
 	}
 
+	function cancelMakeMatch (string _id, string _name, uint _totalAmount) public aLive{
+		if (compareString(_id, 'INVESTOR')){
+			for(uint i = 0; i < numInvestors; i++){
+				if(compareString(investors[i].name, _name) && investors[i].totalAmount == _totalAmount){
+					investors[i].restAmount = 0;
+				}				
+			}
+		} else if (compareString(_id, 'BORROWER')){
+			for(uint j = 0; j < numBorrowers; j++){
+				if(compareString(borrowers[j].name, _name) && borrowers[j].totalAmount == _totalAmount){
+					borrowers[j].restAmount = 0;
+				}
+			}
+		}
+	}
+
 	uint[] empty;
 	uint[] startIndex_for_borrowers;
 	// 回傳：|borrowerName&borrowerAmount,investorName&investorAmount|orrowerName&borrowerAmount,investorName&investorAmount|

@@ -38,8 +38,18 @@ const address0 =  web3.eth.accounts[0];// user
 // upDateContract();
 /*********************************************************/
 
+function cancel_LOAN(ADDR){
+  var value = getContractInfo(ADDR);
+  value[0].cancel_loan({from: address0, gas: value[1]});
+  value[0].checkGoalReached({from: address0, gas: value[1]});
+}
 
-
+function cancel_fund(_name, _fundMoney, ADDR){
+  var value = getContractInfo(ADDR); 
+  value[0].cancel_fund(_name, _fundMoney, {from: address0, gas: value[1]});
+  value[0].checkGoalReached({from: address0, gas: value[1]});
+  console.log("fund cancel success");
+}
 
 
 function fund(_name, _fundMoney, ADDR){
@@ -200,8 +210,6 @@ function show_NUMINVESTORS(){
 
 
 
-
-
 /*********************************************************/
 /********************      Utils      ********************/
 /*********************************************************/
@@ -223,6 +231,9 @@ function getContractInfo(Contract_Address) {
   return [contract, gasestimate];
 }
 
+
+module.exports.cancel_LOAN = cancel_LOAN;
+module.exports.cancel_fund = cancel_fund;
 
 module.exports.fund = fund;
 module.exports.getResult = getResult;

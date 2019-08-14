@@ -83,7 +83,7 @@ function reMoney(val){
         console.log(invest_detail[i]);
     }
     // console.log(JSON.stringify(invest_detail));
-    var serverURL = "http://localhost:8088/member/myReturn?"+"user="+invest_detail[1]+"&msg="+invest_money+"&addr="+invest_detail[12];
+    var serverURL = "http://localhost:8088/member/myReturn?"+"user="+invest_detail[1]+"&msg="+invest_money+"&addr="+invest_detail[12]+"&rest_money="+invest_detail[8];
     var xhr = new XMLHttpRequest();
     xhr.open('POST',serverURL,true);
     xhr.withCredentials=false;

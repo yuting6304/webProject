@@ -77,6 +77,11 @@ contract ReturnMoney {
 			}
 		}
 	}
+
+	function cancel_invest() public payable aLive{
+		status = STATUS.FAILED;
+	}
+
 	/// 確認是否已達成目標金額
 	/// 此外，根據活動的成功於否進行ether的匯款
 	function checkGoalReached () public {

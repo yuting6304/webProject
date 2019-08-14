@@ -103,7 +103,13 @@ function addDefaultUser(addr) {
 /*********************************************************/
 
 
-
+function cancel_makeMatch(User_ID, User_Name, User_TotalAmount, ADDR) {
+  // update this value in order to do something to aimmed contract
+  var value = getContractInfo(ADDR);
+  value[0].checkGoalReached({from: address0, gas: value[1]});
+  value[0].cancelMakeMatch(User_ID, User_Name, User_TotalAmount, {from: address0, gas: value[1]});
+  value[0].checkGoalReached({from: address0, gas: value[1]});
+}
 
 
 function addUser(User_ID, User_Name, User_TotalAmount, User_Interest, User_CreditRating, ADDR) {
@@ -282,6 +288,7 @@ function parseString(result) {
 }
 
 
+module.exports.cancel_makeMatch = cancel_makeMatch;
 
 module.exports.addUser = addUser;
 module.exports.showAllInfo = showAllInfo;

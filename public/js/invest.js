@@ -75,7 +75,7 @@ function getValue(val){
         invest_detail.push(val.parentNode.parentNode.children[i].innerHTML)
     }
     // console.log(JSON.stringify(invest_detail));
-    var serverURL = "http://localhost:8088/invest?"+"index="+invest_detail[10]+"&user="+invest_detail[1]+"&reliable="+invest_detail[2]+"&money="+invest_detail[3]+"&rate="+invest_detail[4]+"&period="+invest_detail[5]+"&reason="+invest_detail[6]+"&type="+invest_detail[7]+"&status="+invest_detail[9]+"&msg="+invest_money;
+    var serverURL = "http://localhost:8088/invest?"+"index="+invest_detail[10]+"&user="+invest_detail[1]+"&reliable="+invest_detail[2]+"&money="+invest_detail[3]+"&rate="+invest_detail[4]+"&period="+invest_detail[5]+"&reason="+invest_detail[6]+"&type="+invest_detail[7]+"&status="+invest_detail[9]+"&msg="+invest_money+"&rest_money="+invest_detail[8];
     var xhr = new XMLHttpRequest();
     xhr.open('POST',serverURL,true);
     xhr.withCredentials=false;
