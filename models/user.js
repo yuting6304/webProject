@@ -492,6 +492,112 @@ function returnRemiderMail(mailAddr, name, opt){
     });
 }
 
+function cancelMail(mailAddr, opt, type){
+    readHTML(__dirname + '/mail/cancel_mail.html', function(err, html) {
+        let template = handlebars.compile(html);
+        if(type == '一般'){
+            if(opt == '借方'){
+
+                let replacements = {
+                    msg: '您的一般借款'
+                };
+                let htmlToSend = template(replacements);
+    
+                let mailOptions = {
+                    from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+                    to : mailAddr,
+                    subject : 'Return reminder from P2P_Borrowing_Platform',
+                    html : htmlToSend
+                };
+    
+                smtpTransport.sendMail(mailOptions, function (err, info) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else{
+                        consol.log('Email sent: ' + info.response);
+                    }
+                });
+    
+            }
+            else if(opt == '貸方'){
+    
+                let replacements = {
+                    msg: '您的一般投資'
+                };
+                let htmlToSend = template(replacements);
+                
+                let mailOptions = {
+                    from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+                    to : mailAddr,
+                    subject : 'Return reminder from P2P_Borrowing_Platform',
+                    html : htmlToSend
+                };
+    
+                smtpTransport.sendMail(mailOptions, function (err, info) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else{
+                        consol.log('Email sent: ' + info.response);
+                    }
+                });
+            }
+        }
+        else{
+            if(opt == '借方'){
+
+                let replacements = {
+                    msg: '您的撮合借款'
+                };
+                let htmlToSend = template(replacements);
+    
+                let mailOptions = {
+                    from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+                    to : mailAddr,
+                    subject : 'Return reminder from P2P_Borrowing_Platform',
+                    html : htmlToSend
+                };
+    
+                smtpTransport.sendMail(mailOptions, function (err, info) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else{
+                        consol.log('Email sent: ' + info.response);
+                    }
+                });
+    
+            }
+            else if(opt == '貸方'){
+    
+                let replacements = {
+                    msg: '您的撮合投資'
+                };
+                let htmlToSend = template(replacements);
+                
+                let mailOptions = {
+                    from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
+                    to : mailAddr,
+                    subject : 'Return reminder from P2P_Borrowing_Platform',
+                    html : htmlToSend
+                };
+    
+                smtpTransport.sendMail(mailOptions, function (err, info) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else{
+                        consol.log('Email sent: ' + info.response);
+                    }
+                });
+    
+            }
+        }
+    });
+}
+
+
 function memberConfirm(name, pass, token, callback){
     dbConnection.getDBData('users', function(err, data){
         if(err){
@@ -681,7 +787,7 @@ function getUserReturnData(username, callback){
             let addr = [];
             let time = [];
             for(let i = 0; i < size; i++){
-                if(data[i].loaner == username && data[i].role == "貸方" && data[i].status != -1){
+                if(data[i].loaner == username && data[i].role == "貸方" && data[i].status != -1 && data[i].cancel == -1){
                     idx = idx+1;
                     index.push(idx);
                     investigator.push(data[i].investigator);
@@ -868,8 +974,8 @@ function schedule_event_deploy_constract(){
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
-    rule.hour = 19;
-    rule.minute = 40;
+    rule.hour = 10;
+    rule.minute = 30;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -953,8 +1059,8 @@ function schedule_event_make_a_match(){
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
-    rule.hour = 19;
-    rule.minute = 41;
+    rule.hour = 10;
+    rule.minute = 31;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -1231,7 +1337,7 @@ function sendMatchMail(addr){
                     let loaner_size = loaner.length;
                     let investigator_size = investigator.length;
                     for(let i = 0; i < loaner_size; i++){
-                        if(loaner[i].contract_addr == addr){
+                        if(loaner[i].contract_addr == addr && loaner[i].cancel == -1){
                             getUserMail(loaner[i].username, function(err, mail_addr){
                                 if(err){
                                     console.log(err);
@@ -1244,7 +1350,7 @@ function sendMatchMail(addr){
                     }
 
                     for(let i = 0; i < investigator_size; i++){
-                        if(investigator[i].contract_addr == addr){
+                        if(investigator[i].contract_addr == addr && investigator[i].cancel == -1){
                             getUserMail(investigator[i].investigator, function(err, mail_addr){
                                 if(err){
                                     console.log(err);
@@ -1516,7 +1622,7 @@ function getLoanerANDInvestigator(addr, callback){
             let flag = 0;
             let name = [];
             for(let i = 0; i < size; i++){
-                if(data[i].contract_addr == addr && data[i].loan_type == '一般'){
+                if(data[i].contract_addr == addr && data[i].loan_type == '一般' && data[i].cancel == -1){
                     if(flag == 0){
                         name.push(data[i].loaner);
                         name.push(data[i].investigator);
@@ -1570,6 +1676,7 @@ module.exports.confirmMail = confirmMail;
 module.exports.transactMail = transactMail;
 module.exports.returnSuccMail = returnSuccMail;
 module.exports.returnFailMail = returnFailMail;
+module.exports.cancelMail = cancelMail;
 
 module.exports.memberLogin = memberLogin;
 module.exports.memberConfirm = memberConfirm;

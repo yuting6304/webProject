@@ -376,21 +376,47 @@ function cancel_transaction(name, role, addr, time, type){
 function update_cancel_flag(name, role, addr, time, type){
     if(type == '一般'){
         if(role == '借款者'){
-            let modSql = 'transaction SET cancel = ? WHERE contract_addr = ? and username = ?';
-            let modSqlParams = [1, addr, name];
-            dbConnection.updateData(modSql, modSqlParams);
-    
-            let modSql1 = 'rtmoney SET cancel = ? WHERE rtcontract_addr = ? and loaner = ?';
-            let modSqlParams1 = [1, addr, name];
-            dbConnection.updateData(modSql1, modSqlParams1);
-    
-            let modSql2 = 'rtexpire SET cancel = ? WHERE rtcontract_addr = ? and loaner = ?';
-            let modSqlParams2 = [1, addr, name];
-            dbConnection.updateData(modSql2, modSqlParams2);
-    
-            let modSql3 = 'invest SET cancel = ? WHERE contract_addr = ? and loaner = ?';
-            let modSqlParams3 = [1, addr, name];
-            dbConnection.updateData(modSql3, modSqlParams3);
+        
+            user.getLoanerANDInvestigator(addr, function(err, username){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    let size = username.length;
+                    for(let i = 0; i < size; i++){
+                        user.getUserMail(username[i], function(err, mail_addr){
+                            if(err){
+                                console.log(err);
+                            }
+                            else{
+                                if(i == 0){
+                                    user.cancelMail(mail_addr, '借方', '一般');
+                                }
+                                else{
+                                    user.cancelMail(mail_addr, '貸方', '一般');
+                                }
+                            }
+                        });
+                    }
+
+                    let modSql = 'transaction SET cancel = ? WHERE contract_addr = ? and username = ?';
+                    let modSqlParams = [1, addr, name];
+                    dbConnection.updateData(modSql, modSqlParams);
+            
+                    let modSql1 = 'rtmoney SET cancel = ? WHERE rtcontract_addr = ? and loaner = ?';
+                    let modSqlParams1 = [1, addr, name];
+                    dbConnection.updateData(modSql1, modSqlParams1);
+            
+                    let modSql2 = 'rtexpire SET cancel = ? WHERE rtcontract_addr = ? and loaner = ?';
+                    let modSqlParams2 = [1, addr, name];
+                    dbConnection.updateData(modSql2, modSqlParams2);
+            
+                    let modSql3 = 'invest SET cancel = ? WHERE contract_addr = ? and loaner = ?';
+                    let modSqlParams3 = [1, addr, name];
+                    dbConnection.updateData(modSql3, modSqlParams3);
+                
+                }
+            });
     
         }
         else{
@@ -405,6 +431,15 @@ function update_cancel_flag(name, role, addr, time, type){
             let modSql2 = 'rtexpire SET cancel = ? WHERE rtcontract_addr = ? and investigator = ?';
             let modSqlParams2 = [1, addr, name];
             dbConnection.updateData(modSql2, modSqlParams2);
+
+            user.getUserMail(name, function(err, mail_addr){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    user.cancelMail(mail_addr, '貸方', '一般');
+                }
+            });
         }
     }
     else{
@@ -412,11 +447,30 @@ function update_cancel_flag(name, role, addr, time, type){
             let modSql = 'transaction SET cancel = ? WHERE contract_addr = ? and username = ?';
             let modSqlParams = [1, addr, name];
             dbConnection.updateData(modSql, modSqlParams);
+
+            user.getUserMail(name, function(err, mail_addr){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    user.cancelMail(mail_addr, '借方', '撮合');
+                }
+            });
+
         }
         else{
             let modSql = 'invest SET cancel = ? WHERE contract_addr = ? and investigator = ?';
             let modSqlParams = [1, addr, name];
             dbConnection.updateData(modSql, modSqlParams);
+
+            user.getUserMail(name, function(err, mail_addr){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    user.cancelMail(mail_addr, '貸方', '撮合');
+                }
+            });
         }
     }
 }
