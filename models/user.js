@@ -1469,11 +1469,30 @@ function getReturnMoneyData(username, callback){
             let size = data.length;
             let addr = [];
             for(let i = 0; i < size; i++){
-                if(data[i].loaner == username && data[i].role == "貸方" && data[i].status != -1){
+                if(data[i].loaner == username && data[i].role == "貸方" && data[i].status != -1 && data[i].cancel == -1){
                     addr.push(data[i].contract_addr);
                 }
             }
             callback(null, addr);
+        }
+    });
+}
+
+
+function getReturnDetail(addr, callback){
+    dbConnection.getDBData('rtmoney', function(err, data){
+        if(err){
+            callback(err, null);
+        }
+        else{
+            let size = data.length;
+            let result = [];
+            for(let i = 0; i < size; i++){
+                if(data[i].rtcontract_addr == addr && data[i].role == "貸方" && data[i].cancel == -1 && data[i].contract_addr == '0x'){
+                    result.push(data[i]);
+                }
+            }
+            callback(null, result);
         }
     });
 }
@@ -1487,7 +1506,7 @@ function getUserMoneyData(username, callback){
             let size = data.length;
             let addr = [];
             for(let i = 0; i < size; i++){
-                if(data[i].investigator == username && data[i].role == "貸方" && data[i].status != -1){
+                if(data[i].investigator == username && data[i].role == "貸方" && data[i].status != -1 && data[i].cancel == -1){
                     addr.push(data[i].contract_addr);
                 }
             }
@@ -1717,4 +1736,6 @@ module.exports.update_returnMoneyStatus = update_returnMoneyStatus;
 module.exports.getLoanerANDInvestigator = getLoanerANDInvestigator;
 module.exports.getUserfromReturn = getUserfromReturn;
 module.exports.save_expire_time = save_expire_time;
+
+module.exports.getReturnDetail = getReturnDetail;
 

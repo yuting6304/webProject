@@ -81,16 +81,16 @@ router.post('/', function(req, res, next){
                 fund_money = msg;
             }
 
-            deploy_contract.deploy_contract("ReturnMoney.sol", invest_user, fund_money, rate, period, period*2592000, reason, function(rtaddr){
-                user.return_money(index, "貸方", invest_user, loaner, fund_money, rate, period, "一般", reason, addr, rtaddr, time);
+            // deploy_contract.deploy_contract("ReturnMoney.sol", invest_user, fund_money, rate, period, period*2592000, reason, function(rtaddr){
+                user.return_money(index, "貸方", invest_user, loaner, fund_money, rate, period, "一般", reason, addr, '0x', time);
                 crowd_fund.fund(invest_user, fund_money, addr);
                 user.invest(invest_user, loaner, reliable, money, fund_money, rate, period, type, reason, addr, time);
-                user.save_expire_time(invest_user, loaner, period, addr, rtaddr);
+                // user.save_expire_time(invest_user, loaner, period, addr, rtaddr);
                 
                 setTimeout(update, 8000, addr);            
                 // setTimeout(showResult, 20000, addr);
                 setTimeout(showResult, 30000, addr);
-            });
+            // });
 
             
         }
@@ -115,10 +115,6 @@ router.get('/changeStatus', function(req, res, next) {
 router.post('/changeStatus', function(req, res, next) {
     let index = req.query.index;
     let loaner = req.query.user;
-
-    console.log('index : ' + index);
-    console.log('user : ' + loaner);
-
 
     user.getNormalTransactionAddr(loaner, index, function(err, addr){
         if(err){
@@ -181,6 +177,27 @@ function showResult(ADDR){
                     let modSqlParams3 = [1, ADDR];
                     dbConnection.updateData(modSql3, modSqlParams3);
 
+
+                    user.getReturnDetail(ADDR, function(err, data){
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            let size = data.length;
+                            for(let i = 0; i < size; i++){
+                                deploy_contract.deploy_contract("ReturnMoney.sol", data[i].investigator, data[i].money, data[i].rate, data[i].period, data[i].period*2592000, data[i].loan_reason, function(rtaddr){
+                                    user.save_expire_time(data[i].investigator, data[i].loaner, data[i].period, ADDR, rtaddr);
+                                
+                                    let modSql4 = 'rtmoney SET contract_addr = ? WHERE rtcontract_addr = ? and time = ?';
+                                    let modSqlParams4 = [rtaddr, ADDR, data[i].time];
+                                    dbConnection.updateData(modSql4, modSqlParams4);
+                                
+                                });
+                            }
+                        }
+                    })
+                    
+
                     user.getLoanerANDInvestigator(ADDR, function(err, name){
                         if(err){
                             console.log(err);
@@ -200,10 +217,10 @@ function showResult(ADDR){
                                             user.transactMail(mail_addr, '貸方');
                                         }
                                     }
-                                })
+                                });
                             }
                         }
-                    })
+                    });
                 }
             }
         });

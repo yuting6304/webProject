@@ -35,6 +35,7 @@ function countdown(count_down_time){
     for(let i = 0; i < count_down_time.length; i++){
         if(count_down_time[i] == 0 && table.rows[i+1].cells[9].innerHTML == 1){
             console.log(count_down_time[i]);
+
             console.log(table.rows[i].cells[9].innerHTML);
 
             var serverURL = "http://localhost:8088/invest/changeStatus?"+"user="+table.rows[i+1].cells[1].innerHTML+"&index="+table.rows[i+1].cells[10].innerHTML;
