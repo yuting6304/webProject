@@ -892,3 +892,27 @@
 11:17:09.429918 table@remove removed @218
 11:49:19.390630 db@close closing
 11:49:19.390858 db@close done T·226.388µs
+=============== Aug 17, 2019 (CST) ===============
+22:20:10.338180 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+22:20:10.367162 version@stat F·[0 4] S·7MiB[0B 7MiB] Sc·[0.00 0.08]
+22:20:10.367190 db@open opening
+22:20:10.367259 journal@recovery F·1
+22:20:10.397705 journal@recovery recovering @220
+22:20:10.841685 memdb@flush created L0@226 N·2685 S·414KiB "\x00\xae\xed..\xa8\xac\x95,v84421":"\xff\x1f4..\x1f\x04\x93,v84666"
+22:20:10.977648 version@stat F·[1 4] S·8MiB[414KiB 7MiB] Sc·[0.25 0.08]
+22:20:11.079576 db@janitor F·7 G·0
+22:20:11.079703 db@open done T·712.445724ms
+22:27:19.042577 table@compaction L0·1 -> L1·4 S·8MiB Q·84797
+22:27:19.208934 table@build created L1@229 N·11821 S·2MiB "\x00\x01\x91..\xe2u\xd9,v38671":"b\x00\x00..L\x80\xc5,v32562"
+22:27:19.342642 table@build created L1@230 N·9246 S·2MiB "b\x00\x00..ْ\v,v32583":"h\x00\x00...A ,v31870"
+22:27:19.505741 table@build created L1@231 N·24394 S·2MiB "h\x00\x00..A t,v31867":"r\x00\x00..,\x8bX,v7620"
+22:27:19.633353 table@build created L1@232 N·9189 S·1MiB "r\x00\x00..\x14D\x82,v7725":"\xff\xf8U..\x06\xf0J,v11530"
+22:27:19.633442 version@stat F·[0 4] S·8MiB[0B 8MiB] Sc·[0.00 0.08]
+22:27:19.689609 table@compaction committed F-1 S-91KiB Ke·0 D·793 T·620.725512ms
+22:27:19.689853 table@remove removed @226
+22:27:19.690141 table@remove removed @222
+22:27:19.690424 table@remove removed @223
+22:27:19.690792 table@remove removed @224
+22:27:19.690996 table@remove removed @225
+22:39:49.335009 db@close closing
+22:39:49.382069 db@close done T·47.050116ms

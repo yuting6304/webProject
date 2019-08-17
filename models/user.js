@@ -389,7 +389,7 @@ function returnFailMail(mailAddr, opt, succ){
             let mailOptions = {
                 from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
                 to : mailAddr,
-                subject : 'Return money success from P2P_Borrowing_Platform',
+                subject : 'Return money fail from P2P_Borrowing_Platform',
                 html : htmlToSend
             };
 
@@ -419,7 +419,7 @@ function returnFailMail(mailAddr, opt, succ){
             let mailOptions = {
                 from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
                 to : mailAddr,
-                subject : 'Return money success from P2P_Borrowing_Platform',
+                subject : 'Return money fail from P2P_Borrowing_Platform',
                 html : htmlToSend
             };
 
@@ -506,7 +506,7 @@ function cancelMail(mailAddr, opt, type){
                 let mailOptions = {
                     from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
                     to : mailAddr,
-                    subject : 'Return reminder from P2P_Borrowing_Platform',
+                    subject : 'Transaction cancel from P2P_Borrowing_Platform',
                     html : htmlToSend
                 };
     
@@ -530,7 +530,7 @@ function cancelMail(mailAddr, opt, type){
                 let mailOptions = {
                     from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
                     to : mailAddr,
-                    subject : 'Return reminder from P2P_Borrowing_Platform',
+                    subject : 'Transaction cancel from P2P_Borrowing_Platform',
                     html : htmlToSend
                 };
     
@@ -555,7 +555,7 @@ function cancelMail(mailAddr, opt, type){
                 let mailOptions = {
                     from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
                     to : mailAddr,
-                    subject : 'Return reminder from P2P_Borrowing_Platform',
+                    subject : 'Transaction cancel from P2P_Borrowing_Platform',
                     html : htmlToSend
                 };
     
@@ -579,7 +579,7 @@ function cancelMail(mailAddr, opt, type){
                 let mailOptions = {
                     from: 'P2P_Borrowing_Platform <wac33567@gmail.com>',
                     to : mailAddr,
-                    subject : 'Return reminder from P2P_Borrowing_Platform',
+                    subject : 'Transaction cancel from P2P_Borrowing_Platform',
                     html : htmlToSend
                 };
     
