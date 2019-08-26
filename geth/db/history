@@ -4,3 +4,6 @@ eth.accounts
 miner.start(1)
 miner.start(10)
 miner.stop()
+miner.start(1)
+miner.stop()
+miner.start(1)

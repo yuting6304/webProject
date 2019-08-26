@@ -1163,7 +1163,7 @@ function addResultInDB(addr, reason){
                     // console.log('reason : ' + reason);
                     // console.log('addr : ' + addr);
                     // console.log('time : ' + time);
-                    deploy_contract.deploy_contract("ReturnMoney.sol", investigator, rest_money, rate, period, period*2592000, reason, function(rtaddr){
+                    deploy_contract.deploy_contract("ReturnMoney.sol", investigator, rest_money*(1+0.01*((rate/12)*period)), rate, period, period*2592000, reason, function(rtaddr){
                         return_money_status(-1, "貸方", investigator, loaner, rest_money, rate, period, "撮合", reason, addr, rtaddr, 1, time);                
                         save_expire_time(investigator, loaner, period, addr, rtaddr);
                     });
