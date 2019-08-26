@@ -82,7 +82,7 @@ router.post('/', function(req, res, next){
             }
 
             // deploy_contract.deploy_contract("ReturnMoney.sol", invest_user, fund_money, rate, period, period*2592000, reason, function(rtaddr){
-                user.return_money(index, "貸方", invest_user, loaner, fund_money, rate, period, "一般", reason, addr, '0x', time);
+                user.return_money(index, "貸方", invest_user, loaner, fund_money, parseInt(fund_money*(1+0.01*(rate/12)*period), 10), rate, period, "一般", reason, addr, '0x', time);
                 crowd_fund.fund(invest_user, fund_money, addr);
                 user.invest(invest_user, loaner, reliable, money, fund_money, rate, period, type, reason, addr, time);
                 // user.save_expire_time(invest_user, loaner, period, addr, rtaddr);
@@ -185,7 +185,7 @@ function showResult(ADDR){
                         else{
                             let size = data.length;
                             for(let i = 0; i < size; i++){
-                                deploy_contract.deploy_contract("ReturnMoney.sol", data[i].investigator, data[i].money*(1+0.01*((data[i].rate/12)*data[i].period)), data[i].rate, data[i].period, data[i].period*2592000, data[i].loan_reason, function(rtaddr){
+                                deploy_contract.deploy_contract("ReturnMoney.sol", data[i].investigator, parseInt(data[i].money*(1+0.01*((data[i].rate/12)*data[i].period)), 10), data[i].rate, data[i].period, data[i].period*2592000, data[i].loan_reason, function(rtaddr){
                                     user.save_expire_time(data[i].investigator, data[i].loaner, data[i].period, ADDR, rtaddr);
                                 
                                     let modSql4 = 'rtmoney SET contract_addr = ? WHERE rtcontract_addr = ? and time = ?';

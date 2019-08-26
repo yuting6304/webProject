@@ -89,7 +89,7 @@ router.post('/', function(req, res, next){
                 for(let i = 0; i < size; i++){
                     if(data[i].status == 1 && data[i].group_type == "投資理財"){
                         console.log(data[i].address);
-                        matchMaker.addUser('INVESTOR', "aaa", 260000, 11, "A", data[i].address);
+                        // matchMaker.addUser('INVESTOR', "aaa", 260000, 11, "A", data[i].address);
                         matchMaker.addUser('INVESTOR', "bbb", 220000, 22, "B", data[i].address);
                         matchMaker.addUser('INVESTOR', "ccc", 700000, 33, "B", data[i].address);    
                         matchMaker.addUser('INVESTOR', "ddd", 250000, 11, "B", data[i].address);

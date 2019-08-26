@@ -83,15 +83,15 @@ function store_contract(addr, group, time){
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
-function return_money(rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, time){
-    let  addSql = 'rtmoney(rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, time) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)';
-    let  addSqlParams = [rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, time];
+function return_money(rtID, role, investigator, loaner, money, rest_money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, time){
+    let  addSql = 'rtmoney(rtID, role, investigator, loaner, money, rest_money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, time) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)';
+    let  addSqlParams = [rtID, role, investigator, loaner, money, rest_money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, time];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
-function return_money_status(rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, status, time){
-    let  addSql = 'rtmoney(rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, status, time) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)';
-    let  addSqlParams = [rtID, role, investigator, loaner, money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, status, time];
+function return_money_status(rtID, role, investigator, loaner, money, rest_money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, status, time){
+    let  addSql = 'rtmoney(rtID, role, investigator, loaner, money, rest_money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, status, time) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+    let  addSqlParams = [rtID, role, investigator, loaner, money, rest_money, rate, period, loan_type, loan_reason, rtcontract_addr, contract_addr, status, time];
     dbConnection.setDBData(addSql, addSqlParams);
 }
 
@@ -974,8 +974,8 @@ function schedule_event_deploy_constract(){
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
-    rule.hour = 10;
-    rule.minute = 30;
+    rule.hour = 22;
+    rule.minute = 56;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -1059,8 +1059,8 @@ function schedule_event_make_a_match(){
     // rule.dayOfWeek = 2;
     // rule.month = 3;
     // rule.dayOfMonth = 1;
-    rule.hour = 10;
-    rule.minute = 31;
+    rule.hour = 22;
+    rule.minute = 57;
     rule.second = 0;
     
     schedule.scheduleJob(rule, function(){
@@ -1163,8 +1163,8 @@ function addResultInDB(addr, reason){
                     // console.log('reason : ' + reason);
                     // console.log('addr : ' + addr);
                     // console.log('time : ' + time);
-                    deploy_contract.deploy_contract("ReturnMoney.sol", investigator, rest_money*(1+0.01*((rate/12)*period)), rate, period, period*2592000, reason, function(rtaddr){
-                        return_money_status(-1, "貸方", investigator, loaner, rest_money, rate, period, "撮合", reason, addr, rtaddr, 1, time);                
+                    deploy_contract.deploy_contract("ReturnMoney.sol", investigator, parseInt(rest_money*(1+0.01*((rate/12)*period)), 10), rate, period, period*2592000, reason, function(rtaddr){
+                        return_money_status(-1, "貸方", investigator, loaner, rest_money, parseInt(rest_money*(1+0.01*(rate/12)*period), 10), rate, period, "撮合", reason, addr, rtaddr, 1, time);                
                         save_expire_time(investigator, loaner, period, addr, rtaddr);
                     });
                 }

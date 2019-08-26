@@ -38,7 +38,7 @@
                 <p>貸方</p>
                 <tr>
                     <th>貸方</th>
-                    <th>投資金額</th>
+                    <th>需要還款金額</th>
                     <th>利率</th>
                     <th>期數</th>
                     <th>投資原因</th>
@@ -79,7 +79,7 @@
                     </tr>
                 <% } %>
             </table>
-            <% rest_money = investigator.money-total_money; %>
+            <% rest_money = investigator.rest_money-total_money; %>
             <br>
             <span>目前還款金額 ： $ <%= total_money %></span><br>
             <span>仍需還款金額 ： $ <%= rest_money %></span><br>

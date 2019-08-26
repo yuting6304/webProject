@@ -38,6 +38,8 @@ function countdown(count_down_time){
             // console.log(table.rows[i].cells[9].innerHTML);
 
             var serverURL = "http://localhost:8088/member/return_status?"+"user="+table.rows[i+1].cells[1].innerHTML+"&addr="+table.rows[i+1].cells[12].innerHTML+"&role="+"貸方";
+            // var serverURL = "https://3ed760d9.ngrok.io/member/return_status?"+"user="+table.rows[i+1].cells[1].innerHTML+"&addr="+table.rows[i+1].cells[12].innerHTML+"&role="+"貸方";
+            
             var xhr = new XMLHttpRequest();
             xhr.open('POST',serverURL,true);
             xhr.withCredentials=false;
@@ -84,6 +86,8 @@ function reMoney(val){
     }
     // console.log(JSON.stringify(invest_detail));
     var serverURL = "http://localhost:8088/member/myReturn?"+"user="+invest_detail[1]+"&msg="+invest_money+"&addr="+invest_detail[12]+"&rest_money="+invest_detail[8];
+    // var serverURL = "https://3ed760d9.ngrok.io/member/myReturn?"+"user="+invest_detail[1]+"&msg="+invest_money+"&addr="+invest_detail[12]+"&rest_money="+invest_detail[8];
+    
     var xhr = new XMLHttpRequest();
     xhr.open('POST',serverURL,true);
     xhr.withCredentials=false;
@@ -101,6 +105,8 @@ function showReturnInfo(val){
     }
 
     var serverURL = "http://localhost:8088/member/return_Info?"+"user="+invest_detail[1]+"&addr="+invest_detail[12];
+    // var serverURL = "https://3ed760d9.ngrok.io/member/return_Info?"+"user="+invest_detail[1]+"&addr="+invest_detail[12];
+    
     var xhr = new XMLHttpRequest();
     xhr.open('POST',serverURL,true);
     xhr.withCredentials=false;

@@ -130,7 +130,7 @@ router.post('/myReturn', function(req, res, next) {
 
     deploy_contract.unlock_account();
     return_money.fund(getName, rt_money, addr);
-    user.return_money(0, "借方", name, getName, rt_money, 0, 0, "一般", 'reason', addr, addr, time);
+    user.return_money(0, "借方", name, getName, rt_money, 0, 0, 0, "一般", 'reason', addr, addr, time);
 
     setTimeout(update, 7000, addr);            
     // setTimeout(showResult, 30000, addr);
