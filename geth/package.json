@@ -13,7 +13,7 @@
     "web3": "^0.20.0"
   },
   "devDependencies": {
-    "mocha": "^6.1.4"
+    "mocha": "^10.2.0"
   },
   "description": "建立geth資料夾 在geth資料夾內 1. 建立gensis.json 2. 建立db資料夾 3. 執行"
 }
